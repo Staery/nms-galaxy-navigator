@@ -1,0 +1,4 @@
+# the in-game mod (pyMHF + NMS.py); the save CLI and the tests need only numpy and pytest
+NMSpy==181442.1
+pyMHF==0.2.5
+numpy>=2.0
