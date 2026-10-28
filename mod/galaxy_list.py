@@ -1,0 +1,866 @@
+# /// script
+# [tool.pymhf]
+# exe = "NMS.exe"
+# steam_gameid = 275850
+# start_exe = true
+# interactive_console = false
+# internal_mod_dir = "{CURR_DIR}/../tools/venv/Lib/site-packages/nmspy/_internal_mods"
+#
+# [tool.pymhf.logging]
+# log_dir = "{CURR_DIR}/../logs"
+# log_level = "info"
+# shown = false
+#
+# [tool.pymhf.gui]
+# shown = false
+# ///
+"""Этап 2: панель «Системы в радиусе» на галактической карте.
+
+Список всех загруженных систем (кэш карты, ≈27 регионов) в радиусе от текущей, атрибуты — ClassifyStarSystem,
+фильтры и сортировка — mod/galaxy/model.py. Выбор строки — штатная функция выбора системы карты (как кнопкой),
+прыжок вы делаете сами. Мод ничего не пишет в сейв; лог — logs/galaxy.jsonl.
+Привод корабля (цвета звёзд) — из последнего сейва. Маршрут (mod/galaxy/route.py) — по системам кэша, куда пускает
+привод; при каждом открытии карты следующая система маршрута выбирается сама.
+
+F8 — панель вкл/выкл, F7 — список/фильтры, стрелки вверх/вниз и PgUp/PgDn — строка,
+влево/вправо — сортировка (в фильтрах — значение),
+F9 — выбрать систему на карте, F6 — сбросить фильтры (в списке — маршрут),
+F10 — маршрут к выделенной строке, F11 — маршрут к системе в прицеле карты.
+"""
+import bisect
+import collections
+import ctypes
+import faulthandler
+import json
+import logging
+import math
+import os
+import struct
+import sys
+import threading
+import time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path[:0] = [str(ROOT), str(ROOT / "mod")]
+
+from pymhf import FUNCDEF, Mod  # noqa: E402
+from pymhf.core import _internal  # noqa: E402
+from pymhf.core.hooking import on_key_pressed  # noqa: E402
+from pymhf.core.memutils import find_pattern_in_binary, get_addressof, map_struct  # noqa: E402
+
+import nmspy.data.nanovg as nvg  # noqa: E402
+import nmspy.data.types as nms  # noqa: E402
+
+import numpy as np  # noqa: E402
+
+from galaxy import i18n, model, route  # noqa: E402
+
+LOG_DIR = ROOT / "logs"
+STATE_FILE = ROOT / "data" / "galaxy_panel.json"
+SAVE_ROOT = Path(os.environ.get("APPDATA", "")) / "HelloGames" / "NMS"  # st_<steamid>/saveN.hg
+# NVGstate 7.10 (прототип): массив стейтов ctx+0xA8, шаг 0x108; fill paint с 0x0, textAlign 0x100
+NVG_STATES, NVG_STATE_SIZE = 0xA8, 0x108
+ST_FILL, ST_TEXT_ALIGN = 0x0, 0x100
+NVG_ALIGN_LEFT_TOP = 1 | 8
+# cGcGalaxyMap.Data 7.10 (прототип, П3): плоские массивы загруженных систем + текущая система
+SYS_POS_HDR, SYS_POS_PTR = 0xF0, 0xF8      # (ёмкость, число), указатель → 3 float, шаг 0xC
+SYS_UA_HDR, SYS_UA_PTR = 0x130, 0x138      # (ёмкость, число), указатель → u64, шаг 8
+MAP_ORIGIN = 0x1590                        # SolarQueryResult текущей системы (UA 0x0, слово 0xE, позиция 0x20)
+MAP_HOVER = 0x1510                         # то же для системы в прицеле (UA 0x0, позиция в кэше 0x30)
+LY_PER_UNIT = 4.0
+NO_UA = 0xFFFFFFFFFFFFFFFF
+# П4: выбор системы на карте (RVA 0x1361DC0 в 7.10): (this=cGcGalaxyMap.Data, SolarQueryResult*, bool, float)
+SELECT_SIG = "48 8B C4 48 89 58 ? 48 89 70 ? 55 57 41 54 41 55 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 44 0F B7 7A 10"
+SELECT_DEF = FUNCDEF(restype=None, argtypes=[ctypes.c_uint64, ctypes.c_uint64, ctypes.c_bool, ctypes.c_float])
+# WarpCapabilityResult: f32 расстояние, f32 дальность/расстояние, i32 код (1 — можно, 2 — текущая, 6 — далеко)
+WARP_OK, WARP_CUR, WARP_FAR = 1, 2, 6
+DEFAULT_JUMP = 400.0
+JUMP_MARGIN = 0.5         # св.л.: маршрут чуть короче дальности — наше расстояние может разойтись с игрой
+CLASSIFY_BUDGET = 0.003   # с на кадр для ClassifyStarSystem
+MAP_IDLE = 0.5            # карта закрыта, если Update не вызывался столько секунд
+AUTO_DELAY = 0.3          # с после открытия карты до автовыбора (игра сама выбирает текущую при открытии)
+ATTR_CACHE_MAX = 100_000
+# панель
+# под миниатюрой галактики игры (слева сверху до ~y 300) и левее прицела в центре экрана
+PX, PY, PW = 40.0, 320.0, 680.0   # PW — наименьшая ширина; колонки и ширина — по тексту на языке игры
+PW_MAX = 880.0                     # не заходить на прицел в центре экрана
+LINE = 24.0
+COL_GAP, COL_MAX, MARKS_MIN = 12.0, 190.0, 110.0
+ST_FONT_SIZE, ST_FONT_ID = 0xF0, 0x104
+HELP_LIST = ("help.list.0", "help.list.1", "help.list.2")
+HELP_FILTERS = ("help.filters.0", "help.filters.1")
+LANG_POLL = 3.0           # с между проверками файла настроек игры (смена языка)
+# проба шрифтов на странице фильтров: есть ли в шрифтах игры латиница с диакритикой и CJK (fontId 0..3)
+GLYPH_PROBE = False
+GLYPH_SAMPLE = "ÀÉÜßÇÑ ąęłńśźż 日本語 中文 한국어"
+
+logger = logging.getLogger("galaxy")
+
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+_fatal = open(LOG_DIR / "fatal.log", "a", encoding="utf-8")
+_fatal.write(f"--- {time.strftime('%Y-%m-%d %H:%M:%S')} galaxy_list loaded\n")
+_fatal.flush()
+try:
+    os.dup2(_fatal.fileno(), 2)  # Py_FatalError пишет в fd 2 игры — переводим в файл
+except OSError:
+    pass
+faulthandler.enable(file=_fatal, all_threads=True)
+_k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+_k32.GetCurrentProcess.restype = ctypes.c_void_p
+_k32.ReadProcessMemory.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+                                   ctypes.c_size_t, ctypes.POINTER(ctypes.c_size_t)]
+_PROC = _k32.GetCurrentProcess()
+
+
+def safe_read(addr: int, size: int) -> bytes:
+    """Чтение своей памяти без падения на неотображённых страницах: по 4 КБ до первой ошибки."""
+    out = bytearray()
+    page = 0x1000
+    while len(out) < size:
+        n = min(page - (addr + len(out)) % page, size - len(out))
+        buf = ctypes.create_string_buffer(n)
+        got = ctypes.c_size_t()
+        if not _k32.ReadProcessMemory(_PROC, addr + len(out), buf, n, ctypes.byref(got)) or got.value != n:
+            break
+        out += buf.raw
+    return bytes(out)
+
+
+def set_fill(state_addr: int, rgba):
+    """Сплошная заливка по раскладке NVGpaint 7.10 (nmspy сдвинут на 4 байта)."""
+    paint = struct.pack("<6f2f2f4f4f2i", 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, *rgba, *rgba, 0, 0)
+    ctypes.memmove(state_addr + ST_FILL, paint, len(paint))
+
+
+def ev(v) -> int:
+    """c_enum32 из nmspy отдаёт то int-подобное, то сырые bytes."""
+    if isinstance(v, (bytes, bytearray)):
+        return int.from_bytes(v, "little", signed=True)
+    return int(getattr(v, "value", v))
+
+
+def latest_save() -> Path | None:
+    saves = [p for p in SAVE_ROOT.glob("*/save*.hg") if not p.name.startswith("mf_")]
+    return max(saves, key=lambda p: p.stat().st_mtime) if saves else None
+
+
+class TextRow(ctypes.Structure):  # NVGtextRow
+    _fields_ = [("start", ctypes.c_void_p), ("end", ctypes.c_void_p), ("next", ctypes.c_void_p),
+                ("width", ctypes.c_float), ("minx", ctypes.c_float), ("maxx", ctypes.c_float)]
+
+
+class GalaxyList(Mod):
+    __author__ = "Staery"
+    __description__ = "NMS galaxy map: systems in range with filters"
+    __version__ = "0.5"
+
+    def __init__(self):
+        super().__init__()
+        self.log_file = open(LOG_DIR / "galaxy.jsonl", "a", encoding="utf-8")
+        self.seen_errors: set = set()
+        saved = {}
+        try:
+            saved = json.loads(STATE_FILE.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            pass
+        self.panel = model.Panel(saved)
+        self.panel.scanners = frozenset()  # до чтения сейва экономику и конфликт не показываем
+        self.jump = float(saved.get("jump") or DEFAULT_JUMP)  # дальность прыжка, св.л. (уточняется по warp_cap)
+        self.jump_known = False
+        self.shown = True
+        self.keys = collections.deque(maxlen=64)  # клавиши из потока keyboard → игровой поток
+        self.ctx_owner = 0
+        self.map_seen = 0.0
+        self.draw_failed = False
+        self.sys_key = None
+        self.origin = None                    # (UA, позиция, слово 0xE запроса)
+        self.positions: dict = {}             # UA → позиция
+        self.center = (0, 0, 0)               # регион в начале координат кэша
+        self.ly_checked, self.ly_bad = set(), 0
+        self.systems: list = []               # model.System в радиусе ×2, по возрастанию расстояния
+        self.cls_pos = 0                      # первая система без атрибутов в self.systems
+        self.attr_cache: dict = {}
+        self.visited_raw: list = []
+        self.visited: set = set()
+        self.dirty = False
+        self.last_update = 0.0
+        self.last_scan = 0.0
+        self._select_fn = None
+        self._select_buf = None
+        self.selected = None
+        self.classify_stats = [0, 0.0]
+        self.drive, self.drive_known = model.MAX_DRIVE, False  # пока сейв не прочитан — пускаем ко всем
+        self.t_start = time.time()
+        self.cls_rest: list = []              # весь кэш карты — атрибуты для маршрута (после self.systems)
+        self.cls_rest_pos = 0
+        self.warp_codes: set = set()
+        self.target = None                    # {"ua", "abs" — св.л. в общей системе координат}
+        try:
+            t = saved.get("target")
+            if t:
+                self.target = {"ua": int(t["ua"], 16), "abs": tuple(float(v) for v in t["abs"])}
+        except (TypeError, ValueError, KeyError):
+            pass
+        self.route = None                     # route.Route от текущей системы
+        self.route_key = None
+        self.route_busy = False
+        self.open_id, self.auto_at, self.auto_done = 0, 0.0, None
+        self.warped = False                   # прыжок начался, кэш карты ещё от прошлой системы — ly_check ждёт
+        exe = getattr(_internal, "BINARY_PATH", "")  # …/No Man's Sky/Binaries/NMS.exe
+        if exe:
+            i18n.set_game_dir(Path(exe).parents[1])
+        self.lang_mtime, self.lang_at = i18n.settings_mtime(), 0.0
+        i18n.set_language(i18n.displayable(i18n.detect_language()))
+        self.widths: dict = {}                # (размер шрифта, текст) → ширина
+        self.layout_key, self.layout = None, None
+        self.glyphs_logged = False
+        self.emit("start", version=self.__version__, jump=self.jump, state=self.panel.to_json(),
+                  target=self.target and f"{self.target['ua']:016X}", lang=i18n.lang)
+        threading.Thread(target=self.load_visited, daemon=True).start()
+
+    # ---------- служебное ----------
+    def emit(self, kind: str, **data):
+        rec = {"t": round(time.time(), 2), "kind": kind, **data}
+        self.log_file.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        self.log_file.flush()
+        logger.info(f"[galaxy] {kind} {data}")
+
+    def error(self, kind: str, e: Exception):
+        key = (kind, repr(e))
+        if key not in self.seen_errors:
+            self.seen_errors.add(key)
+            self.emit(kind, error=repr(e))
+
+    def save_state(self):
+        try:
+            t = self.target and {"ua": f"{self.target['ua']:016X}", "abs": [round(v, 2) for v in self.target["abs"]]}
+            STATE_FILE.write_text(json.dumps({**self.panel.to_json(), "jump": round(self.jump, 1), "target": t}),
+                                  encoding="utf-8")
+        except OSError as e:
+            self.error("state_error", e)
+
+    def load_visited(self):
+        """Посещённые системы и привод основного корабля из последнего сейва (только чтение), в фоне."""
+        try:
+            import nmssave
+            path = latest_save()
+            if path is None:
+                return
+            ps = nmssave.load_save(path)["BaseContext"]["PlayerStateData"]
+            self.visited_raw = list(ps["VisitedSystems"])
+            self.dirty = True
+            self.emit("visited", save=path.name, n=len(self.visited_raw))
+            ship = ps["ShipOwnership"][ps["PrimaryShip"]]
+            ids = [s.get("Id", "") for k in ("Inventory_TechOnly", "Inventory") for s in ship.get(k, {}).get("Slots", [])]
+            drive, scanners = model.drive_level(ids), model.ship_scanners(ids)
+            if drive != self.drive or scanners != self.panel.scanners or not self.drive_known:
+                self.emit("drive", level=drive, name=model.drive_name(drive), scanners=sorted(scanners))
+            self.drive, self.drive_known = drive, True
+            self.panel.scanners = scanners
+            self.dirty = True
+        except Exception as e:
+            self.error("visited_error", e)
+
+    # ---------- клавиши (поток keyboard: только в очередь) ----------
+    @on_key_pressed("f8")
+    def toggle(self):
+        self.shown = not self.shown
+        self.draw_failed = False
+
+    def _key(self, name):
+        if self.shown and time.time() - self.map_seen < MAP_IDLE:
+            self.keys.append(name)
+
+    @on_key_pressed("f7")
+    def k_f7(self): self._key("page")
+
+    @on_key_pressed("up")
+    def k_up(self): self._key("up")
+
+    @on_key_pressed("down")
+    def k_down(self): self._key("down")
+
+    @on_key_pressed("left")
+    def k_left(self): self._key("left")
+
+    @on_key_pressed("right")
+    def k_right(self): self._key("right")
+
+    @on_key_pressed("page up")
+    def k_pgup(self): self._key("page up")
+
+    @on_key_pressed("page down")
+    def k_pgdn(self): self._key("page down")
+
+    @on_key_pressed("f9")
+    def k_f9(self): self._key("select")
+
+    @on_key_pressed("f6")
+    def k_f6(self): self._key("reset")
+
+    @on_key_pressed("f10")
+    def k_f10(self): self._key("route")
+
+    @on_key_pressed("f11")
+    def k_f11(self): self._key("route aim")
+
+    # ---------- игровой поток ----------
+    @nms.cGcNGuiManager.BeginFrame.after
+    def ngui_begin(self, this, lpInput, lScreenSize, lbFullscreen, lfPixelRatio, lbDetectInput):
+        if not self.ctx_owner:
+            self.ctx_owner = get_addressof(this)
+
+    @nms.cGcGalaxyMap.Data.Update.after
+    def map_update(self, this, lfTimeStep):
+        now = time.time()
+        if now - self.map_seen > MAP_IDLE:  # карту только что открыли
+            self.open_id += 1
+            self.auto_at = now + AUTO_DELAY
+        self.map_seen = now
+        addr = get_addressof(this)
+        try:
+            if now - self.lang_at >= LANG_POLL:
+                self.lang_at = now
+                self.check_language()
+            if now - self.last_scan >= 1.0:
+                self.last_scan = now
+                self.scan(addr)
+            self.classify_some()
+            while self.keys:
+                self.handle_key(self.keys.popleft(), addr)
+            self.route_tick()
+            if now >= self.auto_at:
+                self.route_auto(addr)
+            if self.dirty and now - self.last_update >= (0.5 if self.cls_pos < len(self.systems) else 0.1):
+                self.refresh()
+        except Exception as e:
+            self.error("update_error", e)
+
+    def check_language(self):
+        """Язык — как в игре: перечитать настройки, если файл менялся."""
+        m = i18n.settings_mtime()
+        if m == self.lang_mtime:
+            return
+        self.lang_mtime = m
+        if i18n.set_language(i18n.displayable(i18n.detect_language())):
+            self.layout_key = None
+            self.emit("lang", lang=i18n.lang)
+
+    def scan(self, map_addr: int):
+        """Кэш систем карты → позиции; пересчёт расстояний при смене кэша или текущей системы."""
+        head = safe_read(map_addr, SYS_UA_PTR + 8)
+        org = safe_read(map_addr + MAP_ORIGIN, 0x30)
+        if len(head) < SYS_UA_PTR + 8 or len(org) < 0x30:
+            return
+        cap_p, n_p = struct.unpack_from("<II", head, SYS_POS_HDR)
+        cap_u, n_u = struct.unpack_from("<II", head, SYS_UA_HDR)
+        p_ptr, u_ptr = struct.unpack_from("<Q", head, SYS_POS_PTR)[0], struct.unpack_from("<Q", head, SYS_UA_PTR)[0]
+        o_ua = struct.unpack_from("<Q", org, 0)[0]
+        key = (n_u, u_ptr, o_ua, safe_read(p_ptr, 24))  # позиции: кэш перецентрируется при том же n
+        if key == self.sys_key or o_ua == 0xFFFFFFFFFFFFFFFF:  # FFFF…: карта ещё грузится
+            return
+        if not (n_p == n_u and 0 < n_u <= min(cap_p, cap_u) <= 0x10000):
+            self.error("bad_header", RuntimeError(f"{cap_p} {n_p} {cap_u} {n_u}"))
+            return
+        n = n_u
+        ua_raw, pos_raw = safe_read(u_ptr, n * 8), safe_read(p_ptr, n * 12)
+        if len(ua_raw) != n * 8 or len(pos_raw) != n * 12:
+            return
+        self.sys_key = key
+        uas = struct.unpack(f"<{n}Q", ua_raw)
+        old_positions = self.positions
+        self.positions = {u: struct.unpack_from("<3f", pos_raw, i * 12) for i, u in enumerate(uas)}
+        new_origin = self.origin is not None and self.origin[0] != o_ua  # прыжок
+        old_o_pos = self.origin[1] if self.origin and not new_origin else None
+        o_pos, o_src = model.origin_in_frame(o_ua, struct.unpack_from("<3f", org, 0x20),
+                                             self.positions, old_positions, old_o_pos)
+        self.origin = (o_ua, o_pos, struct.unpack_from("<H", org, 0xE)[0])
+        if new_origin:
+            self.warped = False
+        self.center = model.frame_center(self.positions)
+        limit = self.jump * max(model.RADIUS)
+        out = []
+        for u, p in self.positions.items():
+            ly = math.dist(o_pos, p) * LY_PER_UNIT
+            if u != o_ua and ly <= limit:
+                out.append(model.System(u, ly, self.attr_cache.get(u)))
+        out.sort(key=lambda s: s.ly)
+        self.systems, self.cls_pos = out, 0
+        if len(self.attr_cache) > ATTR_CACHE_MAX:
+            self.attr_cache = {u: a for u, a in self.attr_cache.items() if u in self.positions}
+        self.cls_rest, self.cls_rest_pos = [u for u in self.positions if u not in self.attr_cache], 0
+        self.dirty = True
+        if new_origin:
+            self.panel.sel = self.panel.top = 0
+            self.selected = None
+            self.ly_checked, self.ly_bad = set(), 0
+            if self.visited_raw:  # прыжок: перечитать сейв (игра сохраняет при прибытии)
+                threading.Thread(target=self.load_visited, daemon=True).start()
+        self.emit("scan", n=n, origin=f"{o_ua:016X}", in_range=len(out), jump=round(self.jump, 1), o_src=o_src,
+                  center=list(self.center))
+
+    def classify(self, ua: int) -> dict:
+        out = nms.cGcGalaxyStarAttributesData()
+        nms.cGcGalaxyAttributeGenerator.ClassifyStarSystem(ua, ctypes.pointer(out))
+        td = out.TradingData
+        return {"trading": ev(td.TradingClass), "wealth": ev(td.WealthClass), "race": ev(out.Race),
+                "conflict": ev(out.ConflictData), "star": ev(out.Type), "anomaly": ev(out.Anomaly),
+                "planets": out.NumberOfPlanets, "prime": out.NumberOfPrimePlanets,
+                "abandoned": bool(out.AbandonedSystem), "pirate": bool(out.IsPirateSystem),
+                "gas_giant": bool(out.IsGasGiantSystem), "safe": bool(out.IsSystemSafe)}
+
+    def classify_some(self):
+        """Атрибуты ближних систем — порциями по времени, чтобы не просаживать кадр."""
+        t0 = time.perf_counter()
+        done = 0
+        systems = self.systems
+        while self.cls_pos < len(systems):
+            s = systems[self.cls_pos]
+            if s.attrs is not None:
+                self.cls_pos += 1
+                continue
+            a = self.attr_cache.get(s.ua)
+            if a is None:
+                if time.perf_counter() - t0 > CLASSIFY_BUDGET:
+                    break
+                a = self.attr_cache[s.ua] = self.classify(s.ua)
+                done += 1
+            s.attrs = a
+            self.cls_pos += 1
+            self.dirty = True
+        if self.target and self.drive < model.MAX_DRIVE and self.cls_pos >= len(systems):
+            rest = self.cls_rest  # маршруту нужен цвет звезды всех систем кэша
+            while self.cls_rest_pos < len(rest):
+                u = rest[self.cls_rest_pos]
+                if u not in self.attr_cache:
+                    if time.perf_counter() - t0 > CLASSIFY_BUDGET:
+                        break
+                    self.attr_cache[u] = self.classify(u)
+                    done += 1
+                self.cls_rest_pos += 1
+        if done:
+            st = self.classify_stats
+            st[0] += done
+            st[1] += time.perf_counter() - t0
+            if st[0] >= 2000 and not getattr(self, "_rate_logged", False):
+                self._rate_logged = True
+                self.emit("classify_rate", n=st[0], us_each=round(st[1] / st[0] * 1e6, 1))
+
+    def refresh(self):
+        self.dirty = False
+        self.last_update = time.time()
+        if self.origin:
+            galaxy = (self.origin[0] >> 32) & 0xFF
+            self.visited = {model.visited_to_ua(v, galaxy) for v in self.visited_raw}
+        r = self.panel.radius_ly(self.jump)
+        near = self.systems[:bisect.bisect_right(self.systems, r, key=lambda s: s.ly)]  # список уже по расстоянию
+        for s in near:
+            s.visited = s.ua in self.visited
+        self.panel.update(near, self.jump, self.drive)
+
+    # ---------- маршрут ----------
+    def abs_ly(self, pos) -> tuple:
+        """Позиция кэша → св.л. в общей для всех кэшей системе координат (не зависит от перецентрирования)."""
+        return tuple((p + model.REGION_UNITS * c) * LY_PER_UNIT for p, c in zip(pos, self.center))
+
+    def set_target(self, ua: int, pos, attrs=None):
+        attrs = attrs or self.attr_cache.get(ua) or self.classify(ua)
+        self.attr_cache[ua] = attrs
+        self.target = {"ua": ua, "abs": self.abs_ly(pos)}
+        self.route, self.route_key = None, None
+        self.auto_done = None
+        self.save_state()
+        self.dirty = True
+        o = self.abs_ly(self.origin[1]) if self.origin else None
+        self.emit("route_set", ua=f"{ua:016X}", ly=o and round(math.dist(o, self.target["abs"]), 1),
+                  star=attrs.get("star"), drive_ok=model.star_ok(attrs, self.drive))
+
+    def clear_target(self, why: str):
+        if self.target:
+            self.emit("route_clear", ua=f"{self.target['ua']:016X}", why=why)
+        self.target = self.route = self.route_key = None
+        self.save_state()
+        self.dirty = True
+
+    def route_tick(self):
+        """Пересчёт маршрута в фоне при новой цели, новой текущей системе, смене привода или дальности."""
+        t = self.target
+        if not t or self.route_busy or not self.origin or not self.positions:
+            return
+        if not self.drive_known and time.time() - self.t_start < 15:
+            return  # привод ещё читается из сейва
+        o_ua = self.origin[0]
+        if o_ua == t["ua"]:
+            self.emit("route_done", ua=f"{o_ua:016X}")
+            self.clear_target("arrived")
+            return
+        key = (o_ua, t["ua"], self.drive, round(self.jump, 1))
+        if key == self.route_key:
+            return
+        if self.drive < model.MAX_DRIVE and (self.cls_pos < len(self.systems) or self.cls_rest_pos < len(self.cls_rest)):
+            return  # ждём цвет звезды всех систем кэша
+        drive, cache = self.drive, self.attr_cache
+        ids = [u for u in self.positions if u != o_ua and model.star_ok(cache.get(u), drive) is not False]
+        pos = np.array([self.positions[u] for u in ids], float).reshape(-1, 3)
+        pos = (pos + model.REGION_UNITS * np.array(self.center, float)) * LY_PER_UNIT
+        self.route, self.route_key, self.route_busy = None, key, True
+        threading.Thread(target=self._plan, args=(key, self.abs_ly(self.origin[1]), ids, pos, t,
+                                                  self.jump - JUMP_MARGIN), daemon=True).start()
+
+    def _plan(self, key, origin, ids, pos, t, jump):
+        try:
+            t0 = time.perf_counter()
+            r = route.plan(origin, ids, pos, t["abs"], jump, t["ua"])
+            if key == self.route_key and self.target is t:
+                self.route = r
+                self.dirty = True
+            nxt = r.next is not None and self.positions.get(r.next)
+            self.emit("route", hops=r.hops, exact=r.exact, ly=round(r.ly), path=len(r.path), nodes=len(ids),
+                      next=r.next is not None and f"{r.next:016X}", s=round(time.perf_counter() - t0, 2),
+                      next_ly=nxt and self.origin and round(math.dist(self.origin[1], nxt) * LY_PER_UNIT, 1))
+        except Exception as e:
+            self.error("route_error", e)
+        finally:
+            self.route_busy = False
+
+    def route_auto(self, map_addr: int):
+        """Следующая система маршрута — выбрать на карте: один раз на текущую систему и на каждое открытие карты."""
+        r, o = self.route, self.origin
+        if not r or r.next is None or not o or not self.route_key or self.route_key[0] != o[0]:
+            return
+        stamp = (o[0], self.open_id)
+        p = self.positions.get(r.next)
+        if stamp == self.auto_done or p is None:
+            return
+        self.auto_done = stamp
+        self.select(model.System(r.next, math.dist(o[1], p) * LY_PER_UNIT), map_addr)
+
+    def handle_key(self, name: str, map_addr: int):
+        if name == "route":
+            p = self.panel
+            if p.page == "list" and p.items and self.origin and p.items[p.sel].ua in self.positions:
+                s = p.items[p.sel]
+                self.set_target(s.ua, self.positions[s.ua], s.attrs)
+            return
+        if name == "route aim":
+            raw = safe_read(map_addr + MAP_HOVER, 0x3C)
+            ua = struct.unpack_from("<Q", raw, 0)[0] if len(raw) == 0x3C else NO_UA
+            if self.origin and ua not in (0, NO_UA, self.origin[0]):
+                self.set_target(ua, self.positions.get(ua) or struct.unpack_from("<3f", raw, 0x30))
+            return
+        if name == "reset" and self.panel.page == "list":
+            self.clear_target("key")
+            return
+        res = self.panel.key(name)
+        if res == "changed":
+            self.dirty = True
+            self.save_state()
+            self.refresh()
+        elif isinstance(res, model.System):
+            self.select(res, map_addr)
+
+    def select(self, s, map_addr: int):
+        """Выбрать систему на карте штатной функцией (как кнопкой выбора); прыжок — сам игрок."""
+        pos = self.positions.get(s.ua)
+        if pos is None or not self.origin:
+            return
+        if self._select_fn is None:
+            off = find_pattern_in_binary(SELECT_SIG, False)
+            if off is None:
+                self.error("select_error", RuntimeError("сигнатура выбора не найдена"))
+                return
+            self._select_fn = ctypes.CFUNCTYPE(None, *SELECT_DEF.argtypes)(_internal.BASE_ADDRESS + off)
+        q = model.make_query(s.ua, pos, self.origin[2], self.center)
+        self._select_buf = ctypes.create_string_buffer(q, len(q))  # держим, вдруг игра хранит указатель
+        self._select_fn(map_addr, ctypes.addressof(self._select_buf), True, 0.1)
+        self.selected = s.ua
+        same_region = (s.ua & 0xFFFFFFFFFF) == (self.origin[0] & 0xFFFFFFFFFF)
+        self.emit("select", ua=f"{s.ua:016X}", ly=round(s.ly, 1), same_region=same_region)
+
+    @nms.cGcGameState.ComputeWarpCapability.after
+    def warp_cap(self, this, result, lfLightyearDistance, lbIsCenter, lJumpTargetPackedUA, lStarData, _result_):
+        """Дальность прыжка = расстояние × (дальность/расстояние) из результата игры."""
+        try:
+            ly = float(lfLightyearDistance)
+            if not result or ly <= 0:
+                return
+            raw = safe_read(get_addressof(result), 12)
+            if len(raw) < 12:
+                return
+            _, ratio, code = struct.unpack("<2fi", raw)
+            ua = int(lJumpTargetPackedUA)
+            self.ly_check(ua, ly)
+            if code not in (WARP_OK, WARP_CUR, WARP_FAR):  # неизвестные коды (привод?) — по разу на пару код/звезда
+                star = (self.attr_cache.get(ua) or {}).get("star")
+                if (code, star) not in self.warp_codes and len(self.warp_codes) < 50:
+                    self.warp_codes.add((code, star))
+                    self.emit("warp_code", code=code, star=star, ua=f"{ua:016X}", ly=round(ly, 1),
+                              ratio=round(ratio, 3), drive=self.drive)
+            if code not in (WARP_OK, WARP_FAR) or not 0 < ratio < 1e6:
+                return
+            jump = ly * ratio
+            if abs(jump - self.jump) > 0.5 or not self.jump_known:
+                self.emit("jump_range", ly=round(jump, 1), was=round(self.jump, 1))
+                old = self.jump
+                self.jump, self.jump_known = jump, True
+                self.save_state()
+                if jump > old * 1.01:
+                    self.sys_key = None  # радиус ×2 вырос — пересобрать список
+                self.dirty = True
+        except Exception as e:
+            self.error("warp_cap_error", e)
+
+    def ly_check(self, ua: int, game_ly: float):
+        """Расстояние списка против расстояния игры (по одному разу на систему)."""
+        p = self.positions.get(ua)
+        if p is None or not self.origin or self.warped or ua in self.ly_checked or len(self.ly_checked) > 500:
+            return
+        self.ly_checked.add(ua)
+        mine = math.dist(self.origin[1], p) * LY_PER_UNIT
+        if abs(mine - game_ly) > 0.5:
+            self.ly_bad += 1
+        self.emit("ly_check", ua=f"{ua:016X}", game=round(game_ly, 1), mine=round(mine, 1),
+                  selected=ua == self.selected, bad=self.ly_bad, total=len(self.ly_checked))
+
+    @nms.cGcSimulation.WarpToSystem.before
+    def warp(self, this, lSolarSystemToWarpTo):
+        try:
+            raw = safe_read(get_addressof(lSolarSystemToWarpTo), 16)
+            x, z, y, _, si = struct.unpack_from("<3hHi", raw)
+            self.warped = True  # игра уже считает расстояния от новой системы, а кэш карты — ещё от старой
+            self.emit("warp", si=si, voxel=[x, z, y], selected=f"{self.selected:016X}" if self.selected else None,
+                      is_selected=bool(self.selected) and (self.selected >> 40) & 0xFFF == si)
+        except Exception as e:
+            self.error("warp_error", e)
+
+    # ---------- рисование ----------
+    @nms.cGcGalaxyMap.Data.RenderNVG.after
+    def map_render(self, this, a2, a3):
+        if self.shown and not self.draw_failed and self.ctx_owner:
+            try:
+                self.draw()
+            except Exception as e:  # рисование отключается до следующего F8
+                self.draw_failed = True
+                self.error("draw_error", e)
+
+    def nvg_state(self, ctx) -> int:
+        """Адрес текущего NVGstate, если раскладка NVGcontext совпала с 7.10; иначе 0 (не рисуем)."""
+        addr = ctypes.cast(ctx, ctypes.c_void_p).value
+        raw = safe_read(addr + 0x9C, 4) + safe_read(addr + 0x42A8, 16)
+        if len(raw) < 20:
+            return 0
+        ncmd, nstates, cache = struct.unpack_from("<i", raw, 0)[0], struct.unpack_from("<i", raw, 4)[0], \
+            struct.unpack_from("<Q", raw, 12)[0]
+        if nstates == 1 and 0 <= ncmd < 1 << 20 and 0x10000 < cache < 0x7FFF_FFFF_FFFF:
+            return addr + NVG_STATES
+        self.error("nvg_layout_error", RuntimeError(f"nstates={nstates} ncommands={ncmd}"))
+        return 0
+
+    @staticmethod
+    def rect(ctx, st, x, y, w, h, rgba):
+        nvg.nvgBeginPath(ctx)
+        nvg.nvg__clearPathCache(ctx)  # иначе nvgFill перерисует последнюю фигуру игры
+        nvg.nvgRect(ctx, x, y, w, h)
+        set_fill(st, rgba)
+        nvg.nvgFill(ctx)
+
+    @staticmethod
+    def text(ctx, st, x, y, s, rgba=(1.0, 1.0, 1.0, 1.0)):
+        if not s:
+            return
+        set_fill(st, rgba)
+        buf = ctypes.create_string_buffer(s.encode())
+        nvg.nvgText(ctx, x, y, ctypes.addressof(buf), 0)
+
+    def draw(self):
+        ctx = map_struct(self.ctx_owner, nms.cGcNGuiManager).mpContext
+        if not ctx:
+            return
+        st = self.nvg_state(ctx)
+        if not st:
+            return
+        saved = safe_read(st, NVG_STATE_SIZE)  # стейт игры возвращаем как был
+        if len(saved) != NVG_STATE_SIZE:
+            return
+        try:
+            ctypes.memmove(st + ST_TEXT_ALIGN, struct.pack("<i", NVG_ALIGN_LEFT_TOP), 4)
+            if self.panel.page == "list":
+                self.draw_list(ctx, st)
+            else:
+                self.draw_filters(ctx, st)
+        finally:
+            ctypes.memmove(st, saved, NVG_STATE_SIZE)
+
+    # ---------- ширина текста и раскладка ----------
+    def font_size(self, st) -> float:
+        raw = safe_read(st + ST_FONT_SIZE, 4)
+        return struct.unpack("<f", raw)[0] if len(raw) == 4 else 0.0
+
+    def measure(self, ctx, st, s: str) -> float:
+        """Ширина строки текущим шрифтом (nvgTextBreakLines без переноса); не вышло — оценка по символам."""
+        fs = self.font_size(st)
+        key = (round(fs, 1), s)
+        w = self.widths.get(key)
+        if w is None:
+            if len(self.widths) > 5000:
+                self.widths.clear()
+            w = 0.0
+            if s:
+                try:
+                    buf = ctypes.create_string_buffer(s.encode())
+                    rows = (TextRow * 1)()
+                    nvg.nvgTextBreakLines(ctx, ctypes.addressof(buf), None, 1e6, ctypes.addressof(rows), 1)
+                    w = float(rows[0].width)
+                except Exception as e:
+                    self.error("measure_error", e)
+                if not 0 < w < 1e5:
+                    w = sum(1.0 if ord(c) >= 0x2E80 else 0.55 for c in s) * (fs if 4 < fs < 100 else 18.0)
+            self.widths[key] = w
+        return w
+
+    def fit(self, ctx, st, s: str, width: float) -> str:
+        """Обрезать строку до ширины (с точкой в конце)."""
+        if not s or self.measure(ctx, st, s) <= width:
+            return s
+        lo, hi = 0, len(s)
+        while lo < hi:
+            mid = (lo + hi + 1) // 2
+            if self.measure(ctx, st, s[:mid].rstrip() + ".") <= width:
+                lo = mid
+            else:
+                hi = mid - 1
+        return s[:lo].rstrip() + "." if lo else ""
+
+    def get_layout(self, ctx, st):
+        """Колонки (x, ширина) и ширина панели под текущий язык и размер шрифта."""
+        key = (i18n.lang, round(self.font_size(st), 1))
+        if key == self.layout_key:
+            return self.layout
+        tr = i18n.tr
+        cols, x = [], 0.0
+        for samples, head in zip(model.column_samples(), model.header()):
+            w = min(COL_MAX, max(self.measure(ctx, st, t) for t in samples + [head]))
+            cols.append((x, w))
+            x += w + COL_GAP
+        marks = " ".join(tr(k) for k in ("anomaly.black_hole", "flag.abandoned", "flag.gas", "flag.visited",
+                                         "mark.target"))
+        texts = [tr(k) for k in HELP_LIST + HELP_FILTERS]
+        pw = max(PW, x + max(MARKS_MIN, self.measure(ctx, st, marks)) + 32,
+                 max(self.measure(ctx, st, t) for t in texts) + 32)
+        pw = min(pw, PW_MAX)
+        cols.append((x, max(MARKS_MIN, pw - 32 - x)))
+        self.layout_key, self.layout = key, (cols, pw)
+        self.emit("layout", lang=i18n.lang, font=key[1], width=round(pw), cols=[round(c[0]) for c in cols])
+        return self.layout
+
+    # ---------- страницы ----------
+    def draw_list(self, ctx, st):
+        tr = i18n.tr
+        p = self.panel
+        cols, pw = self.get_layout(ctx, st)
+        tw = pw - 32
+        rows = p.visible()
+        h = LINE * (p.ROWS + 3 + len(HELP_LIST)) + 22
+        self.rect(ctx, st, PX, PY, pw, h, (0.04, 0.07, 0.16, 0.86))
+        x0, y = PX + 16, PY + 8
+        jump = self.jump
+        title = tr("list.title", n=len(p.items), r=f"{p.radius_ly(jump):.0f}",
+                   j=f"{jump:.0f}{'' if self.jump_known else '?'}", sort=tr(model.SORTS[p.sort_index()][0]))
+        if p.active_filters():
+            title += tr("list.filters_on", n=p.active_filters())
+        if p.pending:
+            title += tr("list.pending", n=p.pending)
+        self.text(ctx, st, x0, y, self.fit(ctx, st, title, tw), (1.0, 0.85, 0.4, 1.0))
+        y += LINE
+        line, rgba = self.route_line()
+        self.text(ctx, st, x0, y, self.fit(ctx, st, line, tw), rgba)
+        y += LINE
+        for (c, w), hcell in zip(cols, model.header()):
+            self.text(ctx, st, x0 + c, y, self.fit(ctx, st, hcell, w), (0.6, 0.7, 0.9, 1.0))
+        r, t = self.route, self.target
+        on_path = set(r.path) if r else set()
+        for i, s in enumerate(rows):
+            y += LINE
+            idx = p.top + i
+            if idx == p.sel:
+                self.rect(ctx, st, PX + 4, y - 3, pw - 8, LINE, (0.2, 0.35, 0.7, 0.9))
+            ok = s.ly <= jump and model.star_ok(s.attrs, self.drive) is not False
+            col = (1.0, 1.0, 1.0, 1.0) if ok else (0.6, 0.6, 0.6, 1.0)
+            if s.ua == self.selected:
+                col = (0.4, 1.0, 0.5, 1.0)
+            marks = (tr("mark.target") if t and s.ua == t["ua"] else tr("mark.next") if r and s.ua == r.next
+                     else tr("mark.route") if s.ua in on_path else "")
+            for (c, w), cell in zip(cols, model.row_cells(s, self.drive, marks, p.scanners)):
+                self.text(ctx, st, x0 + c, y, self.fit(ctx, st, cell, w), col)
+        if not rows:
+            self.text(ctx, st, x0, y + LINE, tr("list.empty") if self.systems else tr("list.no_cache"))
+        self.help(ctx, st, x0, PY + h - 6, HELP_LIST, tw)
+
+    def route_line(self) -> tuple:
+        tr = i18n.tr
+        t, o = self.target, self.origin
+        if not t:
+            return tr("route.none"), (0.6, 0.7, 0.9, 1.0)
+        s = tr("route.dist", ly=f"{math.dist(self.abs_ly(o[1]), t['abs']):.0f}") if o else tr("route.label")
+        a = self.attr_cache.get(t["ua"])
+        if model.star_ok(a, self.drive) is False:
+            need = model.drive_name(model.STAR_DRIVE.get(a["star"], model.MAX_DRIVE))
+            return f"{s} {tr('route.need', drive=need)}", (1.0, 0.45, 0.4, 1.0)
+        r = self.route
+        if r is None:
+            left = len(self.cls_rest) - self.cls_rest_pos if self.drive < model.MAX_DRIVE else 0
+            return s + (tr("route.wait_stars", n=left) if left else tr("route.calc")), (1.0, 0.85, 0.4, 1.0)
+        s += tr("route.hops", n=r.hops) + ("" if r.exact else tr("route.estimate"))
+        p = self.positions.get(r.next) if r.next is not None else None
+        if p is not None and o:
+            s += tr("route.next", ly=f"{math.dist(o[1], p) * LY_PER_UNIT:.0f}")
+        elif r.next is None:
+            s += tr("route.edge") if r.hops <= 1 else tr("route.no_path")
+        return s, (0.4, 1.0, 0.5, 1.0)
+
+    def draw_filters(self, ctx, st):
+        tr = i18n.tr
+        _, pw = self.get_layout(ctx, st)
+        lines = self.panel.filter_lines(self.jump)
+        probe = 4 if GLYPH_PROBE else 0
+        h = LINE * (len(lines) + 1 + len(HELP_FILTERS) + probe) + 22
+        self.rect(ctx, st, PX, PY, pw, h, (0.04, 0.07, 0.16, 0.86))
+        x0, y = PX + 16, PY + 8
+        drive = model.drive_name(self.drive) + ("" if self.drive_known else "?")
+        title = tr("filters.title", n=len(self.panel.items), drive=drive)
+        self.text(ctx, st, x0, y, self.fit(ctx, st, title, pw - 32), (1.0, 0.85, 0.4, 1.0))
+        for s, on in lines:
+            y += LINE
+            if on:
+                self.rect(ctx, st, PX + 4, y - 3, pw - 8, LINE, (0.2, 0.35, 0.7, 0.9))
+            self.text(ctx, st, x0, y, self.fit(ctx, st, s, pw - 32))
+        if probe:
+            self.glyph_probe(ctx, st, x0, y + LINE, probe)
+        self.help(ctx, st, x0, PY + h - 6, HELP_FILTERS, pw - 32)
+
+    def glyph_probe(self, ctx, st, x, y, n):
+        """Образец текста шрифтами fontId 0..n-1 (неверный id fontstash пропускает) — для проверки по скриншоту."""
+        raw = safe_read(st + ST_FONT_ID, 4)
+        if len(raw) != 4:
+            return
+        own = struct.unpack("<i", raw)[0]
+        widths = []
+        try:
+            for fid in range(n):
+                ctypes.memmove(st + ST_FONT_ID, struct.pack("<i", fid), 4)
+                mark = "*" if fid == own else ""
+                self.text(ctx, st, x, y + LINE * fid, f"{fid}{mark}: {GLYPH_SAMPLE}", (0.8, 0.8, 0.6, 1.0))
+                if not self.glyphs_logged:
+                    widths.append([round(self.measure(ctx, st, c), 1) for c in ("A", "À", "ą", "日", "한")])
+        finally:
+            ctypes.memmove(st + ST_FONT_ID, raw, 4)
+        if not self.glyphs_logged:
+            self.glyphs_logged = True
+            self.widths.clear()  # замеры шли чужими шрифтами
+            self.emit("glyphs", own_font=own, widths=widths)
+
+    def help(self, ctx, st, x, bottom, keys, width):
+        for i, k in enumerate(keys):
+            self.text(ctx, st, x, bottom - LINE * (len(keys) - i), self.fit(ctx, st, i18n.tr(k), width),
+                      (0.6, 0.7, 0.9, 1.0))
