@@ -19,8 +19,10 @@ classifies them with the game's own function and lets you pick one from a list. 
 normal jump — the mod only selects the target, exactly as if you had clicked it, so fuel, animation and
 multiplayer behave as usual. Nothing is written to your save or to game files.
 
-The repository also has a small command-line tool that shows the **hidden base stats** of your multitools and
-ships from the save file: current value, the range for its class and the S-class maximum.
+On the inventory screen of a multitool, ship or exosuit the mod adds a card with the **hidden stats**: base stats
+with the range for the item's class, the S-class maximum and where the value sits in that range, and every
+upgrade module with its exact rolled values (read from the game when the module is generated) and how close each
+one is to the best possible roll. The same base stats are also available from the save in a small command-line tool.
 
 > **Game version.** Made and tested with **No Man's Sky 7.10** (Steam build 26271400, October 2026),
 > NMS.py 181442.1 and pyMHF 0.2.5, single player. Memory offsets of the map were found by reverse
@@ -40,7 +42,8 @@ ships from the save file: current value, the range for its class and the S-class
 | 🧭 | Auto-route: fewest jumps, then fewest light-years; respects your hyperdrive (star colours) | [mod/galaxy/route.py](mod/galaxy/route.py) |
 | 🔒 | Economy / conflict data only with the matching scanner installed, like in the game | `SCANNER_NAME` in [mod/galaxy/model.py](mod/galaxy/model.py) |
 | 🌐 | 17 game languages, picked up from the game settings on the fly; game terms come from the game's own tables | [mod/galaxy/i18n.py](mod/galaxy/i18n.py), [build_i18n.py](build_i18n.py) |
-| 📊 | Hidden base stats of multitools and ships, possible ranges of upgrade modules (CLI, Russian) | [nms_stats.py](nms_stats.py) |
+| 📊 | Inventory card: hidden base stats (now / class range / S max / % of range) and exact module rolls (% to the best roll) | [mod/invstats.py](mod/invstats.py), `draw_inv_panel` in [mod/galaxy_list.py](mod/galaxy_list.py) |
+| 🧮 | The same base stats and module ranges from the save (CLI, Russian) | [nms_stats.py](nms_stats.py), [statinfo.py](statinfo.py) |
 | 💾 | Own save reader (LZ4 chunks → JSON → readable keys), read-only | [nmssave.py](nmssave.py) |
 
 ## How it works
@@ -126,12 +129,14 @@ mod/
   galaxy/model.py     labels, filters, sorting, panel state (no game needed)
   galaxy/route.py     auto-route (numpy)
   galaxy/i18n.py      language detection and lookup; i18n_ui.json — own strings
+  invstats.py         inventory stats: store / module memory reading, card rows (no game needed for tests)
   proto_map.py        stage-1 prototype with memory probes (reverse-engineering notes)
 data/
   tables.json         stat ranges (build_tables.py from the game's MXML tables)
   i18n_game.json      game terms in 17 languages (build_i18n.py)
   mapping.json        save key mapping (MBINCompiler)
 nmssave.py            save reader        nms_stats.py   hidden stats CLI
+statinfo.py           stat logic shared by the CLI and the mod
 nmspaths.py           game / Steam folder lookup
 tools/sigscan.py      checks that NMS.py hook signatures still match NMS.exe
 launch.cmd, Install.bat
@@ -144,7 +149,8 @@ tests/
 python -m pytest -q
 ```
 
-The tests cover the save reader, filters and labels, the route, and translations (every key in every language,
+The tests cover the save reader, filters and labels, the route, stat ranges and percentages, inventory memory
+parsing on synthetic memory, and translations (every key in every language,
 matching placeholders). The mod itself is tested in the game.
 
 ## Project status
@@ -152,10 +158,9 @@ matching placeholders). The mod itself is tested in the game.
 **Done**
 - Systems-in-range panel with filters and sorting, standard jump, auto-route with automatic next-system selection.
 - Hyperdrive and scanners read from the save; 17 languages with automatic switching.
-- Hidden base stats CLI.
+- Hidden stats card on the inventory screen (multitool, ship, exosuit) and the hidden base stats CLI.
 
 **Not done yet**
-- Hidden stats inside the inventory screen (stage 4).
 - System names in the list.
 - A check in a multiplayer session (the jump is the game's own, but it has not been tested with friends yet).
 
