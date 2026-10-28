@@ -39,7 +39,8 @@ def proc_tech(root):
     for t in child(root, "Table"):
         levels = [[lv.find(".//*[@name='StatsType']").get("value"),
                    float(val(lv, "ValueMin")), float(val(lv, "ValueMax")),
-                   val(lv, "AlwaysChoose") == "true"]
+                   val(lv, "AlwaysChoose") == "true",
+                   lv.find("*[@name='WeightingCurve']/*[@name='WeightingCurve']").get("value")]
                   for lv in child(t, "StatLevels")]
         out[val(t, "ID")] = {"template": val(t, "Template"), "quality": val(t, "Quality"),
                              "num": [int(val(t, "NumStatsMin")), int(val(t, "NumStatsMax"))],
@@ -54,7 +55,7 @@ def main():
     tables = {"weapon": base_ranges(inv, "WeaponBaseStatsData"),
               "ship": base_ranges(inv, "ShipBaseStatsData"),
               "proc": proc_tech(proc)}
-    OUT.write_text(json.dumps(tables, ensure_ascii=False, indent=1), encoding="utf-8")
+    OUT.write_text(json.dumps(tables, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
     print(f"{OUT}: оружие {len(tables['weapon'])} типов, корабли {len(tables['ship'])}, "
           f"модулей {len(tables['proc'])}")
 

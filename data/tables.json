@@ -1273,25 +1273,29 @@
      "Weapon_Laser_Mining_Speed",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Laser_HeatTime",
      1.05,
      1.15,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Laser_Drain",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Laser_ReloadTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsSuperRare"
     ]
    ]
   },
@@ -1307,25 +1311,29 @@
      "Weapon_Laser_Mining_Speed",
      0.85,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Laser_HeatTime",
      1.15,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_Drain",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Laser_ReloadTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -1341,25 +1349,29 @@
      "Weapon_Laser_Mining_Speed",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Laser_HeatTime",
      1.2,
      1.4,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_Drain",
      1.15,
      1.2,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Laser_ReloadTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -1375,25 +1387,29 @@
      "Weapon_Laser_Mining_Speed",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Laser_HeatTime",
      1.4,
      1.5,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_Drain",
      1.2,
      1.2,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Laser_ReloadTime",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -1409,25 +1425,29 @@
      "Weapon_Laser_Mining_Speed",
      0.8,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Laser_HeatTime",
      1.05,
      1.55,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_Drain",
      1.01,
      1.25,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Laser_ReloadTime",
      0.75,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -1443,25 +1463,29 @@
      "Weapon_Laser_Mining_Speed",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Laser_HeatTime",
      1.01,
      1.02,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_Drain",
      1.01,
      1.02,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Laser_ReloadTime",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -1477,25 +1501,29 @@
      "Weapon_Scan_Radius",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Creature",
      10.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Flora",
      10.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Mineral",
      10.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -1511,25 +1539,29 @@
      "Weapon_Scan_Radius",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Creature",
      25.0,
      50.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Flora",
      25.0,
      50.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Mineral",
      25.0,
      50.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -1545,25 +1577,29 @@
      "Weapon_Scan_Radius",
      1.2,
      1.3,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Creature",
      50.0,
      100.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Scan_Discovery_Flora",
      50.0,
      100.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Scan_Discovery_Mineral",
      50.0,
      100.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -1579,25 +1615,29 @@
      "Weapon_Scan_Radius",
      1.3,
      1.4,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Creature",
      65.0,
      100.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Flora",
      65.0,
      100.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Mineral",
      65.0,
      100.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -1613,25 +1653,29 @@
      "Weapon_Scan_Radius",
      1.05,
      1.5,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Creature",
      10.0,
      110.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Flora",
      10.0,
      110.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Mineral",
      10.0,
      110.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -1647,25 +1691,29 @@
      "Weapon_Scan_Radius",
      1.01,
      1.04,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Creature",
      2.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Flora",
      2.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Scan_Discovery_Mineral",
      2.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -1681,37 +1729,43 @@
      "Weapon_Projectile_Damage",
      1.0,
      1.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      2.0,
      2.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.99,
      0.95,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -1727,37 +1781,43 @@
      "Weapon_Projectile_Damage",
      1.0,
      2.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      4.0,
      4.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.95,
      0.9,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -1773,37 +1833,43 @@
      "Weapon_Projectile_Damage",
      2.0,
      3.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsSuperRare"
     ],
     [
      "Weapon_Projectile_ClipSize",
      6.0,
      6.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_Rate",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      2.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.9,
      0.85,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -1819,37 +1885,43 @@
      "Weapon_Projectile_Damage",
      3.0,
      4.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      8.0,
      8.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_Rate",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      2.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.85,
      0.85,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -1865,37 +1937,43 @@
      "Weapon_Projectile_Damage",
      1.0,
      5.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.75,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      2.0,
      10.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      2.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.99,
      0.8,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -1911,37 +1989,43 @@
      "Weapon_Projectile_Damage",
      1.0,
      1.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.96,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      1.0,
      1.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.02,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      1.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.99,
      0.98,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -1957,25 +2041,29 @@
      "Weapon_Grenade_Damage",
      100.0,
      200.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Bounce",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Grenade_Radius",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Speed",
      1.0,
      2.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -1991,25 +2079,29 @@
      "Weapon_Grenade_Damage",
      200.0,
      300.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Bounce",
      1.0,
      2.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Radius",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Grenade_Speed",
      1.0,
      3.0,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -2025,25 +2117,29 @@
      "Weapon_Grenade_Damage",
      300.0,
      400.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Grenade_Bounce",
      2.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Radius",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Grenade_Speed",
      1.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -2059,25 +2155,29 @@
      "Weapon_Grenade_Damage",
      350.0,
      400.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Bounce",
      3.0,
      3.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Grenade_Radius",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Grenade_Speed",
      2.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -2093,25 +2193,29 @@
      "Weapon_Grenade_Damage",
      100.0,
      450.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Bounce",
      1.0,
      4.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Grenade_Radius",
      1.01,
      1.2,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Grenade_Speed",
      1.0,
      4.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -2127,19 +2231,22 @@
      "Weapon_Grenade_Damage",
      100.0,
      200.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Radius",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Speed",
      1.0,
      2.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -2155,19 +2262,22 @@
      "Weapon_Grenade_Damage",
      200.0,
      300.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Radius",
      1.2,
      1.3,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Speed",
      1.0,
      3.0,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -2183,19 +2293,22 @@
      "Weapon_Grenade_Damage",
      300.0,
      400.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Radius",
      1.3,
      1.5,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Grenade_Speed",
      1.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -2211,19 +2324,22 @@
      "Weapon_Grenade_Damage",
      350.0,
      400.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Radius",
      1.4,
      1.5,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Speed",
      2.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -2239,19 +2355,22 @@
      "Weapon_Grenade_Damage",
      100.0,
      450.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Radius",
      1.1,
      1.6,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Grenade_Speed",
      1.0,
      4.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -2267,13 +2386,15 @@
      "Weapon_Laser_Damage",
      30.0,
      40.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_ChargeTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -2289,13 +2410,15 @@
      "Weapon_Laser_Damage",
      40.0,
      50.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_ChargeTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -2311,13 +2434,15 @@
      "Weapon_Laser_Damage",
      50.0,
      60.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_ChargeTime",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsSuperRare"
     ]
    ]
   },
@@ -2333,13 +2458,15 @@
      "Weapon_Laser_Damage",
      60.0,
      75.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_ChargeTime",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -2355,13 +2482,15 @@
      "Weapon_Laser_Damage",
      30.0,
      85.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Laser_ChargeTime",
      0.75,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -2377,19 +2506,22 @@
      "Weapon_Projectile_Damage",
      1.0,
      1.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -2405,37 +2537,43 @@
      "Weapon_Projectile_Damage",
      1.0,
      2.0,
-     true
+     true,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      8.0,
      8.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -2451,37 +2589,43 @@
      "Weapon_Projectile_Damage",
      2.0,
      4.0,
-     true
+     true,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      8.0,
      8.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -2497,37 +2641,43 @@
      "Weapon_Projectile_Damage",
      3.0,
      5.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.75,
      0.8,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      8.0,
      8.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_Rate",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.8,
      0.85,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -2543,37 +2693,43 @@
      "Weapon_Projectile_Damage",
      1.0,
      6.0,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.7,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      8.0,
      8.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_BurstCap",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_Projectile_BurstCooldown",
      0.75,
      0.95,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -2589,19 +2745,22 @@
      "Weapon_Projectile_Damage",
      1.0,
      1.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_Projectile_ClipSize",
      12.0,
      12.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -2617,25 +2776,29 @@
      "Weapon_Projectile_Damage",
      1.0,
      2.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.9,
      0.99,
-     false
+     false,
+     "MinIsSuperRare"
     ],
     [
      "Weapon_Projectile_ClipSize",
      12.0,
      12.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -2651,25 +2814,29 @@
      "Weapon_Projectile_Damage",
      1.0,
      3.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.9,
      0.99,
-     false
+     false,
+     "MinIsRare"
     ],
     [
      "Weapon_Projectile_ClipSize",
      12.0,
      12.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -2685,25 +2852,29 @@
      "Weapon_Projectile_Damage",
      2.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_Rate",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_Projectile_ClipSize",
      12.0,
      12.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -2719,25 +2890,29 @@
      "Weapon_Projectile_Damage",
      1.0,
      4.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.85,
      0.99,
-     false
+     false,
+     "MinIsRare"
     ],
     [
      "Weapon_Projectile_ClipSize",
      12.0,
      12.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -2753,25 +2928,29 @@
      "Weapon_Projectile_Damage",
      2.0,
      5.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_MaximumCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_ChargedProjectile_ExtraSpeed",
      5.0,
      10.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Weapon_ChargedProjectile_ChargeTime",
      0.9,
      0.95,
-     true
+     true,
+     "MinIsSuperRare"
     ]
    ]
   },
@@ -2787,25 +2966,29 @@
      "Weapon_Projectile_Damage",
      5.0,
      7.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_MaximumCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_ChargedProjectile_ExtraSpeed",
      10.0,
      15.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_ChargedProjectile_ChargeTime",
      0.85,
      0.9,
-     true
+     true,
+     "MinIsSuperRare"
     ]
    ]
   },
@@ -2821,25 +3004,29 @@
      "Weapon_Projectile_Damage",
      7.0,
      12.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Weapon_Projectile_MaximumCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_ChargedProjectile_ExtraSpeed",
      15.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_ChargedProjectile_ChargeTime",
      0.7,
      0.8,
-     true
+     true,
+     "MinIsRare"
     ]
    ]
   },
@@ -2855,25 +3042,29 @@
      "Weapon_Projectile_Damage",
      12.0,
      18.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_MaximumCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_ChargedProjectile_ExtraSpeed",
      20.0,
      25.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_ChargedProjectile_ChargeTime",
      0.5,
      0.7,
-     true
+     true,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -2889,25 +3080,29 @@
      "Weapon_Projectile_Damage",
      5.0,
      18.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_MaximumCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Weapon_ChargedProjectile_ExtraSpeed",
      5.0,
      25.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_ChargedProjectile_ChargeTime",
      0.5,
      0.95,
-     true
+     true,
+     "MinIsRare"
     ]
    ]
   },
@@ -2923,19 +3118,22 @@
      "Weapon_Projectile_Damage",
      1.0,
      4.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Weapon_Projectile_ReloadTime",
      0.85,
      0.99,
-     false
+     false,
+     "MinIsRare"
     ],
     [
      "Weapon_Projectile_Rate",
      1.01,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -2951,13 +3149,15 @@
      "Suit_Energy",
      0.05,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Energy_Regen",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -2973,13 +3173,15 @@
      "Suit_Energy",
      0.2,
      0.5,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Energy_Regen",
      1.01,
      1.25,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -2995,13 +3197,15 @@
      "Suit_Energy",
      0.5,
      1.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Energy_Regen",
      1.25,
      1.5,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3017,13 +3221,15 @@
      "Suit_Energy",
      0.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Energy_Regen",
      1.01,
      1.75,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3039,13 +3245,15 @@
      "Suit_Energy",
      0.01,
      0.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Energy_Regen",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3061,25 +3269,29 @@
      "Suit_Protection_HeatDrain",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Protection_ColdDrain",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Protection_RadDrain",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_Protection_ToxDrain",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -3095,25 +3307,29 @@
      "Suit_Protection_HeatDrain",
      1.01,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Protection_ColdDrain",
      1.01,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Protection_RadDrain",
      1.01,
      1.03,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_Protection_ToxDrain",
      1.01,
      1.03,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -3129,31 +3345,36 @@
      "Suit_Jetpack_Tank",
      1.0,
      1.5,
-     true
+     true,
+     "MaxIsRare"
     ],
     [
      "Suit_Stamina_Strength",
      0.1,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Recovery",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_Jetpack_Drain",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Suit_Jetpack_Refill",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -3169,37 +3390,43 @@
      "Suit_Jetpack_Tank",
      1.0,
      1.65,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Strength",
      0.1,
      0.3,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Recovery",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_Jetpack_Drain",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Suit_Jetpack_Ignition",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_Jetpack_Refill",
      1.05,
      1.15,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -3215,37 +3442,43 @@
      "Suit_Jetpack_Tank",
      1.5,
      2.2,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Strength",
      0.2,
      0.5,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Recovery",
      1.2,
      1.3,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Drain",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsSuperRare"
     ],
     [
      "Suit_Jetpack_Ignition",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Refill",
      1.1,
      1.3,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3261,37 +3494,43 @@
      "Suit_Jetpack_Tank",
      2.0,
      2.35,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Strength",
      0.4,
      0.5,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Recovery",
      1.3,
      1.5,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Drain",
      0.75,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Suit_Jetpack_Ignition",
      1.05,
      1.15,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Refill",
      1.15,
      1.35,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3307,37 +3546,43 @@
      "Suit_Jetpack_Tank",
      1.0,
      2.4,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Strength",
      0.1,
      0.6,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Recovery",
      1.01,
      1.6,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Drain",
      0.7,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Suit_Jetpack_Ignition",
      1.01,
      1.2,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Refill",
      1.05,
      1.4,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3353,37 +3598,43 @@
      "Suit_Jetpack_Tank",
      1.0,
      1.1,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Strength",
      0.1,
      0.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Stamina_Recovery",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Drain",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Suit_Jetpack_Ignition",
      1.01,
      1.05,
-     true
+     true,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Refill",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3399,13 +3650,15 @@
      "Suit_Armour_Shield_Strength",
      0.1,
      0.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Armour_Health",
      20.0,
      20.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -3421,13 +3674,15 @@
      "Suit_Armour_Shield_Strength",
      0.15,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Armour_Health",
      20.0,
      20.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -3443,13 +3698,15 @@
      "Suit_Armour_Shield_Strength",
      0.2,
      0.3,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Suit_Armour_Health",
      20.0,
      20.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -3465,13 +3722,15 @@
      "Suit_Armour_Shield_Strength",
      0.3,
      0.35,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Armour_Health",
      20.0,
      20.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -3487,13 +3746,15 @@
      "Suit_Armour_Shield_Strength",
      0.1,
      0.35,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Armour_Health",
      20.0,
      20.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -3509,13 +3770,15 @@
      "Suit_Armour_Shield_Strength",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Armour_Health",
      5.0,
      5.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -3531,37 +3794,43 @@
      "Suit_Armour_Shield_Strength",
      0.1,
      0.35,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Armour_Health",
      20.0,
      20.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Suit_Energy",
      0.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Energy_Regen",
      1.01,
      1.75,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Drain",
      0.7,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Suit_Stamina_Strength",
      0.1,
      0.6,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3577,37 +3846,43 @@
      "Suit_Armour_Shield_Strength",
      0.1,
      0.35,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Armour_Health",
      20.0,
      20.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Suit_Energy",
      0.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Energy_Regen",
      1.01,
      1.75,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_Jetpack_Drain",
      0.7,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Suit_Stamina_Strength",
      0.1,
      0.6,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3623,7 +3898,8 @@
      "Suit_Underwater",
      90.0,
      120.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -3639,7 +3915,8 @@
      "Suit_Underwater",
      120.0,
      180.0,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -3655,7 +3932,8 @@
      "Suit_Underwater",
      180.0,
      240.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -3671,13 +3949,15 @@
      "Suit_Protection_Radiation",
      200.0,
      300.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Suit_DamageReduce_Radiation",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3693,13 +3973,15 @@
      "Suit_Protection_Radiation",
      240.0,
      320.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_DamageReduce_Radiation",
      0.85,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3715,13 +3997,15 @@
      "Suit_Protection_Radiation",
      280.0,
      360.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_DamageReduce_Radiation",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3737,13 +4021,15 @@
      "Suit_Protection_Toxic",
      200.0,
      300.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Suit_DamageReduce_Toxic",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3759,13 +4045,15 @@
      "Suit_Protection_Toxic",
      240.0,
      320.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_DamageReduce_Toxic",
      0.85,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3781,13 +4069,15 @@
      "Suit_Protection_Toxic",
      280.0,
      360.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_DamageReduce_Toxic",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3803,13 +4093,15 @@
      "Suit_Protection_Cold",
      200.0,
      300.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Suit_DamageReduce_Cold",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3825,13 +4117,15 @@
      "Suit_Protection_Cold",
      240.0,
      320.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_DamageReduce_Cold",
      0.85,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3847,13 +4141,15 @@
      "Suit_Protection_Cold",
      280.0,
      360.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_DamageReduce_Cold",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3869,13 +4165,15 @@
      "Suit_Protection_Heat",
      200.0,
      300.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Suit_DamageReduce_Heat",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3891,13 +4189,15 @@
      "Suit_Protection_Heat",
      240.0,
      320.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Suit_DamageReduce_Heat",
      0.85,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3913,13 +4213,15 @@
      "Suit_Protection_Heat",
      280.0,
      360.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Suit_DamageReduce_Heat",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -3935,25 +4237,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.01,
      1.075,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -3969,25 +4275,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.01,
      1.12,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -4003,25 +4313,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.05,
      1.16,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -4037,25 +4351,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.8,
      0.8,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_Boost",
      1.1,
      1.25,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.05,
      1.18,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Maneuverability",
      1.0065,
      1.0065,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -4071,25 +4389,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.75,
      0.95,
-     false
+     false,
+     "MinIsRare"
     ],
     [
      "Ship_Boost",
      1.01,
      1.3,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.01,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Maneuverability",
      1.0065,
      1.0065,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -4105,25 +4427,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsRare"
     ],
     [
      "Ship_Boost",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Maneuverability",
      1.0005,
      1.0005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -4139,25 +4465,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.01,
      1.12,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -4173,25 +4503,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.05,
      1.16,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -4207,13 +4541,15 @@
      "Ship_Launcher_TakeOffCost",
      0.9,
      0.95,
-     true
+     true,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.01,
      1.01,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4229,13 +4565,15 @@
      "Ship_Launcher_TakeOffCost",
      0.85,
      0.9,
-     true
+     true,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.02,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4251,13 +4589,15 @@
      "Ship_Launcher_TakeOffCost",
      0.8,
      0.85,
-     true
+     true,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.05,
      1.08,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4273,13 +4613,15 @@
      "Ship_Launcher_TakeOffCost",
      0.8,
      0.8,
-     true
+     true,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.08,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4295,13 +4637,15 @@
      "Ship_Launcher_TakeOffCost",
      0.75,
      0.95,
-     true
+     true,
+     "MinIsRare"
     ],
     [
      "Ship_Boost",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4317,13 +4661,15 @@
      "Ship_Launcher_TakeOffCost",
      0.95,
      0.99,
-     true
+     true,
+     "MinIsRare"
     ],
     [
      "Ship_Boost",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4339,13 +4685,15 @@
      "Ship_Launcher_TakeOffCost",
      0.85,
      0.9,
-     true
+     true,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.02,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4361,13 +4709,15 @@
      "Ship_Launcher_TakeOffCost",
      0.8,
      0.85,
-     true
+     true,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.05,
      1.08,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4383,7 +4733,8 @@
      "Ship_Hyperdrive_JumpDistance",
      50.0,
      100.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4399,7 +4750,8 @@
      "Ship_Hyperdrive_JumpDistance",
      115.0,
      165.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4415,13 +4767,15 @@
      "Ship_Hyperdrive_JumpDistance",
      165.0,
      220.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Hyperdrive_JumpsPerCell",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -4437,13 +4791,15 @@
      "Ship_Hyperdrive_JumpDistance",
      220.0,
      265.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Hyperdrive_JumpsPerCell",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -4459,13 +4815,15 @@
      "Ship_Hyperdrive_JumpDistance",
      50.0,
      320.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Hyperdrive_JumpsPerCell",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -4481,7 +4839,8 @@
      "Ship_Hyperdrive_JumpDistance",
      10.0,
      25.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4497,7 +4856,8 @@
      "Ship_Hyperdrive_JumpDistance",
      115.0,
      165.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4513,13 +4873,15 @@
      "Ship_Hyperdrive_JumpDistance",
      165.0,
      220.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Hyperdrive_JumpsPerCell",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -4535,7 +4897,8 @@
      "Ship_Armour_Shield_Strength",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -4551,7 +4914,8 @@
      "Ship_Armour_Shield_Strength",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4567,7 +4931,8 @@
      "Ship_Armour_Shield_Strength",
      0.1,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4583,7 +4948,8 @@
      "Ship_Armour_Shield_Strength",
      0.2,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4599,7 +4965,8 @@
      "Ship_Armour_Shield_Strength",
      0.05,
      0.25,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4615,7 +4982,8 @@
      "Ship_Armour_Shield_Strength",
      0.01,
      0.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4631,7 +4999,8 @@
      "Ship_Armour_Shield_Strength",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4647,7 +5016,8 @@
      "Ship_Armour_Shield_Strength",
      0.1,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4663,19 +5033,22 @@
      "Ship_Weapons_Guns_Damage",
      8.0,
      16.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.001,
      1.011,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.001,
      1.01,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4691,19 +5064,22 @@
      "Ship_Weapons_Guns_Damage",
      12.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.006,
      1.016,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.01,
      1.02,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4719,19 +5095,22 @@
      "Ship_Weapons_Guns_Damage",
      16.0,
      24.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.016,
      1.021,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.02,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4747,19 +5126,22 @@
      "Ship_Weapons_Guns_Damage",
      20.0,
      28.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.021,
      1.021,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.03,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4775,19 +5157,22 @@
      "Ship_Weapons_Guns_Damage",
      8.0,
      32.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.001,
      1.026,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.001,
      1.035,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4803,19 +5188,22 @@
      "Ship_Weapons_Guns_Damage",
      2.0,
      4.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.001,
      1.003,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.001,
      1.005,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4831,19 +5219,22 @@
      "Ship_Weapons_Guns_Damage",
      16.0,
      24.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.016,
      1.021,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.02,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4859,19 +5250,22 @@
      "Ship_Weapons_Guns_Damage",
      400.0,
      500.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_CoolTime",
      0.75,
      0.8,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Range",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4887,13 +5281,15 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.1,
      1.35,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      30.0,
      40.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4909,13 +5305,15 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.35,
      1.55,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      40.0,
      50.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4931,13 +5329,15 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.55,
      1.75,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      50.0,
      60.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4953,13 +5353,15 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.75,
      1.95,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      60.0,
      70.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4975,13 +5377,15 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.1,
      2.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      30.0,
      80.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -4997,13 +5401,15 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.55,
      1.75,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      50.0,
      60.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5019,19 +5425,22 @@
      "Ship_Weapons_Guns_Damage",
      1.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.01,
      1.04,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.01,
      1.04,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5047,19 +5456,22 @@
      "Ship_Weapons_Guns_Damage",
      3.0,
      5.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.04,
      1.06,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.04,
      1.06,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5075,19 +5487,22 @@
      "Ship_Weapons_Guns_Damage",
      5.0,
      6.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.06,
      1.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.06,
      1.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -5103,19 +5518,22 @@
      "Ship_Weapons_Guns_Damage",
      6.0,
      8.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.06,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.06,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -5131,19 +5549,22 @@
      "Ship_Weapons_Guns_Damage",
      2.0,
      8.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -5159,19 +5580,22 @@
      "Ship_Weapons_Guns_Damage",
      5.0,
      6.0,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.06,
      1.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.06,
      1.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -5187,19 +5611,22 @@
      "Ship_Weapons_Guns_Damage",
      2.0,
      6.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.01,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5215,19 +5642,22 @@
      "Ship_Weapons_Guns_Damage",
      4.0,
      10.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.03,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5243,19 +5673,22 @@
      "Ship_Weapons_Guns_Damage",
      8.0,
      12.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.05,
      1.07,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5271,19 +5704,22 @@
      "Ship_Weapons_Guns_Damage",
      10.0,
      12.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.07,
      1.09,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5299,19 +5735,22 @@
      "Ship_Weapons_Guns_Damage",
      2.0,
      14.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.01,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.01,
      1.13,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5327,19 +5766,22 @@
      "Ship_Weapons_Guns_Damage",
      8.0,
      12.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.05,
      1.07,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5355,19 +5797,22 @@
      "Ship_Weapons_Guns_Damage",
      2.0,
      6.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5383,19 +5828,22 @@
      "Ship_Weapons_Guns_Damage",
      4.0,
      10.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.2,
      1.25,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5411,19 +5859,22 @@
      "Ship_Weapons_Guns_Damage",
      8.0,
      12.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.25,
      1.3,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5439,19 +5890,22 @@
      "Ship_Weapons_Guns_Damage",
      10.0,
      12.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.3,
      1.35,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5467,19 +5921,22 @@
      "Ship_Weapons_Guns_Damage",
      2.0,
      14.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.01,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.1,
      1.4,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5495,19 +5952,22 @@
      "Ship_Weapons_Guns_Damage",
      8.0,
      12.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.25,
      1.3,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5523,19 +5983,22 @@
      "Vehicle_GunDamage",
      5.0,
      10.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.97,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -5551,19 +6014,22 @@
      "Vehicle_GunDamage",
      10.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.95,
      0.97,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -5579,19 +6045,22 @@
      "Vehicle_GunDamage",
      20.0,
      30.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.93,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -5607,19 +6076,22 @@
      "Vehicle_GunDamage",
      30.0,
      40.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.9,
      0.93,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -5635,13 +6107,15 @@
      "Vehicle_LaserDamage",
      5.0,
      10.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_LaserHeatTime",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -5657,13 +6131,15 @@
      "Vehicle_LaserDamage",
      10.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_LaserHeatTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -5679,13 +6155,15 @@
      "Vehicle_LaserDamage",
      20.0,
      30.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_LaserHeatTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -5701,13 +6179,15 @@
      "Vehicle_LaserDamage",
      30.0,
      40.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_LaserHeatTime",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -5723,13 +6203,15 @@
      "Vehicle_BoostSpeed",
      0.1,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_BoostTanks",
      0.1,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5745,13 +6227,15 @@
      "Vehicle_BoostSpeed",
      0.2,
      0.35,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_BoostTanks",
      0.15,
      0.3,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5767,13 +6251,15 @@
      "Vehicle_BoostSpeed",
      0.35,
      0.55,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_BoostTanks",
      0.3,
      0.5,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5789,13 +6275,15 @@
      "Vehicle_BoostSpeed",
      0.55,
      0.7,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_BoostTanks",
      0.5,
      0.6,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5811,13 +6299,15 @@
      "Vehicle_EngineFuelUse",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_EngineTopSpeed",
      1.01,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5833,13 +6323,15 @@
      "Vehicle_EngineFuelUse",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_EngineTopSpeed",
      1.03,
      1.08,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5855,13 +6347,15 @@
      "Vehicle_EngineFuelUse",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_EngineTopSpeed",
      1.08,
      1.15,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -5877,13 +6371,15 @@
      "Vehicle_EngineFuelUse",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_EngineTopSpeed",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5899,19 +6395,22 @@
      "Vehicle_EngineFuelUse",
      0.9,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_EngineTopSpeed",
      1.02,
      1.04,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_SubBoostSpeed",
      0.1,
      0.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5927,19 +6426,22 @@
      "Vehicle_EngineFuelUse",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_EngineTopSpeed",
      1.04,
      1.06,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_SubBoostSpeed",
      0.15,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5955,19 +6457,22 @@
      "Vehicle_EngineFuelUse",
      0.75,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_EngineTopSpeed",
      1.06,
      1.075,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_SubBoostSpeed",
      0.2,
      0.25,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -5983,19 +6488,22 @@
      "Vehicle_EngineFuelUse",
      0.7,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_EngineTopSpeed",
      1.075,
      1.075,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Vehicle_SubBoostSpeed",
      0.25,
      0.3,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6011,13 +6519,15 @@
      "Vehicle_GunDamage",
      5.0,
      10.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.97,
      0.99,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -6033,13 +6543,15 @@
      "Vehicle_GunDamage",
      10.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.95,
      0.97,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -6055,13 +6567,15 @@
      "Vehicle_GunDamage",
      20.0,
      30.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.93,
      0.95,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -6077,13 +6591,15 @@
      "Vehicle_GunDamage",
      30.0,
      40.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.9,
      0.93,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -6099,13 +6615,15 @@
      "Vehicle_LaserDamage",
      10.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_LaserHeatTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -6121,13 +6639,15 @@
      "Vehicle_LaserDamage",
      20.0,
      30.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_LaserHeatTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -6143,13 +6663,15 @@
      "Vehicle_LaserDamage",
      30.0,
      40.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_LaserHeatTime",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -6165,19 +6687,22 @@
      "Vehicle_GunDamage",
      1.0,
      1.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_FireDOT_Duration",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -6193,19 +6718,22 @@
      "Vehicle_GunDamage",
      1.0,
      2.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.8,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_FireDOT_Duration",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -6221,19 +6749,22 @@
      "Vehicle_GunDamage",
      2.0,
      2.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.7,
      0.8,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Weapon_FireDOT_Duration",
      1.2,
      1.35,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -6249,19 +6780,22 @@
      "Vehicle_GunDamage",
      10.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.95,
      0.97,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -6277,19 +6811,22 @@
      "Vehicle_GunDamage",
      20.0,
      30.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.93,
      0.95,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -6305,19 +6842,22 @@
      "Vehicle_GunDamage",
      30.0,
      40.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Vehicle_GunHeatTime",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_GunRate",
      0.9,
      0.93,
-     false
+     false,
+     "MinIsRare"
     ]
    ]
   },
@@ -6333,13 +6873,15 @@
      "Vehicle_EngineFuelUse",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_BoostTanks",
      0.1,
      0.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6355,13 +6897,15 @@
      "Vehicle_EngineFuelUse",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_BoostTanks",
      0.15,
      0.25,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6377,13 +6921,15 @@
      "Vehicle_EngineFuelUse",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Vehicle_BoostTanks",
      0.25,
      0.3,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6399,25 +6945,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.01,
      1.075,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -6433,25 +6983,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.01,
      1.12,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -6467,25 +7021,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Boost",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.05,
      1.16,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -6501,25 +7059,29 @@
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.8,
      0.8,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_Boost",
      1.1,
      1.25,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_BoostManeuverability",
      1.05,
      1.18,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Maneuverability",
      1.0065,
      1.0065,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -6535,7 +7097,8 @@
      "Ship_Launcher_TakeOffCost",
      0.95,
      0.9,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -6551,7 +7114,8 @@
      "Ship_Launcher_TakeOffCost",
      0.9,
      0.85,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -6567,7 +7131,8 @@
      "Ship_Launcher_TakeOffCost",
      0.85,
      0.8,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6583,13 +7148,15 @@
      "Ship_Launcher_TakeOffCost",
      0.8,
      0.8,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_Launcher_AutoCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -6605,7 +7172,8 @@
      "Ship_Hyperdrive_JumpDistance",
      50.0,
      100.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6621,7 +7189,8 @@
      "Ship_Hyperdrive_JumpDistance",
      115.0,
      165.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6637,13 +7206,15 @@
      "Ship_Hyperdrive_JumpDistance",
      165.0,
      220.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Hyperdrive_JumpsPerCell",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -6659,13 +7230,15 @@
      "Ship_Hyperdrive_JumpDistance",
      220.0,
      265.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Hyperdrive_JumpsPerCell",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -6681,7 +7254,8 @@
      "Ship_Armour_Shield_Strength",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -6697,7 +7271,8 @@
      "Ship_Armour_Shield_Strength",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6713,7 +7288,8 @@
      "Ship_Armour_Shield_Strength",
      0.1,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6729,7 +7305,8 @@
      "Ship_Armour_Shield_Strength",
      0.2,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6745,19 +7322,22 @@
      "Ship_Weapons_Guns_Damage",
      8.0,
      16.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.001,
      1.011,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.001,
      1.01,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6773,19 +7353,22 @@
      "Ship_Weapons_Guns_Damage",
      12.0,
      20.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.006,
      1.016,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.01,
      1.02,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6801,19 +7384,22 @@
      "Ship_Weapons_Guns_Damage",
      16.0,
      24.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.016,
      1.021,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.02,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6829,19 +7415,22 @@
      "Ship_Weapons_Guns_Damage",
      20.0,
      28.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Guns_Rate",
      1.021,
      1.021,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_Weapons_Guns_HeatTime",
      1.03,
      1.03,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6857,19 +7446,22 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.1,
      1.35,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      30.0,
      40.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_ShieldLeech",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6885,19 +7477,22 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.35,
      1.55,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      40.0,
      50.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_ShieldLeech",
      0.1,
      0.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6913,19 +7508,22 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.55,
      1.75,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      50.0,
      60.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_ShieldLeech",
      0.15,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6941,19 +7539,22 @@
      "Ship_Weapons_Lasers_HeatTime",
      1.75,
      1.95,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_Lasers_Damage",
      60.0,
      70.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Weapons_ShieldLeech",
      0.2,
      0.3,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6969,7 +7570,8 @@
      "Freighter_Hyperdrive_JumpDistance",
      50.0,
      100.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -6985,7 +7587,8 @@
      "Freighter_Hyperdrive_JumpDistance",
      100.0,
      150.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7001,13 +7604,15 @@
      "Freighter_Hyperdrive_JumpDistance",
      150.0,
      200.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Freighter_Hyperdrive_JumpsPerCell",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -7023,13 +7628,15 @@
      "Freighter_Hyperdrive_JumpDistance",
      200.0,
      250.0,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Freighter_Hyperdrive_JumpsPerCell",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -7045,7 +7652,8 @@
      "Freighter_Fleet_Speed",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7061,7 +7669,8 @@
      "Freighter_Fleet_Speed",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7077,7 +7686,8 @@
      "Freighter_Fleet_Speed",
      1.1,
      1.14,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7093,7 +7703,8 @@
      "Freighter_Fleet_Speed",
      1.15,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7109,7 +7720,8 @@
      "Freighter_Fleet_Fuel",
      0.95,
      0.99,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -7125,7 +7737,8 @@
      "Freighter_Fleet_Fuel",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -7141,7 +7754,8 @@
      "Freighter_Fleet_Fuel",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -7157,7 +7771,8 @@
      "Freighter_Fleet_Fuel",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -7173,7 +7788,8 @@
      "Freighter_Fleet_Combat",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7189,7 +7805,8 @@
      "Freighter_Fleet_Combat",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7205,7 +7822,8 @@
      "Freighter_Fleet_Combat",
      1.1,
      1.14,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7221,7 +7839,8 @@
      "Freighter_Fleet_Combat",
      1.15,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7237,7 +7856,8 @@
      "Freighter_Fleet_Trade",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7253,7 +7873,8 @@
      "Freighter_Fleet_Trade",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7269,7 +7890,8 @@
      "Freighter_Fleet_Trade",
      1.1,
      1.14,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7285,7 +7907,8 @@
      "Freighter_Fleet_Trade",
      1.15,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7301,7 +7924,8 @@
      "Freighter_Fleet_Explore",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7317,7 +7941,8 @@
      "Freighter_Fleet_Explore",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7333,7 +7958,8 @@
      "Freighter_Fleet_Explore",
      1.1,
      1.14,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7349,7 +7975,8 @@
      "Freighter_Fleet_Explore",
      1.15,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7365,7 +7992,8 @@
      "Freighter_Fleet_Mine",
      1.01,
      1.05,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7381,7 +8009,8 @@
      "Freighter_Fleet_Mine",
      1.05,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7397,7 +8026,8 @@
      "Freighter_Fleet_Mine",
      1.1,
      1.14,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7413,7 +8043,8 @@
      "Freighter_Fleet_Mine",
      1.15,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7429,19 +8060,22 @@
      "Ship_BoostManeuverability",
      1.01,
      1.075,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Boost",
      1.01,
      1.1,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -7457,19 +8091,22 @@
      "Ship_BoostManeuverability",
      1.01,
      1.12,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Boost",
      1.1,
      1.15,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -7485,19 +8122,22 @@
      "Ship_BoostManeuverability",
      1.05,
      1.16,
-     false
+     false,
+     "MaxIsRare"
     ],
     [
      "Ship_Boost",
      1.1,
      1.2,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Maneuverability",
      1.005,
      1.005,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -7513,19 +8153,22 @@
      "Ship_BoostManeuverability",
      1.05,
      1.18,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Boost",
      1.1,
      1.25,
-     false
+     false,
+     "MaxIsUncommon"
     ],
     [
      "Ship_Maneuverability",
      1.0065,
      1.0065,
-     true
+     true,
+     "NoWeighting"
     ]
    ]
   },
@@ -7541,19 +8184,22 @@
      "Ship_Launcher_TakeOffCost",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsSuperRare"
     ],
     [
      "Ship_Launcher_AutoCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.9,
      0.95,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -7569,19 +8215,22 @@
      "Ship_Launcher_TakeOffCost",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsRare"
     ],
     [
      "Ship_Launcher_AutoCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.85,
      0.9,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -7597,19 +8246,22 @@
      "Ship_Launcher_TakeOffCost",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsRare"
     ],
     [
      "Ship_Launcher_AutoCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.8,
      0.85,
-     false
+     false,
+     "MinIsUncommon"
     ]
    ]
   },
@@ -7625,19 +8277,22 @@
      "Ship_Launcher_TakeOffCost",
      0.8,
      0.8,
-     false
+     false,
+     "MinIsUncommon"
     ],
     [
      "Ship_Launcher_AutoCharge",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ],
     [
      "Ship_PulseDrive_MiniJumpFuelSpending",
      0.8,
      0.8,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   },
@@ -7653,7 +8308,8 @@
      "Ship_Armour_Shield_Strength",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -7669,7 +8325,8 @@
      "Ship_Armour_Shield_Strength",
      0.05,
      0.1,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7685,7 +8342,8 @@
      "Ship_Armour_Shield_Strength",
      0.1,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7701,7 +8359,8 @@
      "Ship_Armour_Shield_Strength",
      0.2,
      0.2,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7717,7 +8376,8 @@
      "Ship_Cargo_Slots",
      1.0,
      1.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7733,7 +8393,8 @@
      "Ship_Cargo_Slots",
      3.0,
      3.0,
-     false
+     false,
+     "MaxIsUncommon"
     ]
    ]
   },
@@ -7749,7 +8410,8 @@
      "Ship_Cargo_Slots",
      6.0,
      6.0,
-     false
+     false,
+     "MaxIsSuperRare"
     ]
    ]
   },
@@ -7765,7 +8427,8 @@
      "Ship_Cargo_Slots",
      8.0,
      8.0,
-     false
+     false,
+     "MaxIsRare"
     ]
    ]
   },
@@ -7781,7 +8444,8 @@
      "Ship_TractorBeam",
      1.0,
      1.0,
-     false
+     false,
+     "NoWeighting"
     ]
    ]
   }
