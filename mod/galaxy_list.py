@@ -46,15 +46,18 @@ sys.path[:0] = [str(ROOT), str(ROOT / "mod")]
 
 from pymhf import FUNCDEF, Mod  # noqa: E402
 from pymhf.core import _internal  # noqa: E402
-from pymhf.core.hooking import on_key_pressed  # noqa: E402
+from pymhf.core.hooking import manual_hook, on_key_pressed  # noqa: E402
 from pymhf.core.memutils import find_pattern_in_binary, get_addressof, map_struct  # noqa: E402
 
 import nmspy.data.nanovg as nvg  # noqa: E402
+from nmspy.common import gameData  # noqa: E402
+from nmspy.data.enums import cGcStatsTypes  # noqa: E402
 import nmspy.data.types as nms  # noqa: E402
 
 import numpy as np  # noqa: E402
 
 from galaxy import i18n, model, route  # noqa: E402
+import invstats  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
 STATE_FILE = ROOT / "data" / "galaxy_panel.json"
@@ -73,6 +76,10 @@ NO_UA = 0xFFFFFFFFFFFFFFFF
 # П4: выбор системы на карте (RVA 0x1361DC0 в 7.10): (this=cGcGalaxyMap.Data, SolarQueryResult*, bool, float)
 SELECT_SIG = "48 8B C4 48 89 58 ? 48 89 70 ? 55 57 41 54 41 55 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 44 0F B7 7A 10"
 SELECT_DEF = FUNCDEF(restype=None, argtypes=[ctypes.c_uint64, ctypes.c_uint64, ctypes.c_bool, ctypes.c_float])
+# cGcRealityManager::GenerateProceduralTechnology: у NMS.py 3 аргумента, в коде 7.10 — 4 (r9 сохраняется и
+# используется) → хук NMS.py вызывал оригинал без 4-го, игра висла на загрузке сейва (0.6). Все аргументы — u64 как есть.
+GENTECH_SIG = "4C 89 4C 24 ? 44 88 44 24 ? 48 89 4C 24"
+GENTECH_DEF = FUNCDEF(restype=ctypes.c_uint64, argtypes=[ctypes.c_uint64] * 4)
 # WarpCapabilityResult: f32 расстояние, f32 дальность/расстояние, i32 код (1 — можно, 2 — текущая, 6 — далеко)
 WARP_OK, WARP_CUR, WARP_FAR = 1, 2, 6
 DEFAULT_JUMP = 400.0
@@ -94,6 +101,14 @@ LANG_POLL = 3.0           # с между проверками файла нас
 # проба шрифтов на странице фильтров: есть ли в шрифтах игры латиница с диакритикой и CJK (fontId 0..3)
 GLYPH_PROBE = False
 GLYPH_SAMPLE = "ÀÉÜßÇÑ ąęłńśźż 日本語 中文 한국어"
+# этап 4: карточка статов на экране инвентаря — справа снизу, над моделью и кнопкой «Вернуться»;
+# размеры для 1080p, масштаб k = высота экрана / 1080
+INV_W, INV_PAD, INV_RIGHT, INV_BOTTOM = 400.0, 12.0, 40.0, 110.0
+INV_FONT = 16.0
+INV_ROW = {"title": 26.0, "base": 22.0, "module": 22.0, "stat": 20.0}
+INV_BAR = (300.0, 350.0)           # полоска места в диапазоне; % — по правому краю 376
+CLASS_RGBA = {"S": (0.95, 0.65, 0.20, 1.0), "A": (0.62, 0.40, 0.85, 1.0), "B": (0.30, 0.55, 0.90, 1.0),
+              "C": (0.30, 0.75, 0.65, 1.0), "X": (0.55, 0.55, 0.60, 1.0)}
 
 logger = logging.getLogger("galaxy")
 
@@ -140,6 +155,13 @@ def ev(v) -> int:
     return int(getattr(v, "value", v))
 
 
+def stat_name(i: int) -> str:
+    try:
+        return cGcStatsTypes(i).name
+    except ValueError:
+        return f"stat{i}"
+
+
 def latest_save() -> Path | None:
     saves = [p for p in SAVE_ROOT.glob("*/save*.hg") if not p.name.startswith("mf_")]
     return max(saves, key=lambda p: p.stat().st_mtime) if saves else None
@@ -153,7 +175,7 @@ class TextRow(ctypes.Structure):  # NVGtextRow
 class GalaxyList(Mod):
     __author__ = "Staery"
     __description__ = "NMS galaxy map: systems in range with filters"
-    __version__ = "0.5"
+    __version__ = "0.7"
 
     def __init__(self):
         super().__init__()
@@ -215,6 +237,12 @@ class GalaxyList(Mod):
         self.widths: dict = {}                # (размер шрифта, текст) → ширина
         self.layout_key, self.layout = None, None
         self.glyphs_logged = False
+        self.screen, self.screen_t = (1920.0, 1080.0), 0.0
+        self.inv = invstats.InvStats(safe_read, stat_name, self.emit, self.error)
+        self.inv_failed = False
+        self.inv_drawn = False
+        self.app_state = None                 # состояние игры (cTkFSMState): APPLOCALLOAD, APPVIEW, GALAXYMAP…
+        self.gen_logged = 0
         self.emit("start", version=self.__version__, jump=self.jump, state=self.panel.to_json(),
                   target=self.target and f"{self.target['ua']:016X}", lang=i18n.lang)
         threading.Thread(target=self.load_visited, daemon=True).start()
@@ -259,6 +287,7 @@ class GalaxyList(Mod):
             self.drive, self.drive_known = drive, True
             self.panel.scanners = scanners
             self.dirty = True
+            self.inv.set_hints(ps)
         except Exception as e:
             self.error("visited_error", e)
 
@@ -310,6 +339,18 @@ class GalaxyList(Mod):
     def ngui_begin(self, this, lpInput, lScreenSize, lbFullscreen, lfPixelRatio, lbDetectInput):
         if not self.ctx_owner:
             self.ctx_owner = get_addressof(this)
+        if get_addressof(this) == self.ctx_owner:
+            raw = safe_read(get_addressof(lScreenSize), 8)
+            if len(raw) == 8:
+                w, h = struct.unpack("<2f", raw)
+                if 320 <= w <= 16384 and 240 <= h <= 16384:
+                    # кадры идут вперемешку с 1/4 размера (1920x1080 и 480x270): берём больший,
+                    # меньший — только если больший не приходил секунду (смена разрешения)
+                    now = time.time()
+                    if w * h >= self.screen[0] * self.screen[1] or now - self.screen_t > 1.0:
+                        self.screen = (w, h)
+                    if (w, h) == self.screen:
+                        self.screen_t = now
 
     @nms.cGcGalaxyMap.Data.Update.after
     def map_update(self, this, lfTimeStep):
@@ -634,9 +675,84 @@ class GalaxyList(Mod):
         except Exception as e:
             self.error("warp_error", e)
 
+    # ---------- инвентарь (этап 4) ----------
+    @nms.cGcFrontendPageFunctions.DoInventorySlots.after
+    def inv_slots(self, lpPage, lpInventoryGuiLayer, lpInventory, lEmptySlotActions, liInventoryRenderSlotsWide,
+                  lPopupActions, lbDisabled, lMinIndex, liSlotWidth, liSlotHeight, lbCanHideSlots, liRenderWidth,
+                  liRenderHeight, lbDoCompareScreenSpecialCase, lfScrollOffset):
+        try:
+            now = time.time()
+            addr = get_addressof(lpInventory)
+            if addr:
+                self.inv.on_slots(addr, now)
+                if self.inv.visible(now):
+                    self.inv.scan_table(self.reality_addr(), now)
+        except Exception as e:
+            self.error("inv_slots_error", e)
+
+    @nms.cGcFrontendPageFunctions.DoItemPopup.before
+    def inv_popup(self, lpPage, lpParentSlot, lItem, leType, lbDisabled, lRecipeId, lpStore):
+        try:
+            addr = get_addressof(lItem)
+            if addr:
+                tid = invstats.cstr(safe_read(addr, 16))
+                if "#" in tid and self.inv.exact(tid.lstrip("^")) is None:
+                    self.inv.scan_table(self.reality_addr(), time.time(), force=True)
+                self.inv.on_popup(tid)
+        except Exception as e:
+            self.error("inv_popup_error", e)
+
+    @manual_hook("GenerateProceduralTechnology", pattern=GENTECH_SIG, func_def=GENTECH_DEF, detour_time="after")
+    def inv_generated(self, this, lProcTechID, lbExampleForWiki, a4, _result_):
+        try:
+            if self.gen_logged < 3:     # сигнатура похожа на 4 аргумента — проверить, где ID и что вернулось
+                self.gen_logged += 1
+                pid = int(lProcTechID or 0)
+                self.emit("inv_gen_raw", result=f"{int(_result_ or 0):X}", id_ptr=f"{pid:X}", a4=f"{int(a4 or 0):X}",
+                          wiki=int(lbExampleForWiki or 0) & 0xFF,
+                          id=invstats.cstr(safe_read(pid, 16)) if pid else "",
+                          res_id=invstats.cstr(safe_read(int(_result_) + invstats.TECH_ID, 16)) if _result_ else "")
+            if _result_:
+                self.inv.on_generated(int(_result_))
+        except Exception as e:
+            self.error("inv_generated_error", e)
+
+    @nms.cGcNGuiManager.EndFrame.before
+    def ngui_end(self, this, lpInput, lbMainScreen):
+        # EndFrame зовётся и для второго (уменьшенного) экрана — рисуем только на главном
+        if (lbMainScreen and get_addressof(this) == self.ctx_owner and self.shown and not self.inv_failed
+                and self.inv.visible(time.time())):
+            self.draw_inv()
+
+    def draw_inv(self):
+        try:
+            if self.draw(self.draw_inv_panel) and not self.inv_drawn:
+                self.inv_drawn = True
+                self.emit("inv_draw", screen=[round(v) for v in self.screen])
+        except Exception as e:
+            self.inv_failed = True
+            self.error("inv_draw_error", e)
+
+    def reality_addr(self) -> int:
+        d = gameData.data
+        if d is None:
+            self.error("inv_no_app", RuntimeError("gameData.GcApplication не задан"))
+            return 0
+        return ctypes.addressof(d.mRealityManager)
+
     # ---------- рисование ----------
+    @nms.cTkFSMState.StateChange.after
+    def app_state_change(self, this, lNewStateID, lpUserData, lbForceRestart):
+        addr = get_addressof(lNewStateID)
+        if addr:
+            self.app_state = invstats.cstr(safe_read(addr, 16))
+            self.emit("app_state", state=self.app_state)
+
     @nms.cGcGalaxyMap.Data.RenderNVG.after
     def map_render(self, this, a2, a3):
+        # карту рисует и экран загрузки (APPLOCALLOAD) — панель только в состоянии GALAXYMAP
+        if self.app_state not in (None, "GALAXYMAP"):
+            return
         if self.shown and not self.draw_failed and self.ctx_owner:
             try:
                 self.draw()
@@ -673,24 +789,99 @@ class GalaxyList(Mod):
         buf = ctypes.create_string_buffer(s.encode())
         nvg.nvgText(ctx, x, y, ctypes.addressof(buf), 0)
 
-    def draw(self):
+    def draw(self, paint=None) -> bool:
+        """paint(ctx, st) со стейтом nvg игры, сохранённым вокруг; по умолчанию — панель карты."""
         ctx = map_struct(self.ctx_owner, nms.cGcNGuiManager).mpContext
         if not ctx:
-            return
+            return False
         st = self.nvg_state(ctx)
         if not st:
-            return
+            return False
         saved = safe_read(st, NVG_STATE_SIZE)  # стейт игры возвращаем как был
         if len(saved) != NVG_STATE_SIZE:
-            return
+            return False
         try:
             ctypes.memmove(st + ST_TEXT_ALIGN, struct.pack("<i", NVG_ALIGN_LEFT_TOP), 4)
-            if self.panel.page == "list":
+            if paint is not None:
+                paint(ctx, st)
+            elif self.panel.page == "list":
                 self.draw_list(ctx, st)
             else:
                 self.draw_filters(ctx, st)
         finally:
             ctypes.memmove(st, saved, NVG_STATE_SIZE)
+        return True
+
+    # ---------- статы инвентаря ----------
+    def draw_inv_panel(self, ctx, st):
+        """Карточка: база предмета (сейчас, диапазон класса, макс. S, место в диапазоне) и модули;
+        модуль под курсором раскрыт — сырые значения статов и их диапазоны."""
+        rows = self.inv.rows(time.time())
+        if not rows:
+            return
+        k = self.screen[1] / 1080.0
+        ctypes.memmove(st + ST_FONT_SIZE, struct.pack("<f", INV_FONT * k), 4)
+        w, pad = INV_W * k, INV_PAD * k
+        h = sum(INV_ROW[kind] for kind, _ in rows) * k + 2 * pad
+        x = self.screen[0] - w - INV_RIGHT * k
+        y = self.screen[1] - INV_BOTTOM * k - h
+        self.rect(ctx, st, x, y, w, h, (0.04, 0.07, 0.16, 0.88))
+        self.rect(ctx, st, x, y, w, 2 * k, (1.0, 0.85, 0.4, 0.8))
+        x0, y = x + pad, y + pad
+        label, value, dim = (0.72, 0.78, 0.90, 1.0), (1.0, 1.0, 1.0, 1.0), (0.52, 0.58, 0.70, 1.0)
+        ty = (INV_ROW["base"] - INV_FONT) / 2 * k            # отступ текста внутри строки
+        first = True
+        for kind, d in rows:
+            rh = INV_ROW[kind] * k
+            if kind == "title":
+                if not first:
+                    self.rect(ctx, st, x0, y + 3 * k, w - 2 * pad, 1, (0.6, 0.7, 0.85, 0.35))
+                self.text(ctx, st, x0, y + 7 * k, self.fit(ctx, st, d["text"], 260 * k), (1.0, 0.85, 0.4, 1.0))
+                self.text_right(ctx, st, x0 + 376 * k, y + 7 * k, d["sub"], dim)
+            elif kind == "base":
+                self.text(ctx, st, x0, y + ty, self.fit(ctx, st, d["label"], 140 * k), label)
+                self.text_right(ctx, st, x0 + 188 * k, y + ty, d["cur"], value)
+                self.text(ctx, st, x0 + 196 * k, y + ty, self.fit(ctx, st, d["range"], 56 * k), label)
+                self.text(ctx, st, x0 + 254 * k, y + ty, self.fit(ctx, st, d["s_max"], 44 * k), dim)
+                self.bar(ctx, st, x0, y, rh, k, d["pct"])
+            elif kind == "module":
+                if d["hl"]:
+                    self.rect(ctx, st, x0 - pad / 2, y, w - pad, rh, (0.20, 0.35, 0.60, 0.55))
+                bs = rh - 6 * k
+                self.rect(ctx, st, x0, y + 3 * k, bs, bs, CLASS_RGBA.get(d["cls"], CLASS_RGBA["X"]))
+                cw = self.measure(ctx, st, d["cls"])
+                self.text(ctx, st, x0 + (bs - cw) / 2, y + ty, d["cls"], (0.05, 0.05, 0.08, 1.0))
+                self.text(ctx, st, x0 + 24 * k, y + ty, self.fit(ctx, st, d["name"], 270 * k),
+                          value if d["exact"] else label)
+                self.bar(ctx, st, x0, y, rh, k, d["pct"])
+            else:                                             # stat
+                tyy = (INV_ROW["stat"] - INV_FONT) / 2 * k
+                self.rect(ctx, st, x0 - pad / 2, y, w - pad, rh, (0.20, 0.35, 0.60, 0.30))
+                self.text(ctx, st, x0 + 24 * k, y + tyy, self.fit(ctx, st, d["label"], 146 * k), label)
+                self.text_right(ctx, st, x0 + 226 * k, y + tyy, d["val"], value)
+                self.text(ctx, st, x0 + 232 * k, y + tyy, self.fit(ctx, st, d["range"], 64 * k), dim)
+                self.bar(ctx, st, x0, y, rh, k, d["pct"])
+            first = False
+            y += rh
+
+    def bar(self, ctx, st, x0, y, rh, k, pct):
+        """Полоска места в диапазоне (0..100, больше — лучше) и % по правому краю."""
+        bx, bw, bh = x0 + INV_BAR[0] * k, (INV_BAR[1] - INV_BAR[0]) * k, 6 * k
+        by = y + (rh - bh) / 2
+        self.rect(ctx, st, bx, by, bw, bh, (0.18, 0.22, 0.32, 0.95))
+        ty = y + (rh - INV_FONT * k) / 2
+        if pct is None:
+            self.text_right(ctx, st, x0 + 376 * k, ty, "?", (0.52, 0.58, 0.70, 1.0))
+            return
+        p = max(0.0, min(100.0, pct))
+        rgba = (0.90, 0.35, 0.30, 1.0) if p < 34 else (0.95, 0.80, 0.30, 1.0) if p < 67 else (0.40, 0.85, 0.45, 1.0)
+        if p > 0:
+            self.rect(ctx, st, bx, by, max(bw * p / 100, 2 * k), bh, rgba)
+        self.text_right(ctx, st, x0 + 376 * k, ty, f"{p:.0f}%", rgba)
+
+    def text_right(self, ctx, st, right, y, s, rgba):
+        if s:
+            self.text(ctx, st, right - self.measure(ctx, st, s), y, s, rgba)
 
     # ---------- ширина текста и раскладка ----------
     def font_size(self, st) -> float:
