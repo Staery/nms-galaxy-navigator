@@ -1,0 +1,7789 @@
+{
+ "weapon": {
+  "Pistol": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "WEAPON_MINING": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_SCAN": [
+     10.0,
+     20.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "WEAPON_MINING": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_SCAN": [
+     25.0,
+     30.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "WEAPON_MINING": [
+     15.0,
+     20.0
+    ],
+    "WEAPON_SCAN": [
+     35.0,
+     40.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "WEAPON_MINING": [
+     20.0,
+     35.0
+    ],
+    "WEAPON_SCAN": [
+     45.0,
+     50.0
+    ]
+   }
+  },
+  "Rifle": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     0.0,
+     5.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     0.0
+    ],
+    "WEAPON_SCAN": [
+     0.0,
+     5.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     0.0
+    ],
+    "WEAPON_SCAN": [
+     5.0,
+     10.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     0.0
+    ],
+    "WEAPON_SCAN": [
+     10.0,
+     15.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     15.0,
+     20.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     0.0
+    ],
+    "WEAPON_SCAN": [
+     15.0,
+     20.0
+    ]
+   }
+  },
+  "Pristine": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     0.0,
+     5.0
+    ],
+    "WEAPON_MINING": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_SCAN": [
+     40.0,
+     50.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     10.0,
+     20.0
+    ],
+    "WEAPON_SCAN": [
+     60.0,
+     70.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_MINING": [
+     20.0,
+     25.0
+    ],
+    "WEAPON_SCAN": [
+     80.0,
+     90.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     15.0,
+     25.0
+    ],
+    "WEAPON_MINING": [
+     25.0,
+     30.0
+    ],
+    "WEAPON_SCAN": [
+     100.0,
+     100.0
+    ]
+   }
+  },
+  "Alien": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     5.0
+    ],
+    "WEAPON_SCAN": [
+     20.0,
+     25.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     15.0,
+     20.0
+    ],
+    "WEAPON_MINING": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_SCAN": [
+     30.0,
+     35.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     20.0,
+     25.0
+    ],
+    "WEAPON_MINING": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_SCAN": [
+     40.0,
+     45.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     25.0,
+     35.0
+    ],
+    "WEAPON_MINING": [
+     15.0,
+     20.0
+    ],
+    "WEAPON_SCAN": [
+     50.0,
+     60.0
+    ]
+   }
+  },
+  "Royal": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     0.0,
+     5.0
+    ],
+    "WEAPON_MINING": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_SCAN": [
+     40.0,
+     50.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     10.0,
+     20.0
+    ],
+    "WEAPON_SCAN": [
+     60.0,
+     70.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_MINING": [
+     20.0,
+     25.0
+    ],
+    "WEAPON_SCAN": [
+     80.0,
+     90.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     15.0,
+     25.0
+    ],
+    "WEAPON_MINING": [
+     25.0,
+     30.0
+    ],
+    "WEAPON_SCAN": [
+     100.0,
+     100.0
+    ]
+   }
+  },
+  "Robot": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     20.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     5.0
+    ],
+    "WEAPON_SCAN": [
+     20.0,
+     25.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     15.0,
+     25.0
+    ],
+    "WEAPON_MINING": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_SCAN": [
+     30.0,
+     35.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     20.0,
+     30.0
+    ],
+    "WEAPON_MINING": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_SCAN": [
+     35.0,
+     45.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     32.0,
+     50.0
+    ],
+    "WEAPON_MINING": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_SCAN": [
+     45.0,
+     55.0
+    ]
+   }
+  },
+  "Atlas": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     15.0
+    ],
+    "WEAPON_SCAN": [
+     20.0,
+     25.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     15.0,
+     25.0
+    ],
+    "WEAPON_SCAN": [
+     30.0,
+     35.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_MINING": [
+     20.0,
+     30.0
+    ],
+    "WEAPON_SCAN": [
+     35.0,
+     45.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     20.0
+    ],
+    "WEAPON_MINING": [
+     35.0,
+     50.0
+    ],
+    "WEAPON_SCAN": [
+     40.0,
+     50.0
+    ]
+   }
+  },
+  "AtlasYellow": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     15.0
+    ],
+    "WEAPON_SCAN": [
+     20.0,
+     25.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     15.0,
+     25.0
+    ],
+    "WEAPON_SCAN": [
+     30.0,
+     35.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_MINING": [
+     20.0,
+     30.0
+    ],
+    "WEAPON_SCAN": [
+     35.0,
+     45.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     20.0
+    ],
+    "WEAPON_MINING": [
+     35.0,
+     50.0
+    ],
+    "WEAPON_SCAN": [
+     40.0,
+     50.0
+    ]
+   }
+  },
+  "AtlasBlue": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     15.0
+    ],
+    "WEAPON_SCAN": [
+     20.0,
+     25.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_MINING": [
+     15.0,
+     25.0
+    ],
+    "WEAPON_SCAN": [
+     30.0,
+     35.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_MINING": [
+     20.0,
+     30.0
+    ],
+    "WEAPON_SCAN": [
+     35.0,
+     45.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     20.0
+    ],
+    "WEAPON_MINING": [
+     35.0,
+     50.0
+    ],
+    "WEAPON_SCAN": [
+     40.0,
+     50.0
+    ]
+   }
+  },
+  "Staff": {
+   "C": {
+    "WEAPON_DAMAGE": [
+     10.0,
+     20.0
+    ],
+    "WEAPON_MINING": [
+     0.0,
+     5.0
+    ],
+    "WEAPON_SCAN": [
+     20.0,
+     25.0
+    ]
+   },
+   "B": {
+    "WEAPON_DAMAGE": [
+     15.0,
+     25.0
+    ],
+    "WEAPON_MINING": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_SCAN": [
+     30.0,
+     35.0
+    ]
+   },
+   "A": {
+    "WEAPON_DAMAGE": [
+     20.0,
+     30.0
+    ],
+    "WEAPON_MINING": [
+     5.0,
+     10.0
+    ],
+    "WEAPON_SCAN": [
+     35.0,
+     45.0
+    ]
+   },
+   "S": {
+    "WEAPON_DAMAGE": [
+     25.0,
+     50.0
+    ],
+    "WEAPON_MINING": [
+     10.0,
+     15.0
+    ],
+    "WEAPON_SCAN": [
+     40.0,
+     50.0
+    ]
+   }
+  }
+ },
+ "ship": {
+  "Freighter": {
+   "C": {
+    "FREI_HYPERDRIVE": [
+     7.0,
+     15.0
+    ],
+    "FREI_FLEET": [
+     1.0,
+     10.0
+    ]
+   },
+   "B": {
+    "FREI_HYPERDRIVE": [
+     10.0,
+     19.0
+    ],
+    "FREI_FLEET": [
+     10.0,
+     20.0
+    ]
+   },
+   "A": {
+    "FREI_HYPERDRIVE": [
+     40.0,
+     60.0
+    ],
+    "FREI_FLEET": [
+     20.0,
+     40.0
+    ]
+   },
+   "S": {
+    "FREI_HYPERDRIVE": [
+     60.0,
+     80.0
+    ],
+    "FREI_FLEET": [
+     40.0,
+     60.0
+    ]
+   }
+  },
+  "Dropship": {
+   "C": {
+    "SHIP_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_SHIELD": [
+     18.0,
+     30.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     5.0,
+     10.0
+    ],
+    "SHIP_AGILE": [
+     0.0,
+     0.0
+    ]
+   },
+   "B": {
+    "SHIP_DAMAGE": [
+     3.0,
+     8.0
+    ],
+    "SHIP_SHIELD": [
+     40.0,
+     55.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_AGILE": [
+     0.0,
+     5.0
+    ]
+   },
+   "A": {
+    "SHIP_DAMAGE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_SHIELD": [
+     60.0,
+     75.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     23.0,
+     37.0
+    ],
+    "SHIP_AGILE": [
+     5.0,
+     10.0
+    ]
+   },
+   "S": {
+    "SHIP_DAMAGE": [
+     15.0,
+     30.0
+    ],
+    "SHIP_SHIELD": [
+     95.0,
+     125.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     45.0,
+     58.0
+    ],
+    "SHIP_AGILE": [
+     10.0,
+     15.0
+    ]
+   }
+  },
+  "Fighter": {
+   "C": {
+    "SHIP_DAMAGE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_SHIELD": [
+     0.0,
+     0.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_AGILE": [
+     5.0,
+     15.0
+    ]
+   },
+   "B": {
+    "SHIP_DAMAGE": [
+     24.0,
+     45.0
+    ],
+    "SHIP_SHIELD": [
+     8.0,
+     15.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_AGILE": [
+     15.0,
+     20.0
+    ]
+   },
+   "A": {
+    "SHIP_DAMAGE": [
+     50.0,
+     75.0
+    ],
+    "SHIP_SHIELD": [
+     24.0,
+     30.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_AGILE": [
+     20.0,
+     30.0
+    ]
+   },
+   "S": {
+    "SHIP_DAMAGE": [
+     70.0,
+     90.0
+    ],
+    "SHIP_SHIELD": [
+     24.0,
+     38.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_AGILE": [
+     35.0,
+     45.0
+    ]
+   }
+  },
+  "Scientific": {
+   "C": {
+    "SHIP_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_SHIELD": [
+     0.0,
+     0.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     15.0,
+     25.0
+    ],
+    "SHIP_AGILE": [
+     5.0,
+     10.0
+    ]
+   },
+   "B": {
+    "SHIP_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_SHIELD": [
+     4.0,
+     16.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     30.0,
+     45.0
+    ],
+    "SHIP_AGILE": [
+     10.0,
+     20.0
+    ]
+   },
+   "A": {
+    "SHIP_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_SHIELD": [
+     15.0,
+     25.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     50.0,
+     85.0
+    ],
+    "SHIP_AGILE": [
+     20.0,
+     25.0
+    ]
+   },
+   "S": {
+    "SHIP_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_SHIELD": [
+     30.0,
+     40.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     90.0,
+     120.0
+    ],
+    "SHIP_AGILE": [
+     25.0,
+     32.0
+    ]
+   }
+  },
+  "Shuttle": {
+   "C": {
+    "SHIP_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_SHIELD": [
+     0.0,
+     0.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_AGILE": [
+     0.0,
+     0.0
+    ]
+   },
+   "B": {
+    "SHIP_DAMAGE": [
+     3.0,
+     8.0
+    ],
+    "SHIP_SHIELD": [
+     3.0,
+     8.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     3.0,
+     8.0
+    ],
+    "SHIP_AGILE": [
+     3.0,
+     5.0
+    ]
+   },
+   "A": {
+    "SHIP_DAMAGE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_SHIELD": [
+     8.0,
+     15.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_AGILE": [
+     8.0,
+     15.0
+    ]
+   },
+   "S": {
+    "SHIP_DAMAGE": [
+     25.0,
+     30.0
+    ],
+    "SHIP_SHIELD": [
+     25.0,
+     30.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     25.0,
+     30.0
+    ],
+    "SHIP_AGILE": [
+     15.0,
+     35.0
+    ]
+   }
+  },
+  "PlayerFreighter": {
+   "C": {},
+   "B": {},
+   "A": {},
+   "S": {}
+  },
+  "Royal": {
+   "C": {
+    "SHIP_DAMAGE": [
+     35.0,
+     50.0
+    ],
+    "SHIP_SHIELD": [
+     55.0,
+     60.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     50.0,
+     65.0
+    ]
+   },
+   "B": {
+    "SHIP_DAMAGE": [
+     35.0,
+     50.0
+    ],
+    "SHIP_SHIELD": [
+     55.0,
+     60.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     50.0,
+     65.0
+    ]
+   },
+   "A": {
+    "SHIP_DAMAGE": [
+     35.0,
+     50.0
+    ],
+    "SHIP_SHIELD": [
+     55.0,
+     60.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     50.0,
+     65.0
+    ]
+   },
+   "S": {
+    "SHIP_DAMAGE": [
+     50.0,
+     75.0
+    ],
+    "SHIP_SHIELD": [
+     70.0,
+     90.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     75.0,
+     95.0
+    ],
+    "SHIP_AGILE": [
+     40.0,
+     50.0
+    ]
+   }
+  },
+  "Alien": {
+   "C": {},
+   "B": {},
+   "A": {},
+   "S": {
+    "SHIP_DAMAGE": [
+     50.0,
+     75.0
+    ],
+    "SHIP_SHIELD": [
+     15.0,
+     38.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     75.0,
+     95.0
+    ],
+    "ALIEN_SHIP": [
+     1.0,
+     1.0
+    ],
+    "SHIP_AGILE": [
+     10.0,
+     15.0
+    ]
+   }
+  },
+  "Sail": {
+   "C": {
+    "SHIP_DAMAGE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_SHIELD": [
+     8.0,
+     15.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_AGILE": [
+     5.0,
+     10.0
+    ]
+   },
+   "B": {
+    "SHIP_DAMAGE": [
+     23.0,
+     45.0
+    ],
+    "SHIP_SHIELD": [
+     8.0,
+     30.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     15.0,
+     30.0
+    ],
+    "SHIP_AGILE": [
+     10.0,
+     20.0
+    ]
+   },
+   "A": {
+    "SHIP_DAMAGE": [
+     45.0,
+     60.0
+    ],
+    "SHIP_SHIELD": [
+     23.0,
+     38.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     30.0,
+     45.0
+    ],
+    "SHIP_AGILE": [
+     20.0,
+     30.0
+    ]
+   },
+   "S": {
+    "SHIP_DAMAGE": [
+     60.0,
+     75.0
+    ],
+    "SHIP_SHIELD": [
+     23.0,
+     50.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     38.0,
+     50.0
+    ],
+    "SHIP_AGILE": [
+     35.0,
+     40.0
+    ]
+   }
+  },
+  "Robot": {
+   "C": {
+    "SHIP_DAMAGE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_SHIELD": [
+     3.0,
+     8.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_AGILE": [
+     8.0,
+     15.0
+    ],
+    "ROBOT_SHIP": [
+     1.0,
+     1.0
+    ]
+   },
+   "B": {
+    "SHIP_DAMAGE": [
+     24.0,
+     45.0
+    ],
+    "SHIP_SHIELD": [
+     8.0,
+     15.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     3.0,
+     8.0
+    ],
+    "SHIP_AGILE": [
+     20.0,
+     30.0
+    ],
+    "ROBOT_SHIP": [
+     1.0,
+     1.0
+    ]
+   },
+   "A": {
+    "SHIP_DAMAGE": [
+     50.0,
+     75.0
+    ],
+    "SHIP_SHIELD": [
+     12.0,
+     20.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     3.0,
+     10.0
+    ],
+    "SHIP_AGILE": [
+     20.0,
+     30.0
+    ],
+    "ROBOT_SHIP": [
+     1.0,
+     1.0
+    ]
+   },
+   "S": {
+    "SHIP_DAMAGE": [
+     60.0,
+     80.0
+    ],
+    "SHIP_SHIELD": [
+     20.0,
+     35.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     5.0,
+     10.0
+    ],
+    "SHIP_AGILE": [
+     40.0,
+     50.0
+    ],
+    "ROBOT_SHIP": [
+     1.0,
+     1.0
+    ]
+   }
+  },
+  "Corvette": {
+   "C": {
+    "SHIP_DAMAGE": [
+     0.0,
+     0.0
+    ],
+    "SHIP_SHIELD": [
+     18.0,
+     30.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     5.0,
+     10.0
+    ],
+    "SHIP_AGILE": [
+     0.0,
+     0.0
+    ]
+   },
+   "B": {
+    "SHIP_DAMAGE": [
+     3.0,
+     8.0
+    ],
+    "SHIP_SHIELD": [
+     40.0,
+     55.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_AGILE": [
+     0.0,
+     5.0
+    ]
+   },
+   "A": {
+    "SHIP_DAMAGE": [
+     8.0,
+     15.0
+    ],
+    "SHIP_SHIELD": [
+     60.0,
+     75.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     23.0,
+     37.0
+    ],
+    "SHIP_AGILE": [
+     5.0,
+     10.0
+    ]
+   },
+   "S": {
+    "SHIP_DAMAGE": [
+     15.0,
+     30.0
+    ],
+    "SHIP_SHIELD": [
+     95.0,
+     125.0
+    ],
+    "SHIP_HYPERDRIVE": [
+     45.0,
+     58.0
+    ],
+    "SHIP_AGILE": [
+     10.0,
+     15.0
+    ]
+   }
+  },
+  "SwarmDrone": {
+   "C": {},
+   "B": {},
+   "A": {},
+   "S": {}
+  }
+ },
+ "proc": {
+  "UP_LASER1": {
+   "template": "T_LASER",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Mining_Speed",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_Laser_HeatTime",
+     1.05,
+     1.15,
+     false
+    ],
+    [
+     "Weapon_Laser_Drain",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Laser_ReloadTime",
+     0.9,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_LASER2": {
+   "template": "T_LASER",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Mining_Speed",
+     0.85,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_Laser_HeatTime",
+     1.15,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Laser_Drain",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Weapon_Laser_ReloadTime",
+     0.85,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_LASER3": {
+   "template": "T_LASER",
+   "quality": "Epic",
+   "num": [
+    3,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Mining_Speed",
+     0.8,
+     0.9,
+     false
+    ],
+    [
+     "Weapon_Laser_HeatTime",
+     1.2,
+     1.4,
+     false
+    ],
+    [
+     "Weapon_Laser_Drain",
+     1.15,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Laser_ReloadTime",
+     0.85,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_LASER4": {
+   "template": "T_LASER",
+   "quality": "Legendary",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Mining_Speed",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Weapon_Laser_HeatTime",
+     1.4,
+     1.5,
+     false
+    ],
+    [
+     "Weapon_Laser_Drain",
+     1.2,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Laser_ReloadTime",
+     0.8,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "UP_LASERX": {
+   "template": "T_LASER",
+   "quality": "Illegal",
+   "num": [
+    1,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Mining_Speed",
+     0.8,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_Laser_HeatTime",
+     1.05,
+     1.55,
+     false
+    ],
+    [
+     "Weapon_Laser_Drain",
+     1.01,
+     1.25,
+     false
+    ],
+    [
+     "Weapon_Laser_ReloadTime",
+     0.75,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_LASER0": {
+   "template": "T_LASER",
+   "quality": "SeaTrash",
+   "num": [
+    1,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Mining_Speed",
+     0.95,
+     0.99,
+     false
+    ],
+    [
+     "Weapon_Laser_HeatTime",
+     1.01,
+     1.02,
+     false
+    ],
+    [
+     "Weapon_Laser_Drain",
+     1.01,
+     1.02,
+     false
+    ],
+    [
+     "Weapon_Laser_ReloadTime",
+     0.95,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_SCAN1": {
+   "template": "T_SCAN",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Scan_Radius",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Creature",
+     10.0,
+     20.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Flora",
+     10.0,
+     20.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Mineral",
+     10.0,
+     20.0,
+     false
+    ]
+   ]
+  },
+  "UP_SCAN2": {
+   "template": "T_SCAN",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Scan_Radius",
+     1.1,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Creature",
+     25.0,
+     50.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Flora",
+     25.0,
+     50.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Mineral",
+     25.0,
+     50.0,
+     false
+    ]
+   ]
+  },
+  "UP_SCAN3": {
+   "template": "T_SCAN",
+   "quality": "Epic",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Scan_Radius",
+     1.2,
+     1.3,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Creature",
+     50.0,
+     100.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Flora",
+     50.0,
+     100.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Mineral",
+     50.0,
+     100.0,
+     false
+    ]
+   ]
+  },
+  "UP_SCAN4": {
+   "template": "T_SCAN",
+   "quality": "Legendary",
+   "num": [
+    3,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Scan_Radius",
+     1.3,
+     1.4,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Creature",
+     65.0,
+     100.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Flora",
+     65.0,
+     100.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Mineral",
+     65.0,
+     100.0,
+     false
+    ]
+   ]
+  },
+  "UP_SCANX": {
+   "template": "T_SCAN",
+   "quality": "Illegal",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Scan_Radius",
+     1.05,
+     1.5,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Creature",
+     10.0,
+     110.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Flora",
+     10.0,
+     110.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Mineral",
+     10.0,
+     110.0,
+     false
+    ]
+   ]
+  },
+  "UP_SCAN0": {
+   "template": "T_SCAN",
+   "quality": "SeaTrash",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Scan_Radius",
+     1.01,
+     1.04,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Creature",
+     2.0,
+     3.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Flora",
+     2.0,
+     3.0,
+     false
+    ],
+    [
+     "Weapon_Scan_Discovery_Mineral",
+     2.0,
+     3.0,
+     false
+    ]
+   ]
+  },
+  "UP_BOLT1": {
+   "template": "T_BOLT",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     1.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     2.0,
+     2.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.99,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_BOLT2": {
+   "template": "T_BOLT",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     2.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     4.0,
+     4.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.95,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_BOLT3": {
+   "template": "T_BOLT",
+   "quality": "Epic",
+   "num": [
+    3,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     2.0,
+     3.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.8,
+     0.9,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     6.0,
+     6.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     2.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.9,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "UP_BOLT4": {
+   "template": "T_BOLT",
+   "quality": "Legendary",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     3.0,
+     4.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.8,
+     0.9,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     8.0,
+     8.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     2.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.85,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "UP_BOLTX": {
+   "template": "T_BOLT",
+   "quality": "Illegal",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     5.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.75,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     2.0,
+     10.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     2.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.99,
+     0.8,
+     false
+    ]
+   ]
+  },
+  "UP_BOLT0": {
+   "template": "T_BOLT",
+   "quality": "SeaTrash",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     1.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.96,
+     0.99,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.02,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.99,
+     0.98,
+     false
+    ]
+   ]
+  },
+  "UP_GREN1": {
+   "template": "T_GRENADE",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     100.0,
+     200.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Bounce",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     1.0,
+     2.0,
+     false
+    ]
+   ]
+  },
+  "UP_GREN2": {
+   "template": "T_GRENADE",
+   "quality": "Rare",
+   "num": [
+    1,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     200.0,
+     300.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Bounce",
+     1.0,
+     2.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     1.0,
+     3.0,
+     false
+    ]
+   ]
+  },
+  "UP_GREN3": {
+   "template": "T_GRENADE",
+   "quality": "Epic",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     300.0,
+     400.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Bounce",
+     2.0,
+     3.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     1.0,
+     3.0,
+     false
+    ]
+   ]
+  },
+  "UP_GREN4": {
+   "template": "T_GRENADE",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     350.0,
+     400.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Bounce",
+     3.0,
+     3.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     2.0,
+     3.0,
+     false
+    ]
+   ]
+  },
+  "UP_GRENX": {
+   "template": "T_GRENADE",
+   "quality": "Illegal",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     100.0,
+     450.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Bounce",
+     1.0,
+     4.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.01,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     1.0,
+     4.0,
+     false
+    ]
+   ]
+  },
+  "UP_TGREN1": {
+   "template": "T_T_GREN",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     100.0,
+     200.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.1,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     1.0,
+     2.0,
+     false
+    ]
+   ]
+  },
+  "UP_TGREN2": {
+   "template": "T_T_GREN",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     200.0,
+     300.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.2,
+     1.3,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     1.0,
+     3.0,
+     false
+    ]
+   ]
+  },
+  "UP_TGREN3": {
+   "template": "T_T_GREN",
+   "quality": "Epic",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     300.0,
+     400.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.3,
+     1.5,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     1.0,
+     3.0,
+     false
+    ]
+   ]
+  },
+  "UP_TGREN4": {
+   "template": "T_T_GREN",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     350.0,
+     400.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.4,
+     1.5,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     2.0,
+     3.0,
+     false
+    ]
+   ]
+  },
+  "UP_TGRENX": {
+   "template": "T_T_GREN",
+   "quality": "Illegal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Grenade_Damage",
+     100.0,
+     450.0,
+     false
+    ],
+    [
+     "Weapon_Grenade_Radius",
+     1.1,
+     1.6,
+     false
+    ],
+    [
+     "Weapon_Grenade_Speed",
+     1.0,
+     4.0,
+     false
+    ]
+   ]
+  },
+  "UP_RAIL1": {
+   "template": "T_RAIL",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Damage",
+     30.0,
+     40.0,
+     false
+    ],
+    [
+     "Weapon_Laser_ChargeTime",
+     0.9,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_RAIL2": {
+   "template": "T_RAIL",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Damage",
+     40.0,
+     50.0,
+     false
+    ],
+    [
+     "Weapon_Laser_ChargeTime",
+     0.85,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_RAIL3": {
+   "template": "T_RAIL",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Damage",
+     50.0,
+     60.0,
+     false
+    ],
+    [
+     "Weapon_Laser_ChargeTime",
+     0.8,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_RAIL4": {
+   "template": "T_RAIL",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Damage",
+     60.0,
+     75.0,
+     false
+    ],
+    [
+     "Weapon_Laser_ChargeTime",
+     0.8,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_RAILX": {
+   "template": "T_RAIL",
+   "quality": "Illegal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Laser_Damage",
+     30.0,
+     85.0,
+     false
+    ],
+    [
+     "Weapon_Laser_ChargeTime",
+     0.75,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_SHOT1": {
+   "template": "T_SHOTGUN",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     1.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UP_SHOT2": {
+   "template": "T_SHOTGUN",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     2.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     8.0,
+     8.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.9,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_SHOT3": {
+   "template": "T_SHOTGUN",
+   "quality": "Epic",
+   "num": [
+    3,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     2.0,
+     4.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     8.0,
+     8.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.85,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_SHOT4": {
+   "template": "T_SHOTGUN",
+   "quality": "Legendary",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     3.0,
+     5.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.75,
+     0.8,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     8.0,
+     8.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.8,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "UP_SHOTX": {
+   "template": "T_SHOTGUN",
+   "quality": "Illegal",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     6.0,
+     true
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.7,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     8.0,
+     8.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCap",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_BurstCooldown",
+     0.75,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_SMG1": {
+   "template": "T_SMG",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     12.0,
+     12.0,
+     false
+    ]
+   ]
+  },
+  "UP_SMG2": {
+   "template": "T_SMG",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     2.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.9,
+     0.99,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     12.0,
+     12.0,
+     false
+    ]
+   ]
+  },
+  "UP_SMG3": {
+   "template": "T_SMG",
+   "quality": "Epic",
+   "num": [
+    3,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     3.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.9,
+     0.99,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     12.0,
+     12.0,
+     false
+    ]
+   ]
+  },
+  "UP_SMG4": {
+   "template": "T_SMG",
+   "quality": "Legendary",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     2.0,
+     3.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     12.0,
+     12.0,
+     false
+    ]
+   ]
+  },
+  "UP_SMGX": {
+   "template": "T_SMG",
+   "quality": "Illegal",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     4.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.2,
+     false
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.85,
+     0.99,
+     false
+    ],
+    [
+     "Weapon_Projectile_ClipSize",
+     12.0,
+     12.0,
+     false
+    ]
+   ]
+  },
+  "UP_CANN1": {
+   "template": "T_CANNON",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     2.0,
+     5.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_MaximumCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ExtraSpeed",
+     5.0,
+     10.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ChargeTime",
+     0.9,
+     0.95,
+     true
+    ]
+   ]
+  },
+  "UP_CANN2": {
+   "template": "T_CANNON",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     5.0,
+     7.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_MaximumCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ExtraSpeed",
+     10.0,
+     15.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ChargeTime",
+     0.85,
+     0.9,
+     true
+    ]
+   ]
+  },
+  "UP_CANN3": {
+   "template": "T_CANNON",
+   "quality": "Epic",
+   "num": [
+    3,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     7.0,
+     12.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_MaximumCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ExtraSpeed",
+     15.0,
+     20.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ChargeTime",
+     0.7,
+     0.8,
+     true
+    ]
+   ]
+  },
+  "UP_CANN4": {
+   "template": "T_CANNON",
+   "quality": "Legendary",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     12.0,
+     18.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_MaximumCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ExtraSpeed",
+     20.0,
+     25.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ChargeTime",
+     0.5,
+     0.7,
+     true
+    ]
+   ]
+  },
+  "UP_CANNX": {
+   "template": "T_CANNON",
+   "quality": "Illegal",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     5.0,
+     18.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_MaximumCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ExtraSpeed",
+     5.0,
+     25.0,
+     false
+    ],
+    [
+     "Weapon_ChargedProjectile_ChargeTime",
+     0.5,
+     0.95,
+     true
+    ]
+   ]
+  },
+  "UP_SENGUN": {
+   "template": "T_SENTGUN",
+   "quality": "Sentinel",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Weapon_Projectile_Damage",
+     1.0,
+     4.0,
+     false
+    ],
+    [
+     "Weapon_Projectile_ReloadTime",
+     0.85,
+     0.99,
+     false
+    ],
+    [
+     "Weapon_Projectile_Rate",
+     1.01,
+     1.2,
+     false
+    ]
+   ]
+  },
+  "UP_ENGY1": {
+   "template": "T_ENERGY",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Energy",
+     0.05,
+     0.2,
+     false
+    ],
+    [
+     "Suit_Energy_Regen",
+     1.01,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_ENGY2": {
+   "template": "T_ENERGY",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Energy",
+     0.2,
+     0.5,
+     false
+    ],
+    [
+     "Suit_Energy_Regen",
+     1.01,
+     1.25,
+     false
+    ]
+   ]
+  },
+  "UP_ENGY3": {
+   "template": "T_ENERGY",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Energy",
+     0.5,
+     1.0,
+     false
+    ],
+    [
+     "Suit_Energy_Regen",
+     1.25,
+     1.5,
+     false
+    ]
+   ]
+  },
+  "UP_ENGYX": {
+   "template": "T_ENERGY",
+   "quality": "Illegal",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Energy",
+     0.05,
+     1.1,
+     false
+    ],
+    [
+     "Suit_Energy_Regen",
+     1.01,
+     1.75,
+     false
+    ]
+   ]
+  },
+  "UP_ENGY0": {
+   "template": "T_ENERGY",
+   "quality": "SeaTrash",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Energy",
+     0.01,
+     0.05,
+     false
+    ],
+    [
+     "Suit_Energy_Regen",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_HAZX": {
+   "template": "T_HAZ",
+   "quality": "Illegal",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Protection_HeatDrain",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Suit_Protection_ColdDrain",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Suit_Protection_RadDrain",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Suit_Protection_ToxDrain",
+     1.01,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_HAZ0": {
+   "template": "T_HAZ",
+   "quality": "SeaTrash",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Protection_HeatDrain",
+     1.01,
+     1.03,
+     false
+    ],
+    [
+     "Suit_Protection_ColdDrain",
+     1.01,
+     1.03,
+     false
+    ],
+    [
+     "Suit_Protection_RadDrain",
+     1.01,
+     1.03,
+     false
+    ],
+    [
+     "Suit_Protection_ToxDrain",
+     1.01,
+     1.03,
+     false
+    ]
+   ]
+  },
+  "UP_JET1": {
+   "template": "T_JET",
+   "quality": "Normal",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Suit_Jetpack_Tank",
+     1.0,
+     1.5,
+     true
+    ],
+    [
+     "Suit_Stamina_Strength",
+     0.1,
+     0.2,
+     false
+    ],
+    [
+     "Suit_Stamina_Recovery",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Suit_Jetpack_Drain",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Suit_Jetpack_Refill",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_JET2": {
+   "template": "T_JET",
+   "quality": "Rare",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Jetpack_Tank",
+     1.0,
+     1.65,
+     true
+    ],
+    [
+     "Suit_Stamina_Strength",
+     0.1,
+     0.3,
+     false
+    ],
+    [
+     "Suit_Stamina_Recovery",
+     1.1,
+     1.2,
+     false
+    ],
+    [
+     "Suit_Jetpack_Drain",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Suit_Jetpack_Ignition",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Suit_Jetpack_Refill",
+     1.05,
+     1.15,
+     false
+    ]
+   ]
+  },
+  "UP_JET3": {
+   "template": "T_JET",
+   "quality": "Epic",
+   "num": [
+    3,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Jetpack_Tank",
+     1.5,
+     2.2,
+     true
+    ],
+    [
+     "Suit_Stamina_Strength",
+     0.2,
+     0.5,
+     false
+    ],
+    [
+     "Suit_Stamina_Recovery",
+     1.2,
+     1.3,
+     false
+    ],
+    [
+     "Suit_Jetpack_Drain",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Suit_Jetpack_Ignition",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Suit_Jetpack_Refill",
+     1.1,
+     1.3,
+     false
+    ]
+   ]
+  },
+  "UP_JET4": {
+   "template": "T_JET",
+   "quality": "Legendary",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Jetpack_Tank",
+     2.0,
+     2.35,
+     true
+    ],
+    [
+     "Suit_Stamina_Strength",
+     0.4,
+     0.5,
+     false
+    ],
+    [
+     "Suit_Stamina_Recovery",
+     1.3,
+     1.5,
+     false
+    ],
+    [
+     "Suit_Jetpack_Drain",
+     0.75,
+     0.85,
+     false
+    ],
+    [
+     "Suit_Jetpack_Ignition",
+     1.05,
+     1.15,
+     true
+    ],
+    [
+     "Suit_Jetpack_Refill",
+     1.15,
+     1.35,
+     false
+    ]
+   ]
+  },
+  "UP_JETX": {
+   "template": "T_JET",
+   "quality": "Illegal",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Jetpack_Tank",
+     1.0,
+     2.4,
+     true
+    ],
+    [
+     "Suit_Stamina_Strength",
+     0.1,
+     0.6,
+     false
+    ],
+    [
+     "Suit_Stamina_Recovery",
+     1.01,
+     1.6,
+     false
+    ],
+    [
+     "Suit_Jetpack_Drain",
+     0.7,
+     0.9,
+     false
+    ],
+    [
+     "Suit_Jetpack_Ignition",
+     1.01,
+     1.2,
+     true
+    ],
+    [
+     "Suit_Jetpack_Refill",
+     1.05,
+     1.4,
+     false
+    ]
+   ]
+  },
+  "UP_JET0": {
+   "template": "T_JET",
+   "quality": "SeaTrash",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Jetpack_Tank",
+     1.0,
+     1.1,
+     true
+    ],
+    [
+     "Suit_Stamina_Strength",
+     0.1,
+     0.15,
+     false
+    ],
+    [
+     "Suit_Stamina_Recovery",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Suit_Jetpack_Drain",
+     0.95,
+     0.99,
+     false
+    ],
+    [
+     "Suit_Jetpack_Ignition",
+     1.01,
+     1.05,
+     true
+    ],
+    [
+     "Suit_Jetpack_Refill",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_SHLD1": {
+   "template": "T_SHIELD",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Armour_Shield_Strength",
+     0.1,
+     0.15,
+     false
+    ],
+    [
+     "Suit_Armour_Health",
+     20.0,
+     20.0,
+     false
+    ]
+   ]
+  },
+  "UP_SHLD2": {
+   "template": "T_SHIELD",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Armour_Shield_Strength",
+     0.15,
+     0.2,
+     false
+    ],
+    [
+     "Suit_Armour_Health",
+     20.0,
+     20.0,
+     false
+    ]
+   ]
+  },
+  "UP_SHLD3": {
+   "template": "T_SHIELD",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Armour_Shield_Strength",
+     0.2,
+     0.3,
+     false
+    ],
+    [
+     "Suit_Armour_Health",
+     20.0,
+     20.0,
+     false
+    ]
+   ]
+  },
+  "UP_SHLD4": {
+   "template": "T_SHIELD",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Armour_Shield_Strength",
+     0.3,
+     0.35,
+     false
+    ],
+    [
+     "Suit_Armour_Health",
+     20.0,
+     20.0,
+     false
+    ]
+   ]
+  },
+  "UP_SHLDX": {
+   "template": "T_SHIELD",
+   "quality": "Illegal",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Armour_Shield_Strength",
+     0.1,
+     0.35,
+     false
+    ],
+    [
+     "Suit_Armour_Health",
+     20.0,
+     20.0,
+     false
+    ]
+   ]
+  },
+  "UP_SHLD0": {
+   "template": "T_SHIELD",
+   "quality": "SeaTrash",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Armour_Shield_Strength",
+     0.05,
+     0.1,
+     false
+    ],
+    [
+     "Suit_Armour_Health",
+     5.0,
+     5.0,
+     false
+    ]
+   ]
+  },
+  "UP_SNSUIT": {
+   "template": "T_SENTSUIT",
+   "quality": "Sentinel",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Armour_Shield_Strength",
+     0.1,
+     0.35,
+     false
+    ],
+    [
+     "Suit_Armour_Health",
+     20.0,
+     20.0,
+     false
+    ],
+    [
+     "Suit_Energy",
+     0.05,
+     1.1,
+     false
+    ],
+    [
+     "Suit_Energy_Regen",
+     1.01,
+     1.75,
+     false
+    ],
+    [
+     "Suit_Jetpack_Drain",
+     0.7,
+     0.95,
+     false
+    ],
+    [
+     "Suit_Stamina_Strength",
+     0.1,
+     0.6,
+     false
+    ]
+   ]
+  },
+  "UP_RBSUIT": {
+   "template": "T_ROBOSUIT",
+   "quality": "Robot",
+   "num": [
+    2,
+    4
+   ],
+   "stats": [
+    [
+     "Suit_Armour_Shield_Strength",
+     0.1,
+     0.35,
+     false
+    ],
+    [
+     "Suit_Armour_Health",
+     20.0,
+     20.0,
+     false
+    ],
+    [
+     "Suit_Energy",
+     0.05,
+     1.1,
+     false
+    ],
+    [
+     "Suit_Energy_Regen",
+     1.01,
+     1.75,
+     false
+    ],
+    [
+     "Suit_Jetpack_Drain",
+     0.7,
+     0.95,
+     false
+    ],
+    [
+     "Suit_Stamina_Strength",
+     0.1,
+     0.6,
+     false
+    ]
+   ]
+  },
+  "UP_UNW1": {
+   "template": "T_UNW",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Suit_Underwater",
+     90.0,
+     120.0,
+     false
+    ]
+   ]
+  },
+  "UP_UNW2": {
+   "template": "T_UNW",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Suit_Underwater",
+     120.0,
+     180.0,
+     false
+    ]
+   ]
+  },
+  "UP_UNW3": {
+   "template": "T_UNW",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Suit_Underwater",
+     180.0,
+     240.0,
+     false
+    ]
+   ]
+  },
+  "UP_RAD1": {
+   "template": "T_RAD",
+   "quality": "Rare",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Radiation",
+     200.0,
+     300.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Radiation",
+     0.95,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_RAD2": {
+   "template": "T_RAD",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Radiation",
+     240.0,
+     320.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Radiation",
+     0.85,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_RAD3": {
+   "template": "T_RAD",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Radiation",
+     280.0,
+     360.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Radiation",
+     0.8,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_TOX1": {
+   "template": "T_TOX",
+   "quality": "Rare",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Toxic",
+     200.0,
+     300.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Toxic",
+     0.95,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_TOX2": {
+   "template": "T_TOX",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Toxic",
+     240.0,
+     320.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Toxic",
+     0.85,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_TOX3": {
+   "template": "T_TOX",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Toxic",
+     280.0,
+     360.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Toxic",
+     0.8,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_COLD1": {
+   "template": "T_COLDPROT",
+   "quality": "Rare",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Cold",
+     200.0,
+     300.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Cold",
+     0.95,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_COLD2": {
+   "template": "T_COLDPROT",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Cold",
+     240.0,
+     320.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Cold",
+     0.85,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_COLD3": {
+   "template": "T_COLDPROT",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Cold",
+     280.0,
+     360.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Cold",
+     0.8,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_HOT1": {
+   "template": "T_HOTPROT",
+   "quality": "Rare",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Heat",
+     200.0,
+     300.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Heat",
+     0.95,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_HOT2": {
+   "template": "T_HOTPROT",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Heat",
+     240.0,
+     320.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Heat",
+     0.85,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_HOT3": {
+   "template": "T_HOTPROT",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Suit_Protection_Heat",
+     280.0,
+     360.0,
+     false
+    ],
+    [
+     "Suit_DamageReduce_Heat",
+     0.8,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_PULSE1": {
+   "template": "T_SHIPJUMP",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.075,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "UP_PULSE2": {
+   "template": "T_SHIPJUMP",
+   "quality": "Rare",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.12,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "UP_PULSE3": {
+   "template": "T_SHIPJUMP",
+   "quality": "Epic",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.2,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.05,
+     1.16,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "UP_PULSE4": {
+   "template": "T_SHIPJUMP",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.8,
+     0.8,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.25,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.05,
+     1.18,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.0065,
+     1.0065,
+     true
+    ]
+   ]
+  },
+  "UP_PULSEX": {
+   "template": "T_SHIPJUMP",
+   "quality": "Illegal",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.75,
+     0.95,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.01,
+     1.3,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.2,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.0065,
+     1.0065,
+     true
+    ]
+   ]
+  },
+  "UP_PULSE0": {
+   "template": "T_SHIPJUMP",
+   "quality": "SeaTrash",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.95,
+     0.99,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.0005,
+     1.0005,
+     true
+    ]
+   ]
+  },
+  "CV_PULSE2": {
+   "template": "T_SHIPJUMP",
+   "quality": "Rare",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.12,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "CV_PULSE3": {
+   "template": "T_SHIPJUMP",
+   "quality": "Epic",
+   "num": [
+    4,
+    4
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.2,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.05,
+     1.16,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "UP_LAUN1": {
+   "template": "T_LAUNCHER",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.9,
+     0.95,
+     true
+    ],
+    [
+     "Ship_Boost",
+     1.01,
+     1.01,
+     false
+    ]
+   ]
+  },
+  "UP_LAUN2": {
+   "template": "T_LAUNCHER",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.85,
+     0.9,
+     true
+    ],
+    [
+     "Ship_Boost",
+     1.02,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_LAUN3": {
+   "template": "T_LAUNCHER",
+   "quality": "Epic",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.8,
+     0.85,
+     true
+    ],
+    [
+     "Ship_Boost",
+     1.05,
+     1.08,
+     false
+    ]
+   ]
+  },
+  "UP_LAUN4": {
+   "template": "T_LAUNCHER",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.8,
+     0.8,
+     true
+    ],
+    [
+     "Ship_Boost",
+     1.08,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_LAUNX": {
+   "template": "T_LAUNCHER",
+   "quality": "Illegal",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.75,
+     0.95,
+     true
+    ],
+    [
+     "Ship_Boost",
+     1.01,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_LAUN0": {
+   "template": "T_LAUNCHER",
+   "quality": "SeaTrash",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.95,
+     0.99,
+     true
+    ],
+    [
+     "Ship_Boost",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "CV_LAUN2": {
+   "template": "T_LAUNCHER",
+   "quality": "Rare",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.85,
+     0.9,
+     true
+    ],
+    [
+     "Ship_Boost",
+     1.02,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "CV_LAUN3": {
+   "template": "T_LAUNCHER",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.8,
+     0.85,
+     true
+    ],
+    [
+     "Ship_Boost",
+     1.05,
+     1.08,
+     false
+    ]
+   ]
+  },
+  "UP_HYP1": {
+   "template": "T_HDRIVE",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     50.0,
+     100.0,
+     false
+    ]
+   ]
+  },
+  "UP_HYP2": {
+   "template": "T_HDRIVE",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     115.0,
+     165.0,
+     false
+    ]
+   ]
+  },
+  "UP_HYP3": {
+   "template": "T_HDRIVE",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     165.0,
+     220.0,
+     false
+    ],
+    [
+     "Ship_Hyperdrive_JumpsPerCell",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UP_HYP4": {
+   "template": "T_HDRIVE",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     220.0,
+     265.0,
+     false
+    ],
+    [
+     "Ship_Hyperdrive_JumpsPerCell",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UP_HYPX": {
+   "template": "T_HDRIVE",
+   "quality": "Illegal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     50.0,
+     320.0,
+     false
+    ],
+    [
+     "Ship_Hyperdrive_JumpsPerCell",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UP_HYP0": {
+   "template": "T_HDRIVE",
+   "quality": "SeaTrash",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     10.0,
+     25.0,
+     false
+    ]
+   ]
+  },
+  "CV_HYP2": {
+   "template": "T_HDRIVE",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     115.0,
+     165.0,
+     false
+    ]
+   ]
+  },
+  "CV_HYP3": {
+   "template": "T_HDRIVE",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     165.0,
+     220.0,
+     false
+    ],
+    [
+     "Ship_Hyperdrive_JumpsPerCell",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UP_S_SHL1": {
+   "template": "T_SHIPSHLD",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.05,
+     0.1,
+     false
+    ]
+   ]
+  },
+  "UP_S_SHL2": {
+   "template": "T_SHIPSHLD",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.05,
+     0.1,
+     false
+    ]
+   ]
+  },
+  "UP_S_SHL3": {
+   "template": "T_SHIPSHLD",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.1,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "UP_S_SHL4": {
+   "template": "T_SHIPSHLD",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.2,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "UP_S_SHLX": {
+   "template": "T_SHIPSHLD",
+   "quality": "Illegal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.05,
+     0.25,
+     false
+    ]
+   ]
+  },
+  "UP_S_SHL0": {
+   "template": "T_SHIPSHLD",
+   "quality": "SeaTrash",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.01,
+     0.05,
+     false
+    ]
+   ]
+  },
+  "CV_S_SHL2": {
+   "template": "T_SHIPSHLD",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.05,
+     0.1,
+     false
+    ]
+   ]
+  },
+  "CV_S_SHL3": {
+   "template": "T_SHIPSHLD",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.1,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "UP_SGUN1": {
+   "template": "T_SHIPGUN",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     8.0,
+     16.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.001,
+     1.011,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.001,
+     1.01,
+     false
+    ]
+   ]
+  },
+  "UP_SGUN2": {
+   "template": "T_SHIPGUN",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     12.0,
+     20.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.006,
+     1.016,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.01,
+     1.02,
+     false
+    ]
+   ]
+  },
+  "UP_SGUN3": {
+   "template": "T_SHIPGUN",
+   "quality": "Epic",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     16.0,
+     24.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.016,
+     1.021,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.02,
+     1.03,
+     false
+    ]
+   ]
+  },
+  "UP_SGUN4": {
+   "template": "T_SHIPGUN",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     20.0,
+     28.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.021,
+     1.021,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.03,
+     1.03,
+     false
+    ]
+   ]
+  },
+  "UP_SGUNX": {
+   "template": "T_SHIPGUN",
+   "quality": "Illegal",
+   "num": [
+    1,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     8.0,
+     32.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.001,
+     1.026,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.001,
+     1.035,
+     false
+    ]
+   ]
+  },
+  "UP_SGUN0": {
+   "template": "T_SHIPGUN",
+   "quality": "SeaTrash",
+   "num": [
+    1,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     2.0,
+     4.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.001,
+     1.003,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.001,
+     1.005,
+     false
+    ]
+   ]
+  },
+  "CV_SGUN3": {
+   "template": "T_SHIPGUN",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     16.0,
+     24.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.016,
+     1.021,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.02,
+     1.03,
+     false
+    ]
+   ]
+  },
+  "CV_SROC3": {
+   "template": "T_SHIPROC",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     400.0,
+     500.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_CoolTime",
+     0.75,
+     0.8,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Range",
+     1.05,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_SLASR1": {
+   "template": "T_SHIPLAS",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.1,
+     1.35,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     30.0,
+     40.0,
+     false
+    ]
+   ]
+  },
+  "UP_SLASR2": {
+   "template": "T_SHIPLAS",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.35,
+     1.55,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     40.0,
+     50.0,
+     false
+    ]
+   ]
+  },
+  "UP_SLASR3": {
+   "template": "T_SHIPLAS",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.55,
+     1.75,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     50.0,
+     60.0,
+     false
+    ]
+   ]
+  },
+  "UP_SLASR4": {
+   "template": "T_SHIPLAS",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.75,
+     1.95,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     60.0,
+     70.0,
+     false
+    ]
+   ]
+  },
+  "UP_SLASRX": {
+   "template": "T_SHIPLAS",
+   "quality": "Illegal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.1,
+     2.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     30.0,
+     80.0,
+     false
+    ]
+   ]
+  },
+  "CV_SLASR3": {
+   "template": "T_SHIPLAS",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.55,
+     1.75,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     50.0,
+     60.0,
+     false
+    ]
+   ]
+  },
+  "UP_SSHOT1": {
+   "template": "T_SHIPSHOT",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     1.0,
+     3.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.01,
+     1.04,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.01,
+     1.04,
+     false
+    ]
+   ]
+  },
+  "UP_SSHOT2": {
+   "template": "T_SHIPSHOT",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     3.0,
+     5.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.04,
+     1.06,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.04,
+     1.06,
+     false
+    ]
+   ]
+  },
+  "UP_SSHOT3": {
+   "template": "T_SHIPSHOT",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     5.0,
+     6.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.06,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.06,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_SSHOT4": {
+   "template": "T_SHIPSHOT",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     6.0,
+     8.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.06,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.06,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_SSHOTX": {
+   "template": "T_SHIPSHOT",
+   "quality": "Illegal",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     2.0,
+     8.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.01,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "CV_SSHOT3": {
+   "template": "T_SHIPSHOT",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     5.0,
+     6.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.06,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.06,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_SMINI1": {
+   "template": "T_SHIPMINI",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     2.0,
+     6.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.01,
+     1.03,
+     false
+    ]
+   ]
+  },
+  "UP_SMINI2": {
+   "template": "T_SHIPMINI",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     4.0,
+     10.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.03,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_SMINI3": {
+   "template": "T_SHIPMINI",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     8.0,
+     12.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.05,
+     1.07,
+     false
+    ]
+   ]
+  },
+  "UP_SMINI4": {
+   "template": "T_SHIPMINI",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     10.0,
+     12.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.07,
+     1.09,
+     false
+    ]
+   ]
+  },
+  "UP_SMINIX": {
+   "template": "T_SHIPMINI",
+   "quality": "Illegal",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     2.0,
+     14.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.01,
+     1.15,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.01,
+     1.13,
+     false
+    ]
+   ]
+  },
+  "CV_SMINI3": {
+   "template": "T_SHIPMINI",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     8.0,
+     12.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.05,
+     1.07,
+     false
+    ]
+   ]
+  },
+  "UP_SBLOB1": {
+   "template": "T_SHIPBLOB",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     2.0,
+     6.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.1,
+     1.2,
+     false
+    ]
+   ]
+  },
+  "UP_SBLOB2": {
+   "template": "T_SHIPBLOB",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     4.0,
+     10.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.01,
+     1.05,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.2,
+     1.25,
+     false
+    ]
+   ]
+  },
+  "UP_SBLOB3": {
+   "template": "T_SHIPBLOB",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     8.0,
+     12.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.25,
+     1.3,
+     false
+    ]
+   ]
+  },
+  "UP_SBLOB4": {
+   "template": "T_SHIPBLOB",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     10.0,
+     12.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.3,
+     1.35,
+     false
+    ]
+   ]
+  },
+  "UP_SBLOBX": {
+   "template": "T_SHIPBLOB",
+   "quality": "Illegal",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     2.0,
+     14.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.01,
+     1.2,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.1,
+     1.4,
+     false
+    ]
+   ]
+  },
+  "CV_SBLOB3": {
+   "template": "T_SHIPBLOB",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     8.0,
+     12.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.05,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.25,
+     1.3,
+     false
+    ]
+   ]
+  },
+  "UP_EXGUN1": {
+   "template": "T_EXGUN",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     5.0,
+     10.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.95,
+     0.99,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.97,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_EXGUN2": {
+   "template": "T_EXGUN",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     10.0,
+     20.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.95,
+     0.97,
+     false
+    ]
+   ]
+  },
+  "UP_EXGUN3": {
+   "template": "T_EXGUN",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     20.0,
+     30.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.93,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_EXGUN4": {
+   "template": "T_EXGUN",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     30.0,
+     40.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.9,
+     0.93,
+     false
+    ]
+   ]
+  },
+  "UP_EXLAS1": {
+   "template": "T_EXLAS",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Vehicle_LaserDamage",
+     5.0,
+     10.0,
+     false
+    ],
+    [
+     "Vehicle_LaserHeatTime",
+     0.95,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_EXLAS2": {
+   "template": "T_EXLAS",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_LaserDamage",
+     10.0,
+     20.0,
+     false
+    ],
+    [
+     "Vehicle_LaserHeatTime",
+     0.9,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_EXLAS3": {
+   "template": "T_EXLAS",
+   "quality": "Epic",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_LaserDamage",
+     20.0,
+     30.0,
+     false
+    ],
+    [
+     "Vehicle_LaserHeatTime",
+     0.85,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_EXLAS4": {
+   "template": "T_EXLAS",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_LaserDamage",
+     30.0,
+     40.0,
+     false
+    ],
+    [
+     "Vehicle_LaserHeatTime",
+     0.8,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "UP_BOOST1": {
+   "template": "T_BOOST",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Vehicle_BoostSpeed",
+     0.1,
+     0.2,
+     false
+    ],
+    [
+     "Vehicle_BoostTanks",
+     0.1,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "UP_BOOST2": {
+   "template": "T_BOOST",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_BoostSpeed",
+     0.2,
+     0.35,
+     false
+    ],
+    [
+     "Vehicle_BoostTanks",
+     0.15,
+     0.3,
+     false
+    ]
+   ]
+  },
+  "UP_BOOST3": {
+   "template": "T_BOOST",
+   "quality": "Epic",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_BoostSpeed",
+     0.35,
+     0.55,
+     false
+    ],
+    [
+     "Vehicle_BoostTanks",
+     0.3,
+     0.5,
+     false
+    ]
+   ]
+  },
+  "UP_BOOST4": {
+   "template": "T_BOOST",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_BoostSpeed",
+     0.55,
+     0.7,
+     false
+    ],
+    [
+     "Vehicle_BoostTanks",
+     0.5,
+     0.6,
+     false
+    ]
+   ]
+  },
+  "UP_EXENG1": {
+   "template": "T_EXENG",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.95,
+     0.99,
+     false
+    ],
+    [
+     "Vehicle_EngineTopSpeed",
+     1.01,
+     1.03,
+     false
+    ]
+   ]
+  },
+  "UP_EXENG2": {
+   "template": "T_EXENG",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Vehicle_EngineTopSpeed",
+     1.03,
+     1.08,
+     false
+    ]
+   ]
+  },
+  "UP_EXENG3": {
+   "template": "T_EXENG",
+   "quality": "Epic",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Vehicle_EngineTopSpeed",
+     1.08,
+     1.15,
+     false
+    ]
+   ]
+  },
+  "UP_EXENG4": {
+   "template": "T_EXENG",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Vehicle_EngineTopSpeed",
+     1.1,
+     1.15,
+     false
+    ]
+   ]
+  },
+  "UP_EXSUB1": {
+   "template": "T_SUB",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.9,
+     0.99,
+     false
+    ],
+    [
+     "Vehicle_EngineTopSpeed",
+     1.02,
+     1.04,
+     false
+    ],
+    [
+     "Vehicle_SubBoostSpeed",
+     0.1,
+     0.15,
+     false
+    ]
+   ]
+  },
+  "UP_EXSUB2": {
+   "template": "T_SUB",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Vehicle_EngineTopSpeed",
+     1.04,
+     1.06,
+     false
+    ],
+    [
+     "Vehicle_SubBoostSpeed",
+     0.15,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "UP_EXSUB3": {
+   "template": "T_SUB",
+   "quality": "Epic",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.75,
+     0.85,
+     false
+    ],
+    [
+     "Vehicle_EngineTopSpeed",
+     1.06,
+     1.075,
+     false
+    ],
+    [
+     "Vehicle_SubBoostSpeed",
+     0.2,
+     0.25,
+     false
+    ]
+   ]
+  },
+  "UP_EXSUB4": {
+   "template": "T_SUB",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.7,
+     0.85,
+     false
+    ],
+    [
+     "Vehicle_EngineTopSpeed",
+     1.075,
+     1.075,
+     false
+    ],
+    [
+     "Vehicle_SubBoostSpeed",
+     0.25,
+     0.3,
+     false
+    ]
+   ]
+  },
+  "UP_SUGUN1": {
+   "template": "T_SUBGUN",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     5.0,
+     10.0,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.97,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_SUGUN2": {
+   "template": "T_SUBGUN",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     10.0,
+     20.0,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.95,
+     0.97,
+     false
+    ]
+   ]
+  },
+  "UP_SUGUN3": {
+   "template": "T_SUBGUN",
+   "quality": "Epic",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     20.0,
+     30.0,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.93,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_SUGUN4": {
+   "template": "T_SUBGUN",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     30.0,
+     40.0,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.9,
+     0.93,
+     false
+    ]
+   ]
+  },
+  "UP_MCLAS2": {
+   "template": "T_MCLAS",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_LaserDamage",
+     10.0,
+     20.0,
+     false
+    ],
+    [
+     "Vehicle_LaserHeatTime",
+     0.9,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_MCLAS3": {
+   "template": "T_MCLAS",
+   "quality": "Epic",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_LaserDamage",
+     20.0,
+     30.0,
+     false
+    ],
+    [
+     "Vehicle_LaserHeatTime",
+     0.85,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_MCLAS4": {
+   "template": "T_MCLAS",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_LaserDamage",
+     30.0,
+     40.0,
+     false
+    ],
+    [
+     "Vehicle_LaserHeatTime",
+     0.8,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "UP_MFIRE2": {
+   "template": "T_MFIRE",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Weapon_FireDOT_Duration",
+     1.05,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_MFIRE3": {
+   "template": "T_MFIRE",
+   "quality": "Epic",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     1.0,
+     2.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.8,
+     0.9,
+     false
+    ],
+    [
+     "Weapon_FireDOT_Duration",
+     1.1,
+     1.2,
+     false
+    ]
+   ]
+  },
+  "UP_MFIRE4": {
+   "template": "T_MFIRE",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     2.0,
+     2.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.7,
+     0.8,
+     false
+    ],
+    [
+     "Weapon_FireDOT_Duration",
+     1.2,
+     1.35,
+     false
+    ]
+   ]
+  },
+  "UP_MCGUN2": {
+   "template": "T_MCGUN",
+   "quality": "Rare",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     10.0,
+     20.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.95,
+     0.97,
+     false
+    ]
+   ]
+  },
+  "UP_MCGUN3": {
+   "template": "T_MCGUN",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     20.0,
+     30.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.93,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_MCGUN4": {
+   "template": "T_MCGUN",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Vehicle_GunDamage",
+     30.0,
+     40.0,
+     false
+    ],
+    [
+     "Vehicle_GunHeatTime",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Vehicle_GunRate",
+     0.9,
+     0.93,
+     false
+    ]
+   ]
+  },
+  "UP_MCENG2": {
+   "template": "T_MCENG",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Vehicle_BoostTanks",
+     0.1,
+     0.15,
+     false
+    ]
+   ]
+  },
+  "UP_MCENG3": {
+   "template": "T_MCENG",
+   "quality": "Epic",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Vehicle_BoostTanks",
+     0.15,
+     0.25,
+     false
+    ]
+   ]
+  },
+  "UP_MCENG4": {
+   "template": "T_MCENG",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Vehicle_EngineFuelUse",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Vehicle_BoostTanks",
+     0.25,
+     0.3,
+     false
+    ]
+   ]
+  },
+  "UA_PULSE1": {
+   "template": "A_SHIPJUMP",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.075,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "UA_PULSE2": {
+   "template": "A_SHIPJUMP",
+   "quality": "Rare",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.12,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "UA_PULSE3": {
+   "template": "A_SHIPJUMP",
+   "quality": "Epic",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.2,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.05,
+     1.16,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "UA_PULSE4": {
+   "template": "A_SHIPJUMP",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.8,
+     0.8,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.25,
+     false
+    ],
+    [
+     "Ship_BoostManeuverability",
+     1.05,
+     1.18,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.0065,
+     1.0065,
+     true
+    ]
+   ]
+  },
+  "UA_LAUN1": {
+   "template": "A_LAUNCH",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.95,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UA_LAUN2": {
+   "template": "A_LAUNCH",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.9,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "UA_LAUN3": {
+   "template": "A_LAUNCH",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.85,
+     0.8,
+     false
+    ]
+   ]
+  },
+  "UA_LAUN4": {
+   "template": "A_LAUNCH",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.8,
+     0.8,
+     false
+    ],
+    [
+     "Ship_Launcher_AutoCharge",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UA_HYP1": {
+   "template": "A_HDRIVE",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     50.0,
+     100.0,
+     false
+    ]
+   ]
+  },
+  "UA_HYP2": {
+   "template": "A_HDRIVE",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     115.0,
+     165.0,
+     false
+    ]
+   ]
+  },
+  "UA_HYP3": {
+   "template": "A_HDRIVE",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     165.0,
+     220.0,
+     false
+    ],
+    [
+     "Ship_Hyperdrive_JumpsPerCell",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UA_HYP4": {
+   "template": "A_HDRIVE",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Hyperdrive_JumpDistance",
+     220.0,
+     265.0,
+     false
+    ],
+    [
+     "Ship_Hyperdrive_JumpsPerCell",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UA_S_SHL1": {
+   "template": "A_SHIPSHLD",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.05,
+     0.1,
+     false
+    ]
+   ]
+  },
+  "UA_S_SHL2": {
+   "template": "A_SHIPSHLD",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.05,
+     0.1,
+     false
+    ]
+   ]
+  },
+  "UA_S_SHL3": {
+   "template": "A_SHIPSHLD",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.1,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "UA_S_SHL4": {
+   "template": "A_SHIPSHLD",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.2,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "UA_SGUN1": {
+   "template": "A_SHIPGUN",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     8.0,
+     16.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.001,
+     1.011,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.001,
+     1.01,
+     false
+    ]
+   ]
+  },
+  "UA_SGUN2": {
+   "template": "A_SHIPGUN",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     12.0,
+     20.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.006,
+     1.016,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.01,
+     1.02,
+     false
+    ]
+   ]
+  },
+  "UA_SGUN3": {
+   "template": "A_SHIPGUN",
+   "quality": "Epic",
+   "num": [
+    2,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     16.0,
+     24.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.016,
+     1.021,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.02,
+     1.03,
+     false
+    ]
+   ]
+  },
+  "UA_SGUN4": {
+   "template": "A_SHIPGUN",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Guns_Damage",
+     20.0,
+     28.0,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_Rate",
+     1.021,
+     1.021,
+     false
+    ],
+    [
+     "Ship_Weapons_Guns_HeatTime",
+     1.03,
+     1.03,
+     false
+    ]
+   ]
+  },
+  "UA_SLASR1": {
+   "template": "A_SHIPLAS",
+   "quality": "Normal",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.1,
+     1.35,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     30.0,
+     40.0,
+     false
+    ],
+    [
+     "Ship_Weapons_ShieldLeech",
+     0.05,
+     0.1,
+     false
+    ]
+   ]
+  },
+  "UA_SLASR2": {
+   "template": "A_SHIPLAS",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.35,
+     1.55,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     40.0,
+     50.0,
+     false
+    ],
+    [
+     "Ship_Weapons_ShieldLeech",
+     0.1,
+     0.15,
+     false
+    ]
+   ]
+  },
+  "UA_SLASR3": {
+   "template": "A_SHIPLAS",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.55,
+     1.75,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     50.0,
+     60.0,
+     false
+    ],
+    [
+     "Ship_Weapons_ShieldLeech",
+     0.15,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "UA_SLASR4": {
+   "template": "A_SHIPLAS",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Weapons_Lasers_HeatTime",
+     1.75,
+     1.95,
+     false
+    ],
+    [
+     "Ship_Weapons_Lasers_Damage",
+     60.0,
+     70.0,
+     false
+    ],
+    [
+     "Ship_Weapons_ShieldLeech",
+     0.2,
+     0.3,
+     false
+    ]
+   ]
+  },
+  "UP_FRHYP1": {
+   "template": "T_FR_HYP",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Hyperdrive_JumpDistance",
+     50.0,
+     100.0,
+     false
+    ]
+   ]
+  },
+  "UP_FRHYP2": {
+   "template": "T_FR_HYP",
+   "quality": "Rare",
+   "num": [
+    1,
+    2
+   ],
+   "stats": [
+    [
+     "Freighter_Hyperdrive_JumpDistance",
+     100.0,
+     150.0,
+     false
+    ]
+   ]
+  },
+  "UP_FRHYP3": {
+   "template": "T_FR_HYP",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Freighter_Hyperdrive_JumpDistance",
+     150.0,
+     200.0,
+     false
+    ],
+    [
+     "Freighter_Hyperdrive_JumpsPerCell",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UP_FRHYP4": {
+   "template": "T_FR_HYP",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Freighter_Hyperdrive_JumpDistance",
+     200.0,
+     250.0,
+     false
+    ],
+    [
+     "Freighter_Hyperdrive_JumpsPerCell",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "UP_FRSPE1": {
+   "template": "T_FR_SPEED",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Speed",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_FRSPE2": {
+   "template": "T_FR_SPEED",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Speed",
+     1.05,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_FRSPE3": {
+   "template": "T_FR_SPEED",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Speed",
+     1.1,
+     1.14,
+     false
+    ]
+   ]
+  },
+  "UP_FRSPE4": {
+   "template": "T_FR_SPEED",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Speed",
+     1.15,
+     1.15,
+     false
+    ]
+   ]
+  },
+  "UP_FRFUE1": {
+   "template": "T_FR_FUEL",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Fuel",
+     0.95,
+     0.99,
+     false
+    ]
+   ]
+  },
+  "UP_FRFUE2": {
+   "template": "T_FR_FUEL",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Fuel",
+     0.9,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "UP_FRFUE3": {
+   "template": "T_FR_FUEL",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Fuel",
+     0.85,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "UP_FRFUE4": {
+   "template": "T_FR_FUEL",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Fuel",
+     0.8,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "UP_FRCOM1": {
+   "template": "T_FR_COM",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Combat",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_FRCOM2": {
+   "template": "T_FR_COM",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Combat",
+     1.05,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_FRCOM3": {
+   "template": "T_FR_COM",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Combat",
+     1.1,
+     1.14,
+     false
+    ]
+   ]
+  },
+  "UP_FRCOM4": {
+   "template": "T_FR_COM",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Combat",
+     1.15,
+     1.15,
+     false
+    ]
+   ]
+  },
+  "UP_FRTRA1": {
+   "template": "T_FR_TRADE",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Trade",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_FRTRA2": {
+   "template": "T_FR_TRADE",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Trade",
+     1.05,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_FRTRA3": {
+   "template": "T_FR_TRADE",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Trade",
+     1.1,
+     1.14,
+     false
+    ]
+   ]
+  },
+  "UP_FRTRA4": {
+   "template": "T_FR_TRADE",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Trade",
+     1.15,
+     1.15,
+     false
+    ]
+   ]
+  },
+  "UP_FREXP1": {
+   "template": "T_FR_EXP",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Explore",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_FREXP2": {
+   "template": "T_FR_EXP",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Explore",
+     1.05,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_FREXP3": {
+   "template": "T_FR_EXP",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Explore",
+     1.1,
+     1.14,
+     false
+    ]
+   ]
+  },
+  "UP_FREXP4": {
+   "template": "T_FR_EXP",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Explore",
+     1.15,
+     1.15,
+     false
+    ]
+   ]
+  },
+  "UP_FRMIN1": {
+   "template": "T_FR_MINE",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Mine",
+     1.01,
+     1.05,
+     false
+    ]
+   ]
+  },
+  "UP_FRMIN2": {
+   "template": "T_FR_MINE",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Mine",
+     1.05,
+     1.1,
+     false
+    ]
+   ]
+  },
+  "UP_FRMIN3": {
+   "template": "T_FR_MINE",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Mine",
+     1.1,
+     1.14,
+     false
+    ]
+   ]
+  },
+  "UP_FRMIN4": {
+   "template": "T_FR_MINE",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Freighter_Fleet_Mine",
+     1.15,
+     1.15,
+     false
+    ]
+   ]
+  },
+  "CV_FIT1": {
+   "template": "T_CR_FIGHT",
+   "quality": "Normal",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.075,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.01,
+     1.1,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "CV_FIT2": {
+   "template": "T_CR_FIGHT",
+   "quality": "Rare",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_BoostManeuverability",
+     1.01,
+     1.12,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.15,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "CV_FIT3": {
+   "template": "T_CR_FIGHT",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_BoostManeuverability",
+     1.05,
+     1.16,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.2,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.005,
+     1.005,
+     true
+    ]
+   ]
+  },
+  "CV_FIT4": {
+   "template": "T_CR_FIGHT",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_BoostManeuverability",
+     1.05,
+     1.18,
+     false
+    ],
+    [
+     "Ship_Boost",
+     1.1,
+     1.25,
+     false
+    ],
+    [
+     "Ship_Maneuverability",
+     1.0065,
+     1.0065,
+     true
+    ]
+   ]
+  },
+  "CV_SCI1": {
+   "template": "T_CR_SCI",
+   "quality": "Normal",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.9,
+     0.95,
+     false
+    ],
+    [
+     "Ship_Launcher_AutoCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.9,
+     0.95,
+     false
+    ]
+   ]
+  },
+  "CV_SCI2": {
+   "template": "T_CR_SCI",
+   "quality": "Rare",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.85,
+     0.9,
+     false
+    ],
+    [
+     "Ship_Launcher_AutoCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.85,
+     0.9,
+     false
+    ]
+   ]
+  },
+  "CV_SCI3": {
+   "template": "T_CR_SCI",
+   "quality": "Epic",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.8,
+     0.85,
+     false
+    ],
+    [
+     "Ship_Launcher_AutoCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.8,
+     0.85,
+     false
+    ]
+   ]
+  },
+  "CV_SCI4": {
+   "template": "T_CR_SCI",
+   "quality": "Legendary",
+   "num": [
+    3,
+    3
+   ],
+   "stats": [
+    [
+     "Ship_Launcher_TakeOffCost",
+     0.8,
+     0.8,
+     false
+    ],
+    [
+     "Ship_Launcher_AutoCharge",
+     1.0,
+     1.0,
+     false
+    ],
+    [
+     "Ship_PulseDrive_MiniJumpFuelSpending",
+     0.8,
+     0.8,
+     false
+    ]
+   ]
+  },
+  "CV_TRA1": {
+   "template": "T_CR_TRADE",
+   "quality": "Normal",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.05,
+     0.1,
+     false
+    ]
+   ]
+  },
+  "CV_TRA2": {
+   "template": "T_CR_TRADE",
+   "quality": "Rare",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.05,
+     0.1,
+     false
+    ]
+   ]
+  },
+  "CV_TRA3": {
+   "template": "T_CR_TRADE",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.1,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "CV_TRA4": {
+   "template": "T_CR_TRADE",
+   "quality": "Legendary",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_Armour_Shield_Strength",
+     0.2,
+     0.2,
+     false
+    ]
+   ]
+  },
+  "CV_INV1": {
+   "template": "T_CR_INV",
+   "quality": "Normal",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Cargo_Slots",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  },
+  "CV_INV2": {
+   "template": "T_CR_INV",
+   "quality": "Rare",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Cargo_Slots",
+     3.0,
+     3.0,
+     false
+    ]
+   ]
+  },
+  "CV_INV3": {
+   "template": "T_CR_INV",
+   "quality": "Epic",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Cargo_Slots",
+     6.0,
+     6.0,
+     false
+    ]
+   ]
+  },
+  "CV_INV4": {
+   "template": "T_CR_INV",
+   "quality": "Legendary",
+   "num": [
+    2,
+    2
+   ],
+   "stats": [
+    [
+     "Ship_Cargo_Slots",
+     8.0,
+     8.0,
+     false
+    ]
+   ]
+  },
+  "CV_TRACT1": {
+   "template": "T_CR_TRT",
+   "quality": "Epic",
+   "num": [
+    1,
+    1
+   ],
+   "stats": [
+    [
+     "Ship_TractorBeam",
+     1.0,
+     1.0,
+     false
+    ]
+   ]
+  }
+ }
+}
