@@ -1,0 +1,8 @@
+saves/
+tools/*
+!tools/sigscan.py
+unpacked/
+__pycache__/
+logs/
+mods_backup/
+data/galaxy_panel.json
