@@ -9,6 +9,7 @@ import json
 import re
 from pathlib import Path
 
+import statinfo
 from nmspaths import game_dir
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -56,6 +57,9 @@ GAME_EN = {
     "filter.star": "Star", "filter.gas_giant": "Gas Giant", "opt.black_hole": "Black Hole",
     "opt.atlas": "Atlas Station", "header.trading": "Economy", "header.star": "Star",
 }
+# статы инвентаря: base.<BaseStatID>, stat.<стат модуля> (английского запаса нет — мод покажет имя стата)
+GAME_IDS.update({f"base.{k}": v for k, v in statinfo.BASE_LOC.items()})
+GAME_IDS.update({f"stat.{s}": statinfo.stat_loc(s) for s in statinfo.proc_stats(statinfo.load_tables())})
 
 
 def _load(path: Path) -> dict:

@@ -45,7 +45,7 @@ def main():
     game_ids = sorted(set(GAME_IDS.values()))
     found = collect(src, game_ids)
     missing = [i for i in game_ids if i not in found]
-    OUT.write_text(json.dumps(found, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    OUT.write_text(json.dumps(found, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     langs = {lang for v in found.values() for lang in v}
     print(f"{OUT.name}: {len(found)}/{len(game_ids)} ID, языков {len(langs)}"
           + (f"; нет: {', '.join(missing)}" if missing else ""))
