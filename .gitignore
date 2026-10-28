@@ -6,3 +6,4 @@ __pycache__/
 logs/
 mods_backup/
 data/galaxy_panel.json
+mod/.*.cache/
