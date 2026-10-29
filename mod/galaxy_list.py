@@ -26,6 +26,8 @@ F8 — панель вкл/выкл, F7 — список/фильтры, стр�
 влево/вправо — сортировка (в фильтрах — значение),
 F9 — выбрать систему на карте, F6 — сбросить фильтры (в списке — маршрут),
 F10 — маршрут к выделенной строке, F11 — маршрут к системе в прицеле карты.
+F5 в инвентаре — общая сортировка экзокостюма и корабля (mod/invsort.py).
+Функции включаются и выключаются в settings.json (mod/modsettings.py), по умолчанию всё включено.
 """
 import bisect
 import collections
@@ -57,10 +59,13 @@ import nmspy.data.types as nms  # noqa: E402
 import numpy as np  # noqa: E402
 
 from galaxy import i18n, model, route  # noqa: E402
+import invsort  # noqa: E402
 import invstats  # noqa: E402
+import modsettings  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
 STATE_FILE = ROOT / "data" / "galaxy_panel.json"
+SETTINGS_FILE = ROOT / "settings.json"
 SAVE_ROOT = Path(os.environ.get("APPDATA", "")) / "HelloGames" / "NMS"  # st_<steamid>/saveN.hg
 # NVGstate 7.10 (прототип): массив стейтов ctx+0xA8, шаг 0x108; fill paint с 0x0, textAlign 0x100
 NVG_STATES, NVG_STATE_SIZE = 0xA8, 0x108
@@ -80,6 +85,15 @@ SELECT_DEF = FUNCDEF(restype=None, argtypes=[ctypes.c_uint64, ctypes.c_uint64, c
 # используется) → хук NMS.py вызывал оригинал без 4-го, игра висла на загрузке сейва (0.6). Все аргументы — u64 как есть.
 GENTECH_SIG = "4C 89 4C 24 ? 44 88 44 24 ? 48 89 4C 24"
 GENTECH_DEF = FUNCDEF(restype=ctypes.c_uint64, argtypes=[ctypes.c_uint64] * 4)
+# cGcInventoryStore::Add(this, cGcInventoryIndex* result, cGcInventoryElement*) и Remove(this, Index по значению,
+# i32 количество; 0 — вся стопка): арность сверена по прологу 7.10
+INV_ADD_SIG = "48 89 5C 24 ? 48 89 74 24 ? 55 57 41 56 48 8D 6C 24 ? 48 81 EC ? ? ? ? 41 0F 10 00"
+INV_REMOVE_SIG = "48 89 5C 24 ? 48 89 6C 24 ? 48 89 54 24 ? 56 57 41 56 48 83 EC ? 48 8B B9"
+# cGcPlayerState: mInventories ×0x21 0x910, mShipInventories ×0xC 0x7458, miPrimaryShip 0x182A0
+PS_INVENTORIES, PS_EXOSUIT, PS_SHIP_INV, PS_SHIP_COUNT, PS_PRIMARY_SHIP = 0x910, 0, 0x7458, 0xC, 0x182A0
+SETTINGS_POLL = 3.0       # с между проверками settings.json
+INV_SEEN = 0.5            # с: экран инвентаря открыт, если DoInventorySlots звался недавно
+TOAST_TIME = 4.0
 # WarpCapabilityResult: f32 расстояние, f32 дальность/расстояние, i32 код (1 — можно, 2 — текущая, 6 — далеко)
 WARP_OK, WARP_CUR, WARP_FAR = 1, 2, 6
 DEFAULT_JUMP = 400.0
@@ -175,7 +189,7 @@ class TextRow(ctypes.Structure):  # NVGtextRow
 class GalaxyList(Mod):
     __author__ = "Staery"
     __description__ = "NMS galaxy map: systems in range with filters"
-    __version__ = "0.7"
+    __version__ = "0.8"
 
     def __init__(self):
         super().__init__()
@@ -191,6 +205,9 @@ class GalaxyList(Mod):
         self.jump = float(saved.get("jump") or DEFAULT_JUMP)  # дальность прыжка, св.л. (уточняется по warp_cap)
         self.jump_known = False
         self.shown = True
+        self.cfg = modsettings.Settings(SETTINGS_FILE)
+        self.cfg.reload()
+        self.cfg_at = 0.0
         self.keys = collections.deque(maxlen=64)  # клавиши из потока keyboard → игровой поток
         self.ctx_owner = 0
         self.map_seen = 0.0
@@ -243,8 +260,13 @@ class GalaxyList(Mod):
         self.inv_drawn = False
         self.app_state = None                 # состояние игры (cTkFSMState): APPLOCALLOAD, APPVIEW, GALAXYMAP…
         self.gen_logged = 0
+        self.inv_seen = 0.0
+        self.inv_addrs: set = set()           # инвентари, которые показывал экран (для лога сортировки)
+        self.sort_req = False
+        self._inv_fns = None                  # (Add, Remove) игры
+        self.toast = None                     # (текст, до какого времени, удачно ли)
         self.emit("start", version=self.__version__, jump=self.jump, state=self.panel.to_json(),
-                  target=self.target and f"{self.target['ua']:016X}", lang=i18n.lang)
+                  target=self.target and f"{self.target['ua']:016X}", lang=i18n.lang, settings=self.cfg.values)
         threading.Thread(target=self.load_visited, daemon=True).start()
 
     # ---------- служебное ----------
@@ -298,7 +320,7 @@ class GalaxyList(Mod):
         self.draw_failed = False
 
     def _key(self, name):
-        if self.shown and time.time() - self.map_seen < MAP_IDLE:
+        if self.cfg["galaxy_panel"] and self.shown and time.time() - self.map_seen < MAP_IDLE:
             self.keys.append(name)
 
     @on_key_pressed("f7")
@@ -334,12 +356,25 @@ class GalaxyList(Mod):
     @on_key_pressed("f11")
     def k_f11(self): self._key("route aim")
 
+    @on_key_pressed("f5")
+    def k_sort(self):
+        if self.cfg["inventory_sort"] and time.time() - self.inv_seen < INV_SEEN:
+            self.sort_req = True
+
     # ---------- игровой поток ----------
     @nms.cGcNGuiManager.BeginFrame.after
     def ngui_begin(self, this, lpInput, lScreenSize, lbFullscreen, lfPixelRatio, lbDetectInput):
         if not self.ctx_owner:
             self.ctx_owner = get_addressof(this)
         if get_addressof(this) == self.ctx_owner:
+            now = time.time()
+            if now - self.cfg_at >= SETTINGS_POLL:
+                self.cfg_at = now
+                if self.cfg.reload():
+                    self.emit("settings", **self.cfg.values)
+            if self.sort_req:                 # начало кадра интерфейса: страницы инвентаря ещё не рисуются
+                self.sort_req = False
+                self.sort_inventories()
             raw = safe_read(get_addressof(lScreenSize), 8)
             if len(raw) == 8:
                 w, h = struct.unpack("<2f", raw)
@@ -359,6 +394,8 @@ class GalaxyList(Mod):
             self.open_id += 1
             self.auto_at = now + AUTO_DELAY
         self.map_seen = now
+        if not self.cfg["galaxy_panel"] and not (self.cfg["auto_route"] and self.route):
+            return
         addr = get_addressof(this)
         try:
             if now - self.lang_at >= LANG_POLL:
@@ -568,7 +605,7 @@ class GalaxyList(Mod):
     def route_auto(self, map_addr: int):
         """Следующая система маршрута — выбрать на карте: один раз на текущую систему и на каждое открытие карты."""
         r, o = self.route, self.origin
-        if not r or r.next is None or not o or not self.route_key or self.route_key[0] != o[0]:
+        if not self.cfg["auto_route"] or not r or r.next is None or not o or not self.route_key or self.route_key[0] != o[0]:
             return
         stamp = (o[0], self.open_id)
         p = self.positions.get(r.next)
@@ -682,8 +719,11 @@ class GalaxyList(Mod):
                   liRenderHeight, lbDoCompareScreenSpecialCase, lfScrollOffset):
         try:
             now = time.time()
+            self.inv_seen = now
             addr = get_addressof(lpInventory)
             if addr:
+                self.inv_addrs.add(addr)
+            if addr and self.cfg["inventory_stats"]:
                 self.inv.on_slots(addr, now)
                 if self.inv.visible(now):
                     self.inv.scan_table(self.reality_addr(), now)
@@ -720,9 +760,17 @@ class GalaxyList(Mod):
     @nms.cGcNGuiManager.EndFrame.before
     def ngui_end(self, this, lpInput, lbMainScreen):
         # EndFrame зовётся и для второго (уменьшенного) экрана — рисуем только на главном
-        if (lbMainScreen and get_addressof(this) == self.ctx_owner and self.shown and not self.inv_failed
-                and self.inv.visible(time.time())):
+        if not lbMainScreen or get_addressof(this) != self.ctx_owner:
+            return
+        now = time.time()
+        if self.cfg["inventory_stats"] and self.shown and not self.inv_failed and self.inv.visible(now):
             self.draw_inv()
+        if self.toast and now < self.toast[1] and now - self.inv_seen < INV_SEEN:
+            try:
+                self.draw(self.draw_toast)
+            except Exception as e:
+                self.toast = None
+                self.error("toast_error", e)
 
     def draw_inv(self):
         try:
@@ -740,6 +788,85 @@ class GalaxyList(Mod):
             return 0
         return ctypes.addressof(d.mRealityManager)
 
+    # ---------- общая сортировка инвентарей ----------
+    def inv_fns(self):
+        if self._inv_fns is None:
+            offs = [find_pattern_in_binary(sig, False) for sig in (INV_ADD_SIG, INV_REMOVE_SIG)]
+            if None in offs:
+                raise RuntimeError("сигнатуры Add/Remove инвентаря не найдены")
+            add = ctypes.CFUNCTYPE(ctypes.c_uint64, ctypes.c_uint64, ctypes.c_uint64, ctypes.c_uint64)(
+                _internal.BASE_ADDRESS + offs[0])
+            remove = ctypes.CFUNCTYPE(ctypes.c_bool, ctypes.c_uint64, ctypes.c_uint64, ctypes.c_int32)(
+                _internal.BASE_ADDRESS + offs[1])
+            self._inv_fns = (add, remove)
+            self.emit("sort_fns", add=f"{offs[0]:X}", remove=f"{offs[1]:X}")
+        return self._inv_fns
+
+    def sort_stores(self) -> tuple | None:
+        """(экзокостюм, основной корабль): адреса cGcInventoryStore в cGcPlayerState."""
+        ps = gameData.player_state
+        if ps is None:
+            return None
+        base = ctypes.addressof(ps)
+        # mInventories[0] — общий инвентарь экзокостюма (проверено в 7.10: 10×12, вещества и товары; [1] — техника,
+        # [12..21] — хранилища базы). meStackSizeGroup в 7.10 у всех 0 — по нему не отличить.
+        exo = base + PS_INVENTORIES + PS_EXOSUIT * invsort.STORE_SIZE
+        raw = safe_read(base + PS_PRIMARY_SHIP, 4)
+        ship_i = struct.unpack("<I", raw)[0] if len(raw) == 4 else -1
+        ship = base + PS_SHIP_INV + ship_i * invsort.STORE_SIZE if 0 <= ship_i < PS_SHIP_COUNT else 0
+        info = {}
+        for name, a in (("exo", exo), ("ship", ship)):
+            st = invsort.read_store(safe_read, a) if a else None
+            info[name] = st and {"addr": f"{a:X}", "size": [st["w"], st["h"]], "valid": len(st["valid"] or ()),
+                                 "items": sum(1 for e in st["elems"] if invsort.movable(e)),
+                                 "seen": a in self.inv_addrs}
+        self.emit("sort_stores", ship_i=ship_i, **info)
+        if not (info["exo"] and info["exo"]["valid"] and info["ship"] and info["ship"]["valid"]):
+            return None
+        return exo, ship
+
+    def sort_inventories(self):
+        try:
+            pair = self.sort_stores()
+            if pair is None:
+                rep = {"result": "bad_store"}
+            else:
+                add_fn, remove_fn = self.inv_fns()
+                res = ctypes.c_uint64()
+
+                def add(store, raw):
+                    buf = ctypes.create_string_buffer(raw, len(raw))
+                    res.value = invsort.NO_INDEX
+                    add_fn(store, ctypes.addressof(res), ctypes.addressof(buf))
+                    x, y = struct.unpack("<ii", struct.pack("<Q", res.value))
+                    return None if x < 0 or y < 0 else (x, y)
+
+                def remove(store, x, y):
+                    return bool(remove_fn(store, struct.unpack("<Q", struct.pack("<ii", x, y))[0], 0))
+                order = pair if self.cfg["sort_fill_first"] == "exosuit" else pair[::-1]
+                t0 = time.perf_counter()
+                rep = invsort.Sorter(safe_read, add, remove).run(order, self.cfg["sort_keep_free"])
+                rep["ms"] = round((time.perf_counter() - t0) * 1000, 1)
+            self.emit("sort", **rep)
+        except Exception as e:
+            rep = {"result": "error"}
+            self.error("sort_error", e)
+        r = rep["result"]
+        text = (i18n.tr("sort.ok", before=rep["stacks_before"], after=rep["stacks_after"]) if r == "ok" else
+                i18n.tr(f"sort.{r}") if r in ("nothing", "no_room", "rolled_back") else i18n.tr("sort.error"))
+        self.toast = (text, time.time() + TOAST_TIME, r in ("ok", "nothing"))
+
+    def draw_toast(self, ctx, st):
+        k = self.screen[1] / 1080.0
+        ctypes.memmove(st + ST_FONT_SIZE, struct.pack("<f", INV_FONT * k), 4)
+        text, _, ok = self.toast
+        w = self.measure(ctx, st, text) + 2 * INV_PAD * k
+        h = (INV_FONT + 2 * INV_PAD) * k
+        x, y = (self.screen[0] - w) / 2, self.screen[1] - INV_BOTTOM * k - h
+        self.rect(ctx, st, x, y, w, h, (0.04, 0.07, 0.16, 0.92))
+        self.rect(ctx, st, x, y, w, 2 * k, (0.35, 0.85, 0.45, 0.9) if ok else (0.95, 0.35, 0.30, 0.9))
+        self.text(ctx, st, x + INV_PAD * k, y + INV_PAD * k, text)
+
     # ---------- рисование ----------
     @nms.cTkFSMState.StateChange.after
     def app_state_change(self, this, lNewStateID, lpUserData, lbForceRestart):
@@ -751,7 +878,7 @@ class GalaxyList(Mod):
     @nms.cGcGalaxyMap.Data.RenderNVG.after
     def map_render(self, this, a2, a3):
         # карту рисует и экран загрузки (APPLOCALLOAD) — панель только в состоянии GALAXYMAP
-        if self.app_state not in (None, "GALAXYMAP"):
+        if self.app_state not in (None, "GALAXYMAP") or not self.cfg["galaxy_panel"]:
             return
         if self.shown and not self.draw_failed and self.ctx_owner:
             try:
