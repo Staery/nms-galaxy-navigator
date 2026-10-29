@@ -8,8 +8,8 @@ from pathlib import Path
 
 TABLES = Path(__file__).resolve().with_name("data") / "tables.json"
 CLASSES = ("C", "B", "A", "S")        # cGcInventoryStore.mClass: 0..3
-QUALITY_CLASS = {"Normal": "C", "Rare": "B", "Epic": "A", "Legendary": "S", "Illegal": "X", "Sentinel": "X",
-                 "Robot": "X", "SeaTrash": "C"}    # SeaTrash — модули «0» из затонувших грузов
+QUALITY_CLASS = {"Normal": "C", "Rare": "B", "Epic": "A", "Legendary": "S", "Illegal": "X", "Sentinel": "?",
+                 "Robot": "?", "SeaTrash": "C"}    # SeaTrash — «0» из затонувших грузов; Robot/Sentinel — «?» как в игре
 
 LABELS = {
     "WEAPON_DAMAGE": "Урон", "WEAPON_MINING": "Добыча", "WEAPON_SCAN": "Сканирование",
