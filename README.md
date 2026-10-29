@@ -43,6 +43,8 @@ one is to the best possible roll. The same base stats are also available from th
 | 🔒 | Economy / conflict data only with the matching scanner installed, like in the game | `SCANNER_NAME` in [mod/galaxy/model.py](mod/galaxy/model.py) |
 | 🌐 | 17 game languages, picked up from the game settings on the fly; game terms come from the game's own tables | [mod/galaxy/i18n.py](mod/galaxy/i18n.py), [build_i18n.py](build_i18n.py) |
 | 📊 | Inventory card: hidden base stats (now / class range / S max / % of range) and exact module rolls (% to the best roll) | [mod/invstats.py](mod/invstats.py), `draw_inv_panel` in [mod/galaxy_list.py](mod/galaxy_list.py) |
+| 🗃️ | F5 in the inventory: the exosuit and the ship sorted as one inventory — stacks merged, then laid out ship first, keeping the exosuit as free as possible (game's own Add/Remove, checked and rolled back on any mismatch) | [mod/invsort.py](mod/invsort.py) |
+| ⚙️ | Every feature can be switched off in `settings.json` (all on by default), re-read on the fly | [mod/modsettings.py](mod/modsettings.py) |
 | 🧮 | The same base stats and module ranges from the save (CLI, Russian) | [nms_stats.py](nms_stats.py), [statinfo.py](statinfo.py) |
 | 💾 | Own save reader (LZ4 chunks → JSON → readable keys), read-only | [nmssave.py](nmssave.py) |
 
@@ -115,6 +117,23 @@ Open the galaxy map. Keys:
 | F10 / F11 | route to the highlighted row / to the system in the crosshair |
 | F6 | reset filters (in the list — clear the route) |
 
+On the inventory screen, **F5** sorts the exosuit and the primary ship together. Substances and products from both
+are merged into full stacks, ordered (substances, then products, by ID) and laid out from the first free slot of
+the ship, keeping a few ship slots free (`sort_keep_free`); the rest goes to the exosuit, and the reserved ship
+slots are used only if nothing else fits. Technology and broken or tech-only slots are left alone. If anything does
+not add up, everything is put back as it was.
+
+**Settings** — `settings.json` next to `launch.cmd`, created on the first run; edits apply within a few seconds:
+
+| Key | Default | |
+|---|---|---|
+| `galaxy_panel` | `true` | systems panel on the galaxy map |
+| `auto_route` | `true` | select the next route system on the map |
+| `inventory_stats` | `true` | hidden stats card in the inventory |
+| `inventory_sort` | `true` | F5 sort in the inventory |
+| `sort_fill_first` | `"ship"` | where sorted items go first: `ship` (exosuit stays as free as possible) or `exosuit` |
+| `sort_keep_free` | `5` | slots left free in that first inventory when everything fits anyway (0–120) |
+
 Hidden stats from the latest save:
 
 ```bash
@@ -130,6 +149,8 @@ mod/
   galaxy/route.py     auto-route (numpy)
   galaxy/i18n.py      language detection and lookup; i18n_ui.json — own strings
   invstats.py         inventory stats: store / module memory reading, card rows (no game needed for tests)
+  invsort.py          combined exosuit + ship sort (tested on a model of the game's Add/Remove)
+  modsettings.py      settings.json: defaults, validation, reload
   proto_map.py        stage-1 prototype with memory probes (reverse-engineering notes)
 data/
   tables.json         stat ranges (build_tables.py from the game's MXML tables)
@@ -159,10 +180,13 @@ matching placeholders). The mod itself is tested in the game.
 - Systems-in-range panel with filters and sorting, standard jump, auto-route with automatic next-system selection.
 - Hyperdrive and scanners read from the save; 17 languages with automatic switching.
 - Hidden stats card on the inventory screen (multitool, ship, exosuit) and the hidden base stats CLI.
+- Combined exosuit + ship sort (F5) and on/off settings for every feature.
 
 **Not done yet**
 - System names in the list.
 - A check in a multiplayer session (the jump is the game's own, but it has not been tested with friends yet).
+- A full in-game run of the F5 sort (so far it is tested on a model of the game's Add/Remove; any mismatch rolls back).
+- A full in-game run of the F5 sort (so far it is tested on a model of the game's Add/Remove; any mismatch rolls back).
 
 **Known gaps**
 - The map font has no Chinese, Japanese or Korean glyphs — for these languages the panel is shown in English.
