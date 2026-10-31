@@ -247,21 +247,33 @@ class InvStats:
         if not t:
             return []
         exact = self.exact(tid)
-        rows = [r for r in statinfo.module_rows(tid, proc, exact) if visible(r)]
-        pcts = [r.pct for r in rows if r.pct is not None]
+        present = statinfo.module_rows(tid, proc, exact)
         hl = tid == self.popup
         name = self.tech_name.get(tid) or tid.split("#")[0].removeprefix("UP_")
         out = [("module", {"cls": statinfo.QUALITY_CLASS.get(t["quality"], "?"), "name": name,
-                           "pct": sum(pcts) / len(pcts) if pcts else None, "exact": exact is not None, "hl": hl})]
+                           "pct": module_score(t, present) if exact is not None else None,
+                           "exact": exact is not None, "hl": hl})]
         if hl:
-            for r in rows:
-                out.append(("stat", {"label": self.label("stat", r.stat),
-                                     "val": shown(r) if r.value is not None else "",
-                                     "range": i18n.tr("inv.fixed") if fixed(r) else
-                                     statinfo.fmt_range(r.stat, r.lo, r.hi, r.base, r.how).replace("…", ".."),
-                                     "fixed": fixed(r),
-                                     "pct": r.pct, "low": r.curve.startswith("Min")}))
+            if exact is not None:
+                out.append(("stat", {"label": i18n.tr("inv.count", n=len(present), max=num_max(t)),
+                                     "val": "", "range": "", "fixed": True, "pct": None, "absent": False}))
+            for r in present if exact is not None else []:
+                if visible(r):
+                    out.append(("stat", self.stat_line(r, shown(r), stat_pct(r), False)))
+            have = {r.stat for r in present} if exact is not None else set()
+            for s, lo, hi, *rest in t["stats"]:              # чего нет в модуле, но могло бы быть: 0 %
+                if s not in have:
+                    r = statinfo.ModRow(s, None, lo, hi, rest[1] if len(rest) > 1 else "NoWeighting",
+                                        t.get("base", {}).get(s), t.get("base_round", "trunc"))
+                    out.append(("stat", self.stat_line(r, "—" if exact is not None else "", 0.0 if exact is not None
+                                                       else None, exact is not None)))
         return out
+
+    def stat_line(self, r, val: str, pct, absent: bool) -> dict:
+        rng = (statinfo.fmt_value(r.stat, r.lo, r.base, r.lo, r.hi, r.how) if absent else i18n.tr("inv.fixed")) \
+            if fixed(r) else statinfo.fmt_range(r.stat, r.lo, r.hi, r.base, r.how).replace("…", "..")
+        return {"label": self.label("stat", r.stat), "val": val, "range": rng, "fixed": False,
+                "pct": pct, "absent": absent}
 
     def expected_tip(self, tid: str) -> list:
         """Значения модуля, как их должна показать подсказка игры (для проверки tooltip_check)."""
@@ -293,6 +305,28 @@ def tip_check(expected, texts) -> dict:
     bare = [x.lstrip("+") for x in seen]
     miss = [e for e in expected if e.lstrip("+") not in bare]
     return {"expected": list(expected), "seen": seen, "ok": not miss and bool(expected), "miss": miss}
+
+
+def num_max(t: dict) -> int:
+    """Сколько статов может быть у модуля этого типа (NumStatsMax, не больше числа статов в таблице)."""
+    return max(1, min(t.get("num", [0, len(t["stats"])])[1], len(t["stats"])))
+
+
+def stat_pct(r) -> float:
+    """Доля от идеала 0..100: прибавка стата от «стата нет» (множитель 1, прибавка 0) до лучшего края.
+    Худший бросок всё равно больше 0 — модуль с лишним статом лучше; нет стата — 0."""
+    if r.value is None:
+        return 0.0
+    neutral = 1.0 if statinfo.is_mult(r.stat, r.lo, r.hi) else 0.0
+    best = r.lo if r.curve.startswith("Min") else r.hi
+    if abs(best - neutral) <= statinfo.EPS:
+        return 0.0
+    return max(0.0, min(100.0, (r.value - neutral) / (best - neutral) * 100))
+
+
+def module_score(t: dict, present) -> float:
+    """Модуль против идеала (NumStatsMax статов, все на лучшем краю): отсутствующий стат — 0 %."""
+    return sum(stat_pct(r) for r in present) / num_max(t)
 
 
 def fixed(r) -> bool:

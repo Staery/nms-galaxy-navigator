@@ -102,6 +102,31 @@ def test_table_scan_popup_and_rows():
     assert s.rows(101.0) == []                               # инвентарь давно не рисовался
 
 
+def test_module_against_ideal():
+    t = inv.statinfo.load_tables()["proc"]["UP_SNSUIT"]               # 6 возможных статов, не больше 4 в модуле
+    rows = inv.statinfo.module_rows("UP_SNSUIT#1", {"UP_SNSUIT": t},
+                                    {"Suit_Armour_Shield_Strength": 0.35, "Suit_Armour_Health": 20.0})
+    assert inv.num_max(t) == 4
+    assert inv.module_score(t, rows) == pytest.approx((100 + 100) / 4)  # 2 лучших стата из 4 — 50 %
+    more = inv.statinfo.module_rows("UP_SNSUIT#2", {"UP_SNSUIT": t},
+                                    {"Suit_Armour_Shield_Strength": 0.35, "Suit_Armour_Health": 20.0,
+                                     "Suit_Energy": 0.05})
+    assert inv.module_score(t, more) > inv.module_score(t, rows)       # лишний стат, даже худший, — лучше
+
+
+def test_absent_stats_shown():
+    m = make_mem()
+    s = inv.InvStats(m.read, stat_name, lambda *a, **k: None, lambda *a: None)
+    s.on_slots(STORE, 100.0)
+    s.scan_table(REALITY, 100.0)
+    s.on_popup("^UP_LASER2#45161")
+    stats = [d for kind, d in s.rows(100.1) if kind == "stat"]
+    t = s.tables["proc"]["UP_LASER2"]
+    absent = [d for d in stats if d["absent"]]
+    assert len(absent) == len(t["stats"]) - 2 and all(d["pct"] == 0 and d["val"] == "—" for d in absent)
+    assert stats[0]["fixed"] and "2" in stats[0]["label"]               # «Статов: 2 из N»
+
+
 def test_generated_and_hints():
     m = make_mem()
     s = inv.InvStats(m.read, stat_name, lambda *a, **k: None, lambda *a: None)

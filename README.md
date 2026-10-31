@@ -146,10 +146,13 @@ Open the inventory of a multitool, ship or exosuit: the card is in the bottom ri
 - **Title** — the class and the type of the item (a `?` after the type means it was guessed from the stats).
 - **Base stats** (multitool, ship) — current value, the range for this class, the S-class maximum and a bar
   showing where the value sits in the class range: red below 34 %, yellow below 67 %, green above.
-- **Modules** — class icon, the module name from the game and the average place of its rolls in the possible range.
-- **Hover a module** in the inventory and its stats open: each value as the game tooltip shows it, the possible
-  range and a bar (a stat that is the same on every module of this type is marked *always* and has no bar). Use it
-  to compare modules and keep the better roll.
+- **Modules** — class icon, the module name from the game and how close the module is to the ideal one: the most
+  stats this module type can have, each at its best roll. A stat's share is its bonus divided by the best bonus
+  (a missing stat is 0 %), so a module with more stats scores higher even with weaker rolls.
+- **Hover a module** in the inventory and its stats open: "Stats: n of max", each value as the game tooltip shows
+  it, the possible range and a bar with the share of the best bonus (a stat that is the same on every module of
+  this type is marked *always*). Stats the module could have but does not are listed dimmed with `—` and 0 %.
+  Use it to compare modules and keep the better one.
 
 Values are shown **without the supercharged slot bonus**: in a supercharged slot the game tooltip multiplies the
 module by 1.25 (+33 % becomes +41 %), the card keeps the module's own roll so modules compare fairly wherever they sit.

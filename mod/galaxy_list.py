@@ -1025,10 +1025,11 @@ class GalaxyList(Mod):
             else:                                             # stat
                 tyy = (INV_ROW["stat"] - INV_FONT) / 2 * k
                 self.rect(ctx, st, x0 - pad / 2, y, w - pad, rh, (0.20, 0.35, 0.60, 0.30))
-                self.text(ctx, st, x0 + 24 * k, y + tyy, self.fit(ctx, st, d["label"], 146 * k), label)
+                self.text(ctx, st, x0 + 24 * k, y + tyy, self.fit(ctx, st, d["label"], (270 if d.get("fixed") else 146) * k),
+                          dim if d.get("absent") else label)          # стата нет в модуле — 0 %
                 self.text_right(ctx, st, x0 + 226 * k, y + tyy, d["val"], value)
                 self.text(ctx, st, x0 + 232 * k, y + tyy, self.fit(ctx, st, d["range"], 64 * k), dim)
-                if not d.get("fixed"):          # у стата без диапазона (всегда +20) места в диапазоне нет
+                if not d.get("fixed"):          # строка «Статов: n из m» — без полоски
                     self.bar(ctx, st, x0, y, rh, k, d["pct"])
             first = False
             y += rh
