@@ -70,19 +70,18 @@ system under the crosshair, so the game shows its normal popup and jump prompt.
 ## Requirements
 
 - Windows 10/11, No Man's Sky on Steam (7.10).
-- Python 3.13 x64 (for pyMHF / NMS.py).
-- The galaxy map mod is keyboard driven (the map has no free cursor).
+- Python **3.13** x64 from [python.org](https://www.python.org/downloads/) — pyMHF and NMS.py need exactly this
+  version. The `py` launcher that the installer adds by default is enough.
+- The galaxy map panel is keyboard driven (the map has no free cursor).
 
 ## Installation
 
-1. **Get the code**
-
-   ```bash
-   git clone https://github.com/Staery/nms-galaxy-navigator.git
-   ```
+1. **Get the code** — `git clone https://github.com/Staery/nms-galaxy-navigator.git`, or on GitHub
+   **Code → Download ZIP** and unpack it to any folder (for example `D:\Games\nms-galaxy-navigator`). Keep the
+   folder where it is: the game is started from it.
 
 2a. **One click (Windows)** — run `Install.bat`. It creates `tools\venv` with pyMHF and NMS.py and prints the
-   Steam launch option.
+   Steam launch option for this folder.
 
 2b. **Manual**
 
@@ -91,39 +90,82 @@ system under the crosshair, so the game shows its normal popup and jump prompt.
    tools\venv\Scripts\python -m pip install -r requirements.txt
    ```
 
-3. **Start the game with the mod.** Steam → No Man's Sky → Properties → Launch options:
+3. **Start the game with the mod.** Steam → No Man's Sky → Properties → General → Launch options:
 
    ```text
    "C:\path\to\nms-galaxy-navigator\launch.cmd" %command%
    ```
 
-   `launch.cmd` starts the game, waits for its window and attaches the mod. Keep the console window open while
-   playing. Starting the game without the launch option gives the normal game. Logs go to `logs/`.
+   Then press **Play** in Steam as usual. `launch.cmd` starts the game, waits for its window and attaches the mod:
+   10–20 s after the game window a console titled *NMS.py mod - keep this window open while playing* appears.
+   **Load your save after that** — exact module values are captured while the game generates them, so modules
+   loaded before the mod attached show only their ranges. Keep the console open while playing. Starting the game
+   without the launch option gives the normal game.
+
+**Updating.** `git pull` (or unpack a new ZIP over the folder — your `settings.json` is kept) and run
+`Install.bat` again if `requirements.txt` changed. After a game update run
+`tools\venv\Scripts\python tools\sigscan.py`: if hooks are reported missing, wait for a new version of the mod.
+
+**Removing.** Clear the launch option in Steam and delete the folder. The mod writes nothing to the game folder
+or to your saves.
 
 **Options.** The game folder is found from the running `NMS.exe`; for the tools set `NMS_GAME_DIR` if Steam
 cannot be found in the registry.
 
 ## Usage
 
-Open the galaxy map. Keys:
+### Galaxy map
+
+Open the galaxy map: the panel on the left lists the systems within jump range of your current system, nearest
+first. Attributes are filled in a few hundred systems per frame, so the list completes within seconds; flying the
+map camera further away loads more regions. Keys (the hints at the bottom of the panel repeat them):
 
 | Key | Action |
 |---|---|
 | F8 | show / hide the panel |
 | F7 | list ↔ filters |
 | ↑ ↓, PgUp PgDn | move the selection (in filters — choose a filter) |
-| ← → | sort order (in filters — change the value) |
+| ← → | sort order: distance, wealth, planets, conflict, economy (in filters — change the value) |
 | F9 | select the highlighted system on the map, then jump as usual |
 | F10 / F11 | route to the highlighted row / to the system in the crosshair |
 | F6 | reset filters (in the list — clear the route) |
+
+**Filters:** radius (×0.25…×2 of the jump range), drive (only stars your hyperdrive allows), economy, wealth
+(★2–3, ★3, pirate / not pirate), race, conflict, star colour, anomaly (black hole, Atlas), number of planets,
+gas giant, abandoned, pirate, visited / new. Economy and conflict — filters and sorting — work only with the
+Economy Scanner / Conflict Scanner installed in the ship, as in the game itself.
+
+**Route:** F10 on a row (or F11 for the system in the crosshair) builds the route; the panel shows its jumps. After
+each jump open the map — the next system of the route is already selected, start the jump yourself. Leaving the
+route recalculates it; F6 in the list clears it.
+
+### Inventory card
+
+Open the inventory of a multitool, ship or exosuit: the card is in the bottom right corner.
+
+- **Title** — the class and the type of the item (a `?` after the type means it was guessed from the stats).
+- **Base stats** (multitool, ship) — current value, the range for this class, the S-class maximum and a bar
+  showing where the value sits in the class range: red below 34 %, yellow below 67 %, green above.
+- **Modules** — class icon, the module name from the game and the average place of its rolls in the possible range.
+- **Hover a module** in the inventory and its stats open: each value as the game tooltip shows it, the possible
+  range and a bar (a stat that is the same on every module of this type is marked *always* and has no bar). Use it
+  to compare modules and keep the better roll.
+
+Values are shown **without the supercharged slot bonus**: in a supercharged slot the game tooltip multiplies the
+module by 1.25 (+33 % becomes +41 %), the card keeps the module's own roll so modules compare fairly wherever they sit.
+
+### F5 — combined sort
 
 On the inventory screen, **F5** sorts the exosuit and the primary ship together. Substances and products from both
 are merged into full stacks, ordered (substances, then products, by ID) and laid out from the first free slot of
 the ship, keeping a few ship slots free (`sort_keep_free`); the rest goes to the exosuit, and the reserved ship
 slots are used only if nothing else fits. Technology and broken or tech-only slots are left alone. If anything does
-not add up, everything is put back as it was.
+not add up, everything is put back as it was. A short message shows the result.
 
-**Settings** — `settings.json` next to `launch.cmd`, created on the first run; edits apply within a few seconds:
+### Settings
+
+`settings.json` next to `launch.cmd`, created on the first run. Edit it in any text editor while playing — changes
+apply within a few seconds; an invalid value falls back to the default.
 
 | Key | Default | |
 |---|---|---|
@@ -133,13 +175,22 @@ not add up, everything is put back as it was.
 | `inventory_sort` | `true` | F5 sort in the inventory |
 | `sort_fill_first` | `"ship"` | where sorted items go first: `ship` (exosuit stays as free as possible) or `exosuit` |
 | `sort_keep_free` | `5` | slots left free in that first inventory when everything fits anyway (0–120) |
-| `tooltip_check` | `false` | check mode: compares the card with the game's own module tooltip and logs `tip_check` (restart needed) |
+| `tooltip_check` | `false` | check mode: compares the card with the game's own module tooltip and logs `tip_check` to `logs/galaxy.jsonl` (restart needed) |
 
-Hidden stats from the latest save:
+### Hidden stats from the save (CLI)
 
 ```bash
-python nms_stats.py            # or: python nms_stats.py path\to\save3.hg
+tools\venv\Scripts\python nms_stats.py            # latest save; or: ... nms_stats.py path\to\save3.hg
 ```
+
+Reads the save only (never writes it); the output is in Russian.
+
+### Troubleshooting
+
+- **No console window after the game starts** — check the launch option (the quotes and `%command%`) and
+  `logs\launcher.log`.
+- **No panel or card** — F8 on the map; check the switches in `settings.json`.
+- **Errors** are written to `logs/galaxy.jsonl`; a failing drawing hook switches itself off instead of crashing the game.
 
 ## Project layout
 
@@ -187,9 +238,11 @@ matching placeholders). The mod itself is tested in the game.
 - System names in the list.
 - A check in a multiplayer session (the jump is the game's own, but it has not been tested with friends yet).
 - A full in-game run of the F5 sort (so far it is tested on a model of the game's Add/Remove; any mismatch rolls back).
-- A full in-game run of the F5 sort (so far it is tested on a model of the game's Add/Remove; any mismatch rolls back).
 
 **Known gaps**
+- The card's value formats are checked against the game tooltips for ship weapons, shield and hyperdrive,
+  multitool sentinel, cannon, laser and scanner modules and exosuit health, shield and energy. Hazard protection,
+  jetpack, grenades, vehicles and freighter follow the same rules but are not checked yet (`tooltip_check`).
 - The map font has no Chinese, Japanese or Korean glyphs — for these languages the panel is shown in English.
 - Translations other than English and Russian were made by machine and may differ from the game's wording.
 - That a higher hyperdrive also allows the lower star colours is an assumption.

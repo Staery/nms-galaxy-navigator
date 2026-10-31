@@ -257,7 +257,7 @@ class InvStats:
             for r in rows:
                 out.append(("stat", {"label": self.label("stat", r.stat),
                                      "val": shown(r) if r.value is not None else "",
-                                     "range": "" if fixed(r) else
+                                     "range": i18n.tr("inv.fixed") if fixed(r) else
                                      statinfo.fmt_range(r.stat, r.lo, r.hi, r.base, r.how).replace("…", ".."),
                                      "fixed": fixed(r),
                                      "pct": r.pct, "low": r.curve.startswith("Min")}))
