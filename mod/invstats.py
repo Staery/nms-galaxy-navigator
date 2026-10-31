@@ -229,11 +229,14 @@ class InvStats:
                 sub = f"{kind}{'' if sure else '?'}" if kind else ""
                 out.append(("title", {"text": tr("inv.title", cls=g["cls"]), "sub": sub}))
                 for r in statinfo.base_rows(g["base"], g["cls"], ranges):
-                    if r.lo is not None and r.hi - r.lo <= statinfo.EPS:
-                        continue                      # стат, фиксированный для типа (0–0 и т. п.)
+                    fixed = r.lo is not None and r.hi - r.lo <= statinfo.EPS
+                    if fixed and abs(r.hi) <= statinfo.EPS:
+                        continue                      # стата у типа нет (0–0: добыча у винтовки и т. п.)
+                    pct = (100.0 if r.cur >= r.hi - statinfo.EPS else None) if fixed else r.pct
+                    rng = (f"{r.lo:g}" if fixed else f"{r.lo:g}-{r.hi:g}") if r.lo is not None else "?"
                     out.append(("base", {"label": self.label("base", r.stat), "cur": f"{r.cur:.1f}",
-                                         "range": f"{r.lo:g}-{r.hi:g}" if r.lo is not None else "?",
-                                         "pct": r.pct, "s_max": f"S {r.s_max:g}" if r.s_max is not None else ""}))
+                                         "range": rng, "pct": pct,      # фиксированный (скан S = 100) — 100 %
+                                         "s_max": f"S {r.s_max:g}" if r.s_max is not None else ""}))
             mods = [m for m in (self.module_lines(t) for t in g["tech"]) if m]
             if mods:
                 out.append(("title", {"text": tr("inv.modules", n=len(mods)), "sub": ""}))

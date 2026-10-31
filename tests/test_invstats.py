@@ -102,6 +102,20 @@ def test_table_scan_popup_and_rows():
     assert s.rows(101.0) == []                               # инвентарь давно не рисовался
 
 
+def test_fixed_base_stat_shown_full():
+    """Скан у Royal/Pristine S — всегда 100: строка видна со 100 %; стата 0–0 у типа (добыча винтовки) — нет."""
+    s = inv.InvStats(make_mem().read, stat_name, lambda k, **d: None, lambda k, e: None)
+    s.stores[1] = {"cls": "S", "base": {"WEAPON_DAMAGE": 21.0, "WEAPON_MINING": 26.5, "WEAPON_SCAN": 100.0},
+                   "tech": [], "seen": 100.0}
+    s.hints = {inv.values_key(s.stores[1]["base"]): "Royal"}
+    base = [d for kind, d in s.rows(100.1) if kind == "base"]
+    assert len(base) == 3
+    assert [(d["range"], d["pct"]) for d in base if d["cur"] == "100.0"] == [("100", 100.0)]
+    s.stores[1]["base"] = {"WEAPON_DAMAGE": 18.0, "WEAPON_MINING": 0.0, "WEAPON_SCAN": 17.0}
+    s.hints = {inv.values_key(s.stores[1]["base"]): "Rifle"}
+    assert len([1 for kind, _ in s.rows(100.1) if kind == "base"]) == 2
+
+
 def test_module_against_ideal():
     t = inv.statinfo.load_tables()["proc"]["UP_SNSUIT"]               # 6 возможных статов, не больше 4 в модуле
     rows = inv.statinfo.module_rows("UP_SNSUIT#1", {"UP_SNSUIT": t},
