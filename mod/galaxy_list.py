@@ -754,7 +754,7 @@ class GalaxyList(Mod):
     if TIP_CHECK:
         @nvg.nvgText.before
         def tip_text(self, ctx, x, y, string, end):
-            """tooltip_check: строки с % в подсказке модуля под курсором — для сверки с карточкой."""
+            """tooltip_check: строки с цифрами в подсказке модуля под курсором — для сверки с карточкой."""
             tid = self.inv.popup
             if self.painting or not tid or tid in self.tip_done or time.time() - self.popup_t > 0.2:
                 return
@@ -763,9 +763,9 @@ class GalaxyList(Mod):
                 if not a:
                     return
                 raw = safe_read(a, b - a if a < b <= a + 256 else 128).split(b"\0", 1)[0]
-                if b"%" in raw:
+                if any(48 <= c <= 57 for c in raw):     # защита от среды и т. п. показывается без %
                     seen = self.tip_seen.setdefault(tid, (time.time(), {}))[1]
-                    if len(seen) < 40:
+                    if len(seen) < 80:
                         seen[raw.decode("utf-8", "replace")] = None
             except Exception as e:
                 self.error("tip_text_error", e)

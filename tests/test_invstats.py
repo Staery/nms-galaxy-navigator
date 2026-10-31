@@ -127,8 +127,9 @@ def test_inv_keys_translated():
 
 
 def test_tip_check():
-    texts = ["Урон", "+3%", "Скорострельность +6 %", "Нагрев −7%", "Cadmium Amplifier"]
-    assert inv.tip_numbers(texts) == ["+3%", "+6%", "-7%"]
+    texts = ["Урон", "+3%", "Скорострельность +6 %", "Нагрев −7%", "Cadmium Amplifier", "Защита +262"]
+    assert inv.tip_numbers(texts) == ["+3%", "+6%", "-7%", "+262"]
+    assert inv.tip_check(["+262"], texts)["ok"]
     r = inv.tip_check(["+3%", "+6%"], texts)
     assert r["ok"] and r["miss"] == []
     r = inv.tip_check(["+3%", "+8%"], texts)

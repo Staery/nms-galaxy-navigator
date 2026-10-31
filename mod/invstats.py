@@ -275,11 +275,11 @@ class InvStats:
         return stat.replace("_", " ").title() if s == key else s
 
 
-TIP_NUM = re.compile(r"[+\-−]?\s*\d+(?:[.,]\d+)?\s*%")
+TIP_NUM = re.compile(r"[+\-−]?\s*\d+(?:[.,]\d+)?(?:\s*%)?")
 
 
 def tip_numbers(texts) -> list:
-    """Числа с % из строк подсказки игры: «Скорострельность +6%» → ["+6%"]; минус «−» → «-»."""
+    """Числа из строк подсказки игры: «Скорострельность +6%» → ["+6%"], «Защита +262» → ["+262"]; минус «−» → «-»."""
     out = []
     for t in texts:
         for m in TIP_NUM.findall(t):
