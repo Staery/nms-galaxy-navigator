@@ -211,6 +211,7 @@ class GalaxyList(Mod):
         self.shown = True
         self.cfg = modsettings.Settings(SETTINGS_FILE)
         self.cfg.reload()
+        invstats.statinfo.set_user_weights(self.cfg["stat_weights"])
         self.cfg_at = 0.0
         self.keys = collections.deque(maxlen=64)  # клавиши из потока keyboard → игровой поток
         self.ctx_owner = 0
@@ -379,6 +380,7 @@ class GalaxyList(Mod):
             if now - self.cfg_at >= SETTINGS_POLL:
                 self.cfg_at = now
                 if self.cfg.reload():
+                    invstats.statinfo.set_user_weights(self.cfg["stat_weights"])
                     self.emit("settings", **self.cfg.values)
             if self.sort_req:                 # начало кадра интерфейса: страницы инвентаря ещё не рисуются
                 self.sort_req = False

@@ -260,3 +260,12 @@ def test_sort_messages_translated():
             assert i18n.tr(k) != k, (lang, k)
         assert "3" in i18n.tr("sort.ok", before=3, after=2)
     i18n.set_language("English")
+
+
+def test_stat_weights_setting():
+    raw = {"stat_weights": {"Suit_Energy_Regen": 2, "T_SENTSUIT": {"Suit_Armour_Shield_Strength": 1.5, "x": "3"},
+                            "bad": -1, "big": 11, "flag": True}}
+    vals, fixed = settings.normalize(raw)
+    assert vals["stat_weights"] == {"Suit_Energy_Regen": 2, "T_SENTSUIT": {"Suit_Armour_Shield_Strength": 1.5}}
+    assert fixed                                           # неверные записи отброшены, файл перепишется
+    assert settings.normalize({})[0]["stat_weights"] == {}

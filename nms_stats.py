@@ -1,15 +1,21 @@
 """Скрытые базовые статы мультитулов и кораблей из сейва NMS: сейчас / диапазон класса / максимум S.
 
 python nms_stats.py [путь к saveN.hg]   — без аргумента берётся самый свежий сейв.
+python nms_stats.py --weights [фильтр]  — веса статов в оценке модуля (с учётом settings.json), фильтр — подстрока
+                                          шаблона, модуля или стата.
 Сейв только читается. Диапазоны — data/tables.json (собирается build_tables.py из файлов игры).
 """
+import json
 import os
 import sys
 from pathlib import Path
 
+import statinfo
 from nmssave import load_save
 from statinfo import (LABELS, SHIP_TYPES, STAT_LABELS, WEAPON_TYPES, base_rows, fmt_range, kind_of,
                       load_tables, module_rows)
+
+ROOT = Path(__file__).resolve().parent
 
 def latest_save() -> Path:
     root = Path(os.environ["APPDATA"]) / "HelloGames" / "NMS"
@@ -54,7 +60,38 @@ def print_modules(proc, *invs):
         print(f"      {uid} [{t['quality']}, статов {n[0]}–{n[1]}]: {stats}")
 
 
+def print_weights(flt: str = "") -> None:
+    """Шаблон → модули и веса его статов; * — вес из settings.json."""
+    sys.path.insert(0, str(ROOT / "mod"))
+    import modsettings
+    cfg = modsettings.Settings(ROOT / "settings.json")
+    cfg.reload()
+    statinfo.set_user_weights(cfg["stat_weights"])
+    try:
+        names = json.loads((ROOT / "data" / "i18n_game.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        names = {}
+    by_t = {}
+    for tid, t in load_tables()["proc"].items():
+        by_t.setdefault(t["template"], (t, []))[1].append(tid)
+    flt = flt.upper()
+    for tpl, (t, ids) in sorted(by_t.items()):
+        if flt and flt not in tpl.upper() and not any(flt in i.upper() for i in ids)                 and not any(flt in s[0].upper() for s in t["stats"]):
+            continue
+        num = t.get("num", [1, len(t["stats"])])
+        print(f"{tpl}  (статов {num[0]}–{num[1]}): {', '.join(sorted(ids))}")
+        for s in sorted(t["stats"], key=lambda s: -statinfo.stat_weight(tpl, s[0])):
+            w = statinfo.stat_weight(tpl, s[0])
+            own = "*" if statinfo.USER_WEIGHT.get(s[0]) is not None or s[0] in statinfo.USER_WEIGHT.get(tpl, {}) else " "
+            n = names.get(statinfo.stat_loc(s[0]), {})
+            label = " / ".join(dict.fromkeys(x for x in (n.get("English"), n.get("Russian")) if x))                 or STAT_LABELS.get(s[0], "")
+            print(f"  {w:>4g}{own} {s[0]:<40} {label}")
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "--weights":
+        print_weights(sys.argv[2] if len(sys.argv) > 2 else "")
+        return
     path = Path(sys.argv[1]) if len(sys.argv) > 1 else latest_save()
     tables = load_tables()
     if not tables["proc"]:

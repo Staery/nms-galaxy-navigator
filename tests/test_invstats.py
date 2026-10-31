@@ -173,3 +173,18 @@ def test_tip_check():
     r = inv.tip_check(["+3%", "+8%"], texts)
     assert not r["ok"] and r["miss"] == ["+8%"]
     assert not inv.tip_check([], texts)["ok"]
+
+
+def test_user_weights_override():
+    t = inv.statinfo.load_tables()["proc"]["UP_SNSUIT"]
+    rows = inv.statinfo.module_rows("UP_SNSUIT#1", {"UP_SNSUIT": t}, {"Suit_Energy_Regen": 1.75})
+    before = inv.module_score(t, rows)
+    try:
+        inv.statinfo.set_user_weights({"Suit_Energy_Regen": 2, "T_SENTSUIT": {"Suit_Energy_Regen": 3}})
+        assert inv.weight(t, "Suit_Energy_Regen") == 3                    # шаблон важнее общего стата
+        assert inv.module_score(t, rows) > before
+        inv.statinfo.set_user_weights({s[0]: 0 for s in t["stats"]})
+        assert inv.module_score(t, rows) == 0.0                           # всё обнулено — без деления на 0
+    finally:
+        inv.statinfo.set_user_weights({})
+    assert inv.module_score(t, rows) == pytest.approx(before)

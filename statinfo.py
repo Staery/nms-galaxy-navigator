@@ -86,7 +86,21 @@ TEMPLATE_WEIGHT = {"T_SENTGUN": {"Weapon_Projectile_Damage": 1},
                    "T_SHIPROC": {"Ship_Weapons_Guns_Damage": 3}}
 
 
-def stat_weight(template: str, stat: str) -> int:
+USER_WEIGHT: dict = {}  # из settings.json → stat_weights: {стат: вес} и {шаблон: {стат: вес}}, важнее встроенных
+
+
+def set_user_weights(weights: dict) -> None:
+    USER_WEIGHT.clear()
+    USER_WEIGHT.update(weights or {})
+
+
+def stat_weight(template: str, stat: str) -> float:
+    """Вес стата: шаблон из настроек → стат из настроек → встроенный шаблон → встроенный стат → 2."""
+    own = USER_WEIGHT.get(template)
+    if isinstance(own, dict) and stat in own:
+        return own[stat]
+    if isinstance(USER_WEIGHT.get(stat), (int, float)):
+        return USER_WEIGHT[stat]
     return TEMPLATE_WEIGHT.get(template, {}).get(stat, STAT_WEIGHT.get(stat, 2))
 # Тип по имени модели (Resource.Filename): подстрока → ключ таблицы.
 WEAPON_TYPES = [("ROYAL", "Royal"), ("ALIEN", "Alien"), ("SENTINEL", "Robot"), ("ROBOT", "Robot"),

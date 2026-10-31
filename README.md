@@ -153,7 +153,7 @@ Open the inventory of a multitool, ship or exosuit: the card is in the bottom ri
   and laser heat, shield, jetpack tank and drain, hazard protection, jump distance, top speed), 2 — useful
   (reload, health, energy, heat time of ship guns), 1 — minor (clip size, scan radius, energy regen, stamina,
   fuel use). Ship gun damage on the cyclotron and positron and sentinel multitool damage roll at most +1…2 %,
-  so they weigh 1 there; rocket damage weighs 3. The full table is `STAT_WEIGHT` in `statinfo.py`.
+  so they weigh 1 there; rocket damage weighs 3. You can change any weight — see [Stat weights](#stat-weights).
   Hovered stats are listed from the heaviest.
 - **Hover a module** in the inventory and its stats open: "Stats: n of max", each value as the game tooltip shows
   it, the possible range and a bar with the share of the best bonus (a stat that is the same on every module of
@@ -185,6 +185,42 @@ apply within a few seconds; an invalid value falls back to the default.
 | `sort_fill_first` | `"ship"` | where sorted items go first: `ship` (exosuit stays as free as possible) or `exosuit` |
 | `sort_keep_free` | `5` | slots left free in that first inventory when everything fits anyway (0–120) |
 | `tooltip_check` | `false` | check mode: compares the card with the game's own module tooltip and logs `tip_check` to `logs/galaxy.jsonl` (restart needed) |
+| `stat_weights` | `{}` | your own stat weights for the module score, see below |
+
+### Stat weights
+
+The module score in the inventory card weighs each stat (built-in weights 1–3, see
+[Inventory card](#inventory-card)). To change them, put your weights into `stat_weights` in `settings.json` —
+it applies within a few seconds, no restart:
+
+```json
+"stat_weights": {
+  "Suit_Energy_Regen": 2,
+  "T_SENTSUIT": { "Suit_Armour_Shield_Strength": 2, "Suit_Energy": 3 }
+}
+```
+
+- `"Stat": weight` — for this stat in every module;
+- `"Template": { "Stat": weight }` — only for one module type (wins over the line above);
+- a weight is a number from 0 to 10: 0 — ignore the stat, the higher the more it counts. A wrong entry is dropped;
+  anything not listed keeps the built-in weight. `{}` — built-in weights only.
+
+To find the names, list the module types, their modules and the current weights (`*` — taken from your settings):
+
+```bash
+tools\venv\Scripts\python nms_stats.py --weights            # everything
+tools\venv\Scripts\python nms_stats.py --weights SNSUIT     # filter by template, module or stat
+```
+
+```text
+T_SENTSUIT  (статов 2–4): UP_SNSUIT
+     3  Suit_Armour_Shield_Strength              Shield Strength / Крепость щита
+     3  Suit_Jetpack_Drain                       Fuel Efficiency / Баки реактивного ранца
+     2  Suit_Armour_Health                       Core Health / Основное здоровье
+     ...
+```
+
+The built-in table is `STAT_WEIGHT` and `TEMPLATE_WEIGHT` in [statinfo.py](statinfo.py).
 
 ### Hidden stats from the save (CLI)
 
@@ -192,7 +228,8 @@ apply within a few seconds; an invalid value falls back to the default.
 tools\venv\Scripts\python nms_stats.py            # latest save; or: ... nms_stats.py path\to\save3.hg
 ```
 
-Reads the save only (never writes it); the output is in Russian.
+Reads the save only (never writes it); the output is in Russian. `nms_stats.py --weights` lists the stat
+weights, see [Stat weights](#stat-weights).
 
 ### Troubleshooting
 

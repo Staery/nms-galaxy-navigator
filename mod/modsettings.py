@@ -14,9 +14,28 @@ DEFAULTS = {
     "sort_fill_first": "ship",  # куда раскладывать сначала: ship — экзокостюм остаётся как можно свободнее
     "sort_keep_free": 5,        # сколько ячеек оставить свободными там, куда кладём сначала (если всё помещается)
     "tooltip_check": False,     # проверка: числа карточки против подсказки игры (лог tip_check); нужен перезапуск
+    "stat_weights": {},         # свои веса статов в оценке модуля: {стат: вес} или {шаблон: {стат: вес}}, вес 0–10
 }
 CHOICES = {"sort_fill_first": ("exosuit", "ship")}
 RANGES = {"sort_keep_free": (0, 120)}
+WEIGHT_MAX = 10
+
+
+def _weight_ok(v) -> bool:
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and 0 <= v <= WEIGHT_MAX
+
+
+def clean_weights(raw) -> dict:
+    """Только верные записи stat_weights: число 0–10 или {стат: число} для шаблона; остальное отбрасывается."""
+    out = {}
+    for k, v in (raw.items() if isinstance(raw, dict) else ()):
+        if _weight_ok(v):
+            out[k] = v
+        elif isinstance(v, dict):
+            sub = {s: w for s, w in v.items() if _weight_ok(w)}
+            if sub:
+                out[k] = sub
+    return out
 
 
 def normalize(raw) -> tuple:
@@ -27,6 +46,8 @@ def normalize(raw) -> tuple:
         v = raw.get(k, d)
         if isinstance(d, bool):
             ok = isinstance(v, bool)
+        elif k == "stat_weights":
+            v, ok = clean_weights(v), True
         elif k in RANGES:
             lo, hi = RANGES[k]
             ok = isinstance(v, int) and not isinstance(v, bool) and lo <= v <= hi

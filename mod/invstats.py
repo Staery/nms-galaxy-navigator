@@ -324,7 +324,7 @@ def stat_pct(r) -> float:
     return max(0.0, min(100.0, (r.value - neutral) / (best - neutral) * 100))
 
 
-def weight(t: dict, stat: str) -> int:
+def weight(t: dict, stat: str) -> float:
     return statinfo.stat_weight(t.get("template", ""), stat)
 
 
@@ -332,7 +332,9 @@ def module_score(t: dict, present) -> float:
     """Модуль против идеала (NumStatsMax самых весомых статов, все на лучшем краю): Σ вес×доля / Σ весов идеала;
     отсутствующий стат — 0 %."""
     ideal = sum(sorted((weight(t, s[0]) for s in t["stats"]), reverse=True)[:num_max(t)])
-    return sum(weight(t, r.stat) * stat_pct(r) for r in present) / ideal
+    if ideal <= 0:                                       # все статы типа обнулены в настройках
+        return 0.0
+    return min(100.0, sum(weight(t, r.stat) * stat_pct(r) for r in present) / ideal)
 
 
 def fixed(r) -> bool:
