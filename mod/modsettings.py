@@ -15,11 +15,18 @@ DEFAULTS = {
     "stack_from": "both",       # откуда F4 берёт предметы: both, exosuit, ship
     "sort_fill_first": "ship",  # куда раскладывать сначала: ship — экзокостюм остаётся как можно свободнее
     "sort_keep_free": 5,        # сколько ячеек оставить свободными там, куда кладём сначала (если всё помещается)
+    "cook_panel": True,         # F3 — панель готовки: чего не хватает на cook_count × cook_item и где что лежит
+    "cook_helper": True,        # F2 у открытого переработчика — выгрузить готовое и загрузить следующую готовку
+    "collect": True,            # F1 у открытого хранилища (двор, грядка, ящик) — всё в контейнеры
+    "cook_item": "FOOD_DNUT_AJAM",  # что готовим (ID блюда из data/recipes.json)
+    "cook_count": 100,          # сколько штук
+    "collect_to": "chest0",     # куда F1 кладёт то, чего ещё нет ни в одном контейнере
     "tooltip_check": False,     # проверка: числа карточки против подсказки игры (лог tip_check); нужен перезапуск
     "stat_weights": {},         # свои веса статов в оценке модуля: {стат: вес} или {шаблон: {стат: вес}}, вес 0–10
 }
-CHOICES = {"sort_fill_first": ("exosuit", "ship"), "stack_from": ("both", "exosuit", "ship")}
-RANGES = {"sort_keep_free": (0, 120)}
+CHOICES = {"sort_fill_first": ("exosuit", "ship"), "stack_from": ("both", "exosuit", "ship"),
+           "collect_to": tuple(f"chest{i}" for i in range(10))}
+RANGES = {"sort_keep_free": (0, 120), "cook_count": (1, 9999)}
 WEIGHT_MAX = 10
 
 
@@ -54,7 +61,7 @@ def normalize(raw) -> tuple:
             lo, hi = RANGES[k]
             ok = isinstance(v, int) and not isinstance(v, bool) and lo <= v <= hi
         else:
-            ok = v in CHOICES.get(k, (v,)) and isinstance(v, type(d))
+            ok = isinstance(v, type(d)) and v in CHOICES.get(k, (v,)) and (k != "cook_item" or bool(v))
         out[k] = v if ok else d
     return out, any(k not in raw or raw[k] != v for k, v in out.items())
 

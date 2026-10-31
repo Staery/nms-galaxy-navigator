@@ -273,7 +273,20 @@ crystals; wild milk and fresh milk are both used).
 raw: 200 fresh milk, 100 heptaploid wheat, 100 faecium, 200 sweetroot, 100 hexaberry
 ```
 
-F3 is reserved for the planned in-game cooking panel.
+#### In game
+
+- **F3 — panel.** The goal is `cook_count` × `cook_item` from the settings. It shows what is missing, what is
+  cooking now, the next cooking step and where its raw materials lie: container N / ship / exosuit. The stock is read
+  from the game's memory: exosuit, ship, containers 0–9.
+- **F2 at an open nutrient processor** — unloads the finished food into the containers (where that item already
+  lies, otherwise into `collect_to`) and loads the next cooking step from the stock (containers first, then the ship,
+  then the exosuit), each ingredient into its own slot.
+- **F1 at an open storage** (livestock yard, crate) — moves everything into the containers.
+
+The balance does not change: cooking time and harvest are the game's; the mod only moves items with the game's own
+Add/Remove, checked and rolled back on any mismatch.
+
+Status: F1/F2 are experimental and need testing in the game.
 
 ### Troubleshooting
 
@@ -292,7 +305,8 @@ mod/
   galaxy/i18n.py      language detection and lookup; i18n_ui.json — own strings
   invstats.py         inventory stats: store / module memory reading, card rows (no game needed for tests)
   invsort.py          combined exosuit + ship sort, stacking into a container (tested on a model of Add/Remove)
-  cook.py             cooking logic (pure, no game needed; also for the future in-game panel)
+  cook.py             cooking logic (pure, no game needed; also used by the in-game panel)
+  kitchen.py          moving items, choosing the next cooking step
   modsettings.py      settings.json: defaults, validation, reload
   proto_map.py        stage-1 prototype with memory probes (reverse-engineering notes)
 data/
@@ -308,7 +322,7 @@ nmspaths.py           game / Steam folder lookup
 settings_gui.py       settings window (tkinter), Settings.bat runs it
 tools/sigscan.py      checks that NMS.py hook signatures still match NMS.exe
 launch.cmd, Install.bat, Settings.bat
-tests/                (test_cook.py — cooking logic)
+tests/                (test_cook.py — cooking logic, test_kitchen.py — item moving and the next cooking step)
 ```
 
 ## Testing
@@ -329,12 +343,10 @@ labels and saving, and translations (every key in every language, matching place
 - Hidden stats card on the inventory screen (multitool, ship, exosuit) and the hidden base stats CLI.
 - Combined exosuit + ship sort (F5), stacking into a container (F4), a settings window for every feature and the
   stat weights.
-- Cooking calculator — CLI done.
+- Cooking calculator — CLI and in-game panel (F3); F2 cook helper and F1 collect are experimental.
 
 **Not done yet**
-- Cooking calculator: the in-game panel (F3) is planned; then a «Cook» helper (loads and unloads the nutrient
-  processors in queue order, the normal 5 s per craft) and an auto-collect key for farm and livestock output —
-  both are quality-of-life only, no balance changes.
+- In-game check of F1/F2 (cooking helper and collecting into containers).
 - System names in the list.
 - A check in a multiplayer session (the jump is the game's own, but it has not been tested with friends yet).
 - A full in-game run of the F5 sort and F4 stacking (so far they are tested on a model of the game's Add/Remove;

@@ -27,7 +27,12 @@ TEXT = {
         "tooltip_check": "Check mode: compare the card with the game tooltip (log, restart needed)",
         "sort_fill_first": "F5 fills first", "sort_keep_free": "F5 keeps free slots there",
         "stack_from": "F4 takes items from",
+        "cook_panel": "F3 — cooking panel: what is missing for the goal and where it lies",
+        "cook_helper": "F2 at an open processor — unload results and load the next cooking step",
+        "collect": "F1 at an open storage — move everything into containers",
+        "cook_item": "Dish", "cook_count": "How many", "collect_to": "F1 puts new items into",
         "opt.ship": "ship", "opt.exosuit": "exosuit", "opt.both": "exosuit and ship",
+        "opt.chest0": "Storage Container 0", "opt.chest1": "Storage Container 1", "opt.chest2": "Storage Container 2", "opt.chest3": "Storage Container 3", "opt.chest4": "Storage Container 4", "opt.chest5": "Storage Container 5", "opt.chest6": "Storage Container 6", "opt.chest7": "Storage Container 7", "opt.chest8": "Storage Container 8", "opt.chest9": "Storage Container 9",
         "defaults": "Reset to defaults", "saved": "Saved — the mod applies it within a few seconds.",
         "saved_restart": "Saved — restart the game for check mode.",
         "filter": "Filter:", "col.type": "Module type", "col.mods": "Modules", "col.stat": "Stat",
@@ -51,7 +56,15 @@ TEXT = {
         "tooltip_check": "Режим проверки: сверка карточки с подсказкой игры (лог, нужен перезапуск)",
         "sort_fill_first": "F5 кладёт сначала в", "sort_keep_free": "F5 оставляет там свободных ячеек",
         "stack_from": "F4 берёт предметы из",
+        "cook_panel": "F3 — панель готовки: чего не хватает на цель и где что лежит",
+        "cook_helper": "F2 у открытого переработчика — выгрузить готовое и загрузить следующую готовку",
+        "collect": "F1 у открытого хранилища — всё в контейнеры",
+        "cook_item": "Блюдо", "cook_count": "Сколько штук", "collect_to": "F1 кладёт новое в",
         "opt.ship": "корабль", "opt.exosuit": "экзокостюм", "opt.both": "экзокостюм и корабль",
+        "opt.chest0": "Контейнер 0", "opt.chest1": "Контейнер 1", "opt.chest2": "Контейнер 2",
+        "opt.chest3": "Контейнер 3", "opt.chest4": "Контейнер 4", "opt.chest5": "Контейнер 5",
+        "opt.chest6": "Контейнер 6", "opt.chest7": "Контейнер 7", "opt.chest8": "Контейнер 8",
+        "opt.chest9": "Контейнер 9",
         "defaults": "Сбросить по умолчанию", "saved": "Сохранено — мод применит за пару секунд.",
         "saved_restart": "Сохранено — для режима проверки перезапустите игру.",
         "filter": "Фильтр:", "col.type": "Тип модуля", "col.mods": "Модули", "col.stat": "Стат",
@@ -151,6 +164,7 @@ class App:
             self.names = json.loads((ROOT / "data" / "i18n_game.json").read_text(encoding="utf-8"))
         except (OSError, ValueError):
             self.names = {}
+        self.dishes = self.load_dishes()
         root.title(self.t["title"])
         root.minsize(760, 520)
         nb = ttk.Notebook(root)
@@ -159,6 +173,19 @@ class App:
         ttk.Label(root, textvariable=self.status, foreground="#2a7a2a").pack(anchor="w", padx=10, pady=6)
         nb.add(self.features_tab(nb), text=self.t["tab.features"])
         nb.add(self.weights_tab(nb), text=self.t["tab.weights"])
+
+    def load_dishes(self) -> list:
+        """[(название, ID)] из data/recipes.json по алфавиту; нет файла — пусто."""
+        try:
+            data = json.loads((ROOT / "data" / "recipes.json").read_text(encoding="utf-8"))
+            names = data.get("names", {})
+            out = [((names.get(i) or {}).get(self.lang) or i, i) for i in data["recipes"]]
+        except (OSError, ValueError, KeyError, AttributeError):
+            return []
+        return sorted(out, key=lambda p: (p[0].lower(), p[1]))
+
+    def dish_label(self, item_id: str) -> str:
+        return next((n for n, i in self.dishes if i == item_id), item_id)
 
     # ---------- сохранение ----------
     def save(self, key: str, value):
@@ -173,7 +200,7 @@ class App:
         self.vars = {}
         row = 0
         for key in ("galaxy_panel", "auto_route", "inventory_stats", "inventory_sort", "inventory_stack",
-                    "tooltip_check"):
+                    "cook_panel", "cook_helper", "collect", "tooltip_check"):
             v = self.vars[key] = tk.BooleanVar(value=self.values[key])
             ttk.Checkbutton(f, text=self.t[key], variable=v,
                             command=lambda k=key, v=v: self.save(k, v.get())).grid(row=row, column=0, columnspan=2,
@@ -181,7 +208,7 @@ class App:
             row += 1
         ttk.Separator(f).grid(row=row, column=0, columnspan=2, sticky="ew", pady=8)
         row += 1
-        for key in ("sort_fill_first", "stack_from"):
+        for key in ("sort_fill_first", "stack_from", "collect_to"):
             opts = modsettings.CHOICES[key]
             labels = [self.t[f"opt.{o}"] for o in opts]
             v = self.vars[key] = tk.StringVar(value=self.t[f"opt.{self.values[key]}"])
@@ -199,6 +226,22 @@ class App:
         sp.bind("<FocusOut>", lambda e: self.save_int("sort_keep_free"))
         sp.bind("<Return>", lambda e: self.save_int("sort_keep_free"))
         row += 1
+        lo, hi = modsettings.RANGES["cook_count"]
+        v = self.vars["cook_count"] = tk.IntVar(value=self.values["cook_count"])
+        ttk.Label(f, text=self.t["cook_count"]).grid(row=row, column=0, sticky="w", pady=3)
+        sp = ttk.Spinbox(f, from_=lo, to=hi, textvariable=v, width=6, command=lambda: self.save_int("cook_count"))
+        sp.grid(row=row, column=1, sticky="w", padx=8)
+        sp.bind("<FocusOut>", lambda e: self.save_int("cook_count"))
+        sp.bind("<Return>", lambda e: self.save_int("cook_count"))
+        row += 1
+        if self.dishes:
+            v = self.vars["cook_item"] = tk.StringVar(value=self.dish_label(self.values["cook_item"]))
+            ttk.Label(f, text=self.t["cook_item"]).grid(row=row, column=0, sticky="w", pady=3)
+            cb = ttk.Combobox(f, textvariable=v, values=[n for n, _ in self.dishes], state="readonly", width=36)
+            cb.grid(row=row, column=1, sticky="w", padx=8)
+            cb.bind("<<ComboboxSelected>>", lambda e, v=v: self.save(
+                "cook_item", dict(self.dishes).get(v.get(), self.values["cook_item"])))
+            row += 1
         ttk.Button(f, text=self.t["defaults"], command=self.reset_features).grid(row=row, column=0, sticky="w",
                                                                                   pady=(16, 0))
         return f
@@ -217,6 +260,8 @@ class App:
         self.values = save_settings(cur)
         for k, v in self.vars.items():
             d = self.values[k]
+            if k == "cook_item":
+                d = self.dish_label(d)
             v.set(self.t[f"opt.{d}"] if k in modsettings.CHOICES else d)
         self.status.set(self.t["saved"])
 

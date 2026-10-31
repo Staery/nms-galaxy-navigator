@@ -59,8 +59,10 @@ import nmspy.data.types as nms  # noqa: E402
 import numpy as np  # noqa: E402
 
 from galaxy import i18n, model, route  # noqa: E402
+import cook  # noqa: E402
 import invsort  # noqa: E402
 import invstats  # noqa: E402
+import kitchen  # noqa: E402
 import modsettings  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
@@ -95,6 +97,9 @@ INV_ADD_SIG = "48 89 5C 24 ? 48 89 74 24 ? 55 57 41 56 48 8D 6C 24 ? 48 81 EC ? 
 INV_REMOVE_SIG = "48 89 5C 24 ? 48 89 6C 24 ? 48 89 54 24 ? 56 57 41 56 48 83 EC ? 48 8B B9"
 # cGcPlayerState: mInventories ×0x21 0x910, mShipInventories ×0xC 0x7458, miPrimaryShip 0x182A0
 PS_INVENTORIES, PS_EXOSUIT, PS_SHIP_INV, PS_SHIP_COUNT, PS_PRIMARY_SHIP = 0x910, 0, 0x7458, 0xC, 0x182A0
+PS_CHESTS = 12                    # mInventories[12..21] — контейнеры 0–9
+COOK_POLL = 2.0                   # с между пересчётами панели готовки (F3)
+COOK_ROWS = 18
 SETTINGS_POLL = 3.0       # с между проверками settings.json
 INV_SEEN = 0.5            # с: экран инвентаря открыт, если DoInventorySlots звался недавно
 TOAST_TIME = 4.0
@@ -194,7 +199,7 @@ class TextRow(ctypes.Structure):  # NVGtextRow
 class GalaxyList(Mod):
     __author__ = "Staery"
     __description__ = "NMS galaxy map: systems in range with filters"
-    __version__ = "0.8.2"
+    __version__ = "0.9.0"
 
     def __init__(self):
         super().__init__()
@@ -276,6 +281,11 @@ class GalaxyList(Mod):
         self.popup_t = 0.0                    # когда игра последний раз рисовала попап предмета
         self.tip_seen: dict = {}              # tooltip_check: ID модуля → (время первой строки, {строки с %})
         self.tip_done: set = set()
+        self._cook_data = None                # data/recipes.json (cook.load), при первой надобности
+        self.cook_shown, self.cook_req, self.collect_req = False, False, False
+        self.cook_at, self.cook_busy = 0.0, False
+        self.cook_rows: list = []             # строки панели F3 (считает поток)
+        self.jobs: dict = {}                  # переработчик → {"item", "crafts", "out", "until"}: что мы загрузили
         self.emit("start", version=self.__version__, jump=self.jump, state=self.panel.to_json(),
                   target=self.target and f"{self.target['ua']:016X}", lang=i18n.lang, settings=self.cfg.values)
         threading.Thread(target=self.load_visited, daemon=True).start()
@@ -377,6 +387,22 @@ class GalaxyList(Mod):
         if self.cfg["inventory_stack"] and time.time() - self.inv_seen < INV_SEEN:
             self.stack_req = True
 
+    @on_key_pressed("f3")
+    def k_cook_panel(self):
+        if self.cfg["cook_panel"]:
+            self.cook_shown = not self.cook_shown
+            self.cook_at = 0.0
+
+    @on_key_pressed("f2")
+    def k_cook(self):
+        if self.cfg["cook_helper"] and time.time() - self.inv_seen < INV_SEEN:
+            self.cook_req = True
+
+    @on_key_pressed("f1")
+    def k_collect(self):
+        if self.cfg["collect"] and time.time() - self.inv_seen < INV_SEEN:
+            self.collect_req = True
+
     # ---------- игровой поток ----------
     @nms.cGcNGuiManager.BeginFrame.after
     def ngui_begin(self, this, lpInput, lScreenSize, lbFullscreen, lfPixelRatio, lbDetectInput):
@@ -395,6 +421,15 @@ class GalaxyList(Mod):
             if self.stack_req:
                 self.stack_req = False
                 self.stack_to_box()
+            if self.cook_req:
+                self.cook_req = False
+                self.cook_step()
+            if self.collect_req:
+                self.collect_req = False
+                self.collect_box()
+            if self.cook_shown and not self.cook_busy and now - self.cook_at >= COOK_POLL:
+                self.cook_at = now
+                self.cook_refresh()
             raw = safe_read(get_addressof(lScreenSize), 8)
             if len(raw) == 8:
                 w, h = struct.unpack("<2f", raw)
@@ -816,6 +851,12 @@ class GalaxyList(Mod):
             self.tip_report(now)
         if self.cfg["inventory_stats"] and self.shown and not self.inv_failed and self.inv.visible(now):
             self.draw_inv()
+        if self.cook_shown and self.cfg["cook_panel"] and self.cook_rows:
+            try:
+                self.draw(self.draw_cook_panel)
+            except Exception as e:
+                self.cook_shown = False
+                self.error("cook_draw_error", e)
         if self.toast and now < self.toast[1] and now - self.inv_seen < INV_SEEN:
             try:
                 self.draw(self.draw_toast)
@@ -853,8 +894,8 @@ class GalaxyList(Mod):
             self.emit("sort_fns", add=f"{offs[0]:X}", remove=f"{offs[1]:X}")
         return self._inv_fns
 
-    def sort_stores(self) -> tuple | None:
-        """(экзокостюм, основной корабль): адреса cGcInventoryStore в cGcPlayerState."""
+    def own_addrs(self) -> tuple | None:
+        """(экзокостюм, основной корабль или 0, номер корабля, [адреса контейнеров 0–9]) в cGcPlayerState."""
         ps = gameData.player_state
         if ps is None:
             return None
@@ -865,6 +906,15 @@ class GalaxyList(Mod):
         raw = safe_read(base + PS_PRIMARY_SHIP, 4)
         ship_i = struct.unpack("<I", raw)[0] if len(raw) == 4 else -1
         ship = base + PS_SHIP_INV + ship_i * invsort.STORE_SIZE if 0 <= ship_i < PS_SHIP_COUNT else 0
+        chests = [base + PS_INVENTORIES + (PS_CHESTS + i) * invsort.STORE_SIZE for i in range(kitchen.CHESTS)]
+        return exo, ship, ship_i, chests
+
+    def sort_stores(self) -> tuple | None:
+        """(экзокостюм, основной корабль): адреса cGcInventoryStore в cGcPlayerState."""
+        own = self.own_addrs()
+        if own is None:
+            return None
+        exo, ship, ship_i, _ = own
         info = {}
         for name, a in (("exo", exo), ("ship", ship)):
             st = invsort.read_store(safe_read, a) if a else None
@@ -892,15 +942,16 @@ class GalaxyList(Mod):
             return bool(remove_fn(store, struct.unpack("<Q", struct.pack("<ii", x, y))[0], 0))
         return add, remove
 
-    def find_box(self, own) -> int | None:
-        """Ящик — инвентарь, который экран показывает сейчас, кроме экзокостюма и корабля: с веществами или
-        товарами и без технологий (у техники, мультитула и чужих страниц они есть). Несколько — последний."""
+    def find_box(self, own, need_items=True) -> int | None:
+        """Ящик — инвентарь, который экран показывает сейчас, кроме own (экзокостюм, корабль…): с веществами или
+        товарами (need_items=False — можно пустой) и без технологий (у техники, мультитула и чужих страниц они
+        есть). Несколько — последний."""
         now, found = time.time(), []
         for a, t in self.inv_addrs.items():
             if a in own or now - t >= INV_SEEN:
                 continue
             st = invsort.read_store(safe_read, a)
-            if st and st["valid"] and any(invsort.movable(e) for e in st["elems"])                     and not any(e.type == invsort.TECHNOLOGY for e in st["elems"]):
+            if st and st["valid"] and (not need_items or any(invsort.movable(e) for e in st["elems"]))                     and not any(e.type == invsort.TECHNOLOGY for e in st["elems"]):
                 found.append((t, a, st["w"], st["h"]))
         self.emit("stack_box", found=[[f"{a:X}", w, h] for _, a, w, h in found])
         return max(found)[1] if found else None
@@ -952,6 +1003,216 @@ class GalaxyList(Mod):
         text = (i18n.tr("sort.ok", before=rep["stacks_before"], after=rep["stacks_after"]) if r == "ok" else
                 i18n.tr(f"sort.{r}") if r in ("nothing", "no_room", "rolled_back") else i18n.tr("sort.error"))
         self.toast = (text, time.time() + TOAST_TIME, r in ("ok", "nothing"))
+
+    # ---------- готовка (F3 панель, F2 переработчик, F1 автосбор) ----------
+    def cook_data(self) -> dict:
+        if self._cook_data is None:
+            self._cook_data = cook.load()
+        return self._cook_data
+
+    def kitchen_places(self) -> tuple | None:
+        """(экзокостюм, корабль, [(номер, store) построенных контейнеров], места [(ключ, store)] в порядке
+        «откуда брать»: контейнеры, корабль, экзокостюм)."""
+        own = self.own_addrs()
+        if own is None:
+            return None
+        exo, ship, _, chest_addrs = own
+        chests = [(i, st) for i, a in enumerate(chest_addrs)
+                  if (st := invsort.read_store(safe_read, a)) and st["valid"]]
+        places = [(f"chest{i}", st) for i, st in chests]
+        for key, a in (("ship", ship), ("exosuit", exo)):
+            st = invsort.read_store(safe_read, a) if a else None
+            if st and st["valid"]:
+                places.append((key, st))
+        return exo, ship, chests, places
+
+    def own_stores(self, got) -> tuple:
+        return (got[0], got[1], *(st["addr"] for _, st in got[2]))
+
+    def cooking(self) -> collections.Counter:
+        """Выход того, что мы загрузили и ещё не выгрузили, — запас, которого пока нет в инвентарях."""
+        c = collections.Counter()
+        for j in self.jobs.values():
+            c[j["item"]] += j["crafts"] * j["out"]
+        return c
+
+    def cook_refresh(self):
+        """F3: запас — из памяти (игровой поток), план — в потоке."""
+        try:
+            got = self.kitchen_places()
+            if got is None:
+                return
+            where, _ = kitchen.stock(got[3])
+            jobs = [dict(j) for j in self.jobs.values()]
+        except Exception as e:
+            self.error("cook_refresh_error", e)
+            return
+        self.cook_busy = True
+        threading.Thread(target=self.cook_rows_build, args=(where, jobs), daemon=True).start()
+
+    def cook_rows_build(self, where, jobs):
+        try:
+            data, lang = self.cook_data(), i18n.lang
+            item, n = self.cfg["cook_item"], self.cfg["cook_count"]
+            nm = lambda i: cook.name(data, i, lang)                                     # noqa: E731
+            at = lambda i: ", ".join(f"{cook.place_name(k, lang)} {c}"                   # noqa: E731
+                                     for k, c in sorted(where.get(i, {}).items(), key=lambda x: -x[1])[:3])
+            have = kitchen.totals(where)
+            rows = [("title", f"{nm(item)} ×{n} — " + i18n.tr("cook.have", n=have[item]))]
+            if item not in data["recipes"]:
+                self.cook_rows = rows + [("bad", i18n.tr("cook.no_recipe", item=item))]
+                return
+            cooking, now = collections.Counter(), time.time()
+            for j in jobs:
+                cooking[j["item"]] += j["crafts"] * j["out"]
+                left = j["until"] - now
+                rows.append(("job", i18n.tr("cook.running", item=nm(j["item"]), n=j["crafts"], sec=round(left))
+                             if left > 0 else i18n.tr("cook.ready", item=nm(j["item"]), n=j["crafts"])))
+            p = cook.plan(data, item, n, have + cooking)
+            if p.missing:
+                rows.append(("head", i18n.tr("cook.missing")))
+                rows += [("bad", f"  {nm(i)}: {c}") for i, c in sorted(p.missing.items(), key=lambda x: -x[1])[:6]]
+            else:
+                rows.append(("good", i18n.tr("cook.all")))
+            job = kitchen.next_job(data, item, n, have, cooking)
+            if job:
+                rows.append(("head", i18n.tr("cook.next", item=nm(job["item"]), n=job["crafts"])))
+                rows += [("text", "  " + i18n.tr("cook.from", item=nm(i), where=at(i)))
+                         for i in kitchen.need_per_craft(job["ings"])]
+            rec = data["recipes"]
+            secs = sum(c * rec[i][k][1] for i, c, k in p.ops)
+            rows.append(("dim", i18n.tr("cook.total", crafts=sum(c for _, c, _ in p.ops), min=math.ceil(secs / 60))))
+            rows.append(("dim", i18n.tr("cook.keys")))
+            self.cook_rows = rows[:COOK_ROWS]
+        except Exception as e:
+            self.error("cook_rows_error", e)
+        finally:
+            self.cook_busy = False
+
+    @staticmethod
+    def proc_info(st) -> dict | None:
+        """Раскладка инвентаря — в лог для живой проверки (вход/выход переработчика, пределы стопок)."""
+        return st and {"size": [st["w"], st["h"]], "valid": sorted(st["valid"] or ()), "special": len(st["special"]),
+                       "elems": [[invsort.cstr(e.id), e.x, e.y, e.amount, e.max, e.type] for e in st["elems"]]}
+
+    def unload(self, mover, box: int, chests) -> tuple:
+        """Всё из box — в контейнеры. → (итог Mover без placed, сколько перенесено, сколько не влезло)."""
+        st = invsort.read_store(safe_read, box)
+        takes, puts = kitchen.collect_moves(st, chests, int(self.cfg["collect_to"][5:]))
+        if not takes:
+            return {"result": "nothing"}, 0, 0
+        rep = mover.run((box, *(c["addr"] for _, c in chests)), takes, puts)
+        placed = rep.pop("placed", {})
+        left = sum(v for (a, _), v in placed.items() if a == box)
+        return rep, sum(placed.values()) - left, left
+
+    def cook_step(self):
+        """F2 у открытого переработчика: готовое — в контейнеры, затем следующая готовка плана из запаса."""
+        text, ok, rep = i18n.tr("sort.error"), False, {}
+        try:
+            data = self.cook_data()
+            item, n = self.cfg["cook_item"], self.cfg["cook_count"]
+            nm = lambda i: cook.name(data, i, i18n.lang)                                # noqa: E731
+            got = self.kitchen_places()
+            proc = self.find_box(self.own_stores(got), need_items=False) if got else None
+            if item not in data["recipes"]:
+                text, rep["result"] = i18n.tr("cook.no_recipe", item=item), "no_recipe"
+            elif proc is None:
+                text, rep["result"] = i18n.tr("cook.no_proc"), "no_proc"
+            else:
+                text, ok = self.cook_at_proc(data, item, n, nm, got, proc, rep)
+            self.emit("cook", **rep)
+        except Exception as e:
+            self.error("cook_error", e)
+        self.cook_at = 0.0
+        self.toast = (text, time.time() + TOAST_TIME, ok)
+
+    def cook_at_proc(self, data, item, n, nm, got, proc, rep) -> tuple:
+        job = self.jobs.get(proc)
+        now = time.time()
+        st = invsort.read_store(safe_read, proc)
+        rep["proc"] = self.proc_info(st)
+        if job and now < job["until"]:
+            rep["result"] = "busy"
+            return i18n.tr("cook.busy", item=nm(job["item"]), sec=round(job["until"] - now)), True
+        add, remove = self.inv_ops()
+        mover = kitchen.Mover(safe_read, add, remove)
+        prefix = ""
+        if any(invsort.movable(e) for e in st["elems"]):
+            r, moved, left = self.unload(mover, proc, got[2])
+            rep["unload"] = {**r, "moved": moved, "left": left}
+            if r["result"] != "ok" or left:
+                rep["result"] = "unload_failed"
+                return (i18n.tr("collect.ok", n=moved) + i18n.tr("collect.left", left=left) if r["result"] == "ok"
+                        else i18n.tr("sort.rolled_back")), False
+            prefix = i18n.tr("cook.unloaded", n=moved)
+        self.jobs.pop(proc, None)
+        got = self.kitchen_places()
+        where, keys = kitchen.stock(got[3])
+        have = kitchen.totals(where)
+        job = kitchen.next_job(data, item, n, have, self.cooking())
+        if job is None:
+            done = have[item] >= n
+            rep["result"] = "done" if done else "nothing"
+            return prefix + i18n.tr("cook.done" if done else "cook.none", item=nm(item), n=have[item]), done
+        rep["job"] = {k: job[k] for k in ("item", "crafts", "secs", "ings")}
+        sources = [(s["addr"], s) for _, s in got[3]]
+        mv = kitchen.load_moves(job, invsort.read_store(safe_read, proc), sources, keys)
+        if mv is None:
+            rep["result"] = "no_cells"
+            return prefix + i18n.tr("cook.no_cells"), False
+        r = mover.run((proc, *(a for a, _ in sources)), *mv)
+        r.pop("placed", None)
+        rep.update(load=r, result=r["result"], after=self.proc_info(invsort.read_store(safe_read, proc)))
+        if r["result"] != "ok":
+            return i18n.tr("sort.rolled_back"), False
+        c = kitchen.loaded_crafts(job, r["first"])
+        secs = c * job["secs"]
+        if c > 0:
+            self.jobs[proc] = {"item": job["item"], "crafts": c, "out": job["out"], "until": time.time() + secs}
+        return prefix + i18n.tr("cook.ok", item=nm(job["item"]), n=c, sec=round(secs)), c > 0
+
+    def collect_box(self):
+        """F1 у открытого хранилища (двор, грядка, ящик): всё — в контейнеры, где такое уже есть, иначе collect_to."""
+        text, ok = i18n.tr("sort.error"), False
+        try:
+            got = self.kitchen_places()
+            box = self.find_box(self.own_stores(got)) if got else None
+            if box is None:
+                text = i18n.tr("collect.no_box")
+                self.emit("collect", result="no_box")
+            else:
+                info = self.proc_info(invsort.read_store(safe_read, box))
+                add, remove = self.inv_ops()
+                t0 = time.perf_counter()
+                r, moved, left = self.unload(kitchen.Mover(safe_read, add, remove), box, got[2])
+                self.emit("collect", box=info, moved=moved, left=left, ms=round((time.perf_counter() - t0) * 1000, 1),
+                          **r)
+                ok = r["result"] in ("ok", "nothing")
+                text = (i18n.tr("collect.ok", n=moved) + (i18n.tr("collect.left", left=left) if left else "")
+                        if r["result"] == "ok" else i18n.tr("collect.nothing") if r["result"] == "nothing"
+                        else i18n.tr("sort.rolled_back"))
+        except Exception as e:
+            self.error("collect_error", e)
+        self.cook_at = 0.0
+        self.toast = (text, time.time() + TOAST_TIME, ok)
+
+    def draw_cook_panel(self, ctx, st):
+        """F3: слева сверху — цель, что готовится, чего не хватает, следующая готовка и где лежит сырьё."""
+        k = self.screen[1] / 1080.0
+        ctypes.memmove(st + ST_FONT_SIZE, struct.pack("<f", INV_FONT * k), 4)
+        rows = self.cook_rows
+        pad, rh = INV_PAD * k, INV_ROW["base"] * k
+        w = min(max(self.measure(ctx, st, t) for _, t in rows), (INV_W_MAX - 2 * INV_PAD) * k) + 2 * pad
+        h = len(rows) * rh + 2 * pad
+        x, y = INV_RIGHT * k, 160 * k
+        self.rect(ctx, st, x, y, w, h, (0.04, 0.07, 0.16, 0.88))
+        self.rect(ctx, st, x, y, w, 2 * k, (1.0, 0.85, 0.4, 0.8))
+        colors = {"title": (1.0, 0.85, 0.4, 1.0), "head": (1.0, 1.0, 1.0, 1.0), "bad": (0.95, 0.45, 0.40, 1.0),
+                  "good": (0.45, 0.85, 0.50, 1.0), "job": (0.55, 0.80, 1.0, 1.0), "dim": (0.52, 0.58, 0.70, 1.0)}
+        for i, (kind, t) in enumerate(rows):
+            self.text(ctx, st, x + pad, y + pad + i * rh, self.fit(ctx, st, t, w - 2 * pad),
+                      colors.get(kind, (0.72, 0.78, 0.90, 1.0)))
 
     def draw_toast(self, ctx, st):
         k = self.screen[1] / 1080.0
