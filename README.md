@@ -44,7 +44,8 @@ one is to the best possible roll. The same base stats are also available from th
 | 🌐 | 17 game languages, picked up from the game settings on the fly; game terms come from the game's own tables | [mod/galaxy/i18n.py](mod/galaxy/i18n.py), [build_i18n.py](build_i18n.py) |
 | 📊 | Inventory card: hidden base stats (now / class range / S max / % of range) and exact module rolls (% to the best roll) | [mod/invstats.py](mod/invstats.py), `draw_inv_panel` in [mod/galaxy_list.py](mod/galaxy_list.py) |
 | 🗃️ | F5 in the inventory: the exosuit and the ship sorted as one inventory — stacks merged, then laid out ship first, keeping the exosuit as free as possible (game's own Add/Remove, checked and rolled back on any mismatch) | [mod/invsort.py](mod/invsort.py) |
-| ⚙️ | Every feature can be switched off in `settings.json` (all on by default), re-read on the fly | [mod/modsettings.py](mod/modsettings.py) |
+| 📥 | F4 at an open storage container: every item already in it is pulled in from the exosuit and the ship and merged into full stacks | [mod/invsort.py](mod/invsort.py) |
+| ⚙️ | Settings window (`Settings.bat`): every feature on/off, sort options and stat weights per module type; or edit `settings.json` — re-read on the fly | [settings_gui.py](settings_gui.py), [mod/modsettings.py](mod/modsettings.py) |
 | 🧮 | The same base stats and module ranges from the save (CLI, Russian) | [nms_stats.py](nms_stats.py), [statinfo.py](statinfo.py) |
 | 💾 | Own save reader (LZ4 chunks → JSON → readable keys), read-only | [nmssave.py](nmssave.py) |
 
@@ -171,10 +172,27 @@ the ship, keeping a few ship slots free (`sort_keep_free`); the rest goes to the
 slots are used only if nothing else fits. Technology and broken or tech-only slots are left alone. If anything does
 not add up, everything is put back as it was. A short message shows the result.
 
+### F4 — stack into a container
+
+Open a storage container (base container, freighter storage — anything that is neither the exosuit nor the ship
+and holds substances or products) and press **F4**. Every item that is already in the container is taken from the
+exosuit and the primary ship (`stack_from`) and merged with the container's stacks; other items stay where they
+are. What does not fit goes back to the exosuit or the ship. Same safety as F5: the game's own Add/Remove, counts
+checked after the move, and a full rollback on any mismatch.
+
 ### Settings
 
-`settings.json` next to `launch.cmd`, created on the first run. Edit it in any text editor while playing — changes
-apply within a few seconds; an invalid value falls back to the default.
+Run **`Settings.bat`** for the settings window (language follows the game: Russian or English):
+
+- **Features** — every switch and the F4/F5 options below;
+- **Stat weights** — module types grouped by multitool, exosuit, starship, exocraft and freighter; pick a type,
+  pick a stat, set a weight 0–10 for this type or for all modules, or reset it to the built-in one. A filter finds
+  types by name, module ID or stat.
+
+Every change is saved to `settings.json` at once and the mod picks it up within a few seconds.
+
+`settings.json` lies next to `launch.cmd` and is created on the first run. It can also be edited in any text editor
+while playing; an invalid value falls back to the default.
 
 | Key | Default | |
 |---|---|---|
@@ -184,14 +202,16 @@ apply within a few seconds; an invalid value falls back to the default.
 | `inventory_sort` | `true` | F5 sort in the inventory |
 | `sort_fill_first` | `"ship"` | where sorted items go first: `ship` (exosuit stays as free as possible) or `exosuit` |
 | `sort_keep_free` | `5` | slots left free in that first inventory when everything fits anyway (0–120) |
+| `inventory_stack` | `true` | F4 stacking into an open container |
+| `stack_from` | `"both"` | where F4 takes items from: `both`, `exosuit` or `ship` (with `both`, the order follows `sort_fill_first`) |
 | `tooltip_check` | `false` | check mode: compares the card with the game's own module tooltip and logs `tip_check` to `logs/galaxy.jsonl` (restart needed) |
 | `stat_weights` | `{}` | your own stat weights for the module score, see below |
 
 ### Stat weights
 
 The module score in the inventory card weighs each stat (built-in weights 1–3, see
-[Inventory card](#inventory-card)). To change them, put your weights into `stat_weights` in `settings.json` —
-it applies within a few seconds, no restart:
+[Inventory card](#inventory-card)). The easiest way to change them is the **Stat weights** tab of `Settings.bat`.
+By hand, put your weights into `stat_weights` in `settings.json` — it applies within a few seconds, no restart:
 
 ```json
 "stat_weights": {
@@ -247,7 +267,7 @@ mod/
   galaxy/route.py     auto-route (numpy)
   galaxy/i18n.py      language detection and lookup; i18n_ui.json — own strings
   invstats.py         inventory stats: store / module memory reading, card rows (no game needed for tests)
-  invsort.py          combined exosuit + ship sort (tested on a model of the game's Add/Remove)
+  invsort.py          combined exosuit + ship sort, stacking into a container (tested on a model of Add/Remove)
   modsettings.py      settings.json: defaults, validation, reload
   proto_map.py        stage-1 prototype with memory probes (reverse-engineering notes)
 data/
@@ -257,8 +277,9 @@ data/
 nmssave.py            save reader        nms_stats.py   hidden stats CLI
 statinfo.py           stat logic shared by the CLI and the mod
 nmspaths.py           game / Steam folder lookup
+settings_gui.py       settings window (tkinter), Settings.bat runs it
 tools/sigscan.py      checks that NMS.py hook signatures still match NMS.exe
-launch.cmd, Install.bat
+launch.cmd, Install.bat, Settings.bat
 tests/
 ```
 
@@ -269,8 +290,8 @@ python -m pytest -q
 ```
 
 The tests cover the save reader, filters and labels, the route, stat ranges and percentages, inventory memory
-parsing on synthetic memory, and translations (every key in every language,
-matching placeholders). The mod itself is tested in the game.
+parsing on synthetic memory, sorting and stacking on a model of the game's Add/Remove, the settings window's
+labels and saving, and translations (every key in every language, matching placeholders). The mod itself is tested in the game.
 
 ## Project status
 
@@ -278,12 +299,14 @@ matching placeholders). The mod itself is tested in the game.
 - Systems-in-range panel with filters and sorting, standard jump, auto-route with automatic next-system selection.
 - Hyperdrive and scanners read from the save; 17 languages with automatic switching.
 - Hidden stats card on the inventory screen (multitool, ship, exosuit) and the hidden base stats CLI.
-- Combined exosuit + ship sort (F5) and on/off settings for every feature.
+- Combined exosuit + ship sort (F5), stacking into a container (F4), a settings window for every feature and the
+  stat weights.
 
 **Not done yet**
 - System names in the list.
 - A check in a multiplayer session (the jump is the game's own, but it has not been tested with friends yet).
-- A full in-game run of the F5 sort (so far it is tested on a model of the game's Add/Remove; any mismatch rolls back).
+- A full in-game run of the F5 sort and F4 stacking (so far they are tested on a model of the game's Add/Remove;
+  any mismatch rolls back).
 
 **Known gaps**
 - The card's value formats are checked against the game tooltips for ship weapons, shield and hyperdrive,
