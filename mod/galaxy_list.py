@@ -26,7 +26,7 @@ F8 — панель вкл/выкл, F7 — список/фильтры, стр�
 влево/вправо — сортировка (в фильтрах — значение),
 F9 — выбрать систему на карте, F6 — сбросить фильтры (в списке — маршрут),
 F10 — маршрут к выделенной строке, F11 — маршрут к системе в прицеле карты.
-F5 в инвентаре — общая сортировка экзокостюма и корабля (mod/invsort.py).
+F5 в инвентаре — общая сортировка экзокостюма и корабля, F4 у ящика — всё похожее в ящик (mod/invsort.py).
 Функции включаются и выключаются в settings.json (mod/modsettings.py), по умолчанию всё включено.
 """
 import bisect
@@ -266,8 +266,9 @@ class GalaxyList(Mod):
         self.app_state = None                 # состояние игры (cTkFSMState): APPLOCALLOAD, APPVIEW, GALAXYMAP…
         self.gen_logged = 0
         self.inv_seen = 0.0
-        self.inv_addrs: set = set()           # инвентари, которые показывал экран (для лога сортировки)
+        self.inv_addrs: dict = {}             # инвентарь, который показывал экран → когда (ящик для F4, лог сортировки)
         self.sort_req = False
+        self.stack_req = False
         self._inv_fns = None                  # (Add, Remove) игры
         self.toast = None                     # (текст, до какого времени, удачно ли)
         self.painting = False                 # рисуем сами — свои строки nvgText не считать подсказкой игры
@@ -370,6 +371,11 @@ class GalaxyList(Mod):
         if self.cfg["inventory_sort"] and time.time() - self.inv_seen < INV_SEEN:
             self.sort_req = True
 
+    @on_key_pressed("f4")
+    def k_stack(self):
+        if self.cfg["inventory_stack"] and time.time() - self.inv_seen < INV_SEEN:
+            self.stack_req = True
+
     # ---------- игровой поток ----------
     @nms.cGcNGuiManager.BeginFrame.after
     def ngui_begin(self, this, lpInput, lScreenSize, lbFullscreen, lfPixelRatio, lbDetectInput):
@@ -385,6 +391,9 @@ class GalaxyList(Mod):
             if self.sort_req:                 # начало кадра интерфейса: страницы инвентаря ещё не рисуются
                 self.sort_req = False
                 self.sort_inventories()
+            if self.stack_req:
+                self.stack_req = False
+                self.stack_to_box()
             raw = safe_read(get_addressof(lScreenSize), 8)
             if len(raw) == 8:
                 w, h = struct.unpack("<2f", raw)
@@ -732,7 +741,7 @@ class GalaxyList(Mod):
             self.inv_seen = now
             addr = get_addressof(lpInventory)
             if addr:
-                self.inv_addrs.add(addr)
+                self.inv_addrs[addr] = now
             if addr and self.cfg["inventory_stats"]:
                 self.inv.on_slots(addr, now)
                 if self.inv.visible(now):
@@ -866,24 +875,70 @@ class GalaxyList(Mod):
             return None
         return exo, ship
 
+    def inv_ops(self) -> tuple:
+        """(add(store, elem) → (x, y) | None, remove(store, x, y) → bool) поверх Add/Remove игры."""
+        add_fn, remove_fn = self.inv_fns()
+        res = ctypes.c_uint64()
+
+        def add(store, raw):
+            buf = ctypes.create_string_buffer(raw, len(raw))
+            res.value = invsort.NO_INDEX
+            add_fn(store, ctypes.addressof(res), ctypes.addressof(buf))
+            x, y = struct.unpack("<ii", struct.pack("<Q", res.value))
+            return None if x < 0 or y < 0 else (x, y)
+
+        def remove(store, x, y):
+            return bool(remove_fn(store, struct.unpack("<Q", struct.pack("<ii", x, y))[0], 0))
+        return add, remove
+
+    def find_box(self, own) -> int | None:
+        """Ящик — инвентарь, который экран показывает сейчас, кроме экзокостюма и корабля: с веществами или
+        товарами и без технологий (у техники, мультитула и чужих страниц они есть). Несколько — последний."""
+        now, found = time.time(), []
+        for a, t in self.inv_addrs.items():
+            if a in own or now - t >= INV_SEEN:
+                continue
+            st = invsort.read_store(safe_read, a)
+            if st and st["valid"] and any(invsort.movable(e) for e in st["elems"])                     and not any(e.type == invsort.TECHNOLOGY for e in st["elems"]):
+                found.append((t, a, st["w"], st["h"]))
+        self.emit("stack_box", found=[[f"{a:X}", w, h] for _, a, w, h in found])
+        return max(found)[1] if found else None
+
+    def stack_to_box(self):
+        """F4: всё, что уже есть в открытом ящике, переносится в него из экзокостюма и корабля (stack_from)."""
+        try:
+            pair = self.sort_stores()
+            box = self.find_box(pair) if pair else None
+            if pair is None:
+                rep = {"result": "bad_store"}
+            elif box is None:
+                rep = {"result": "no_box"}
+            else:
+                exo, ship = pair
+                frm = self.cfg["stack_from"]
+                sources = (exo,) if frm == "exosuit" else (ship,) if frm == "ship" else                     (exo, ship) if self.cfg["sort_fill_first"] == "exosuit" else (ship, exo)
+                add, remove = self.inv_ops()
+                t0 = time.perf_counter()
+                rep = invsort.Stacker(safe_read, add, remove).run(box, sources)
+                rep["ms"] = round((time.perf_counter() - t0) * 1000, 1)
+            self.emit("stack", **rep)
+        except Exception as e:
+            rep = {"result": "error"}
+            self.error("stack_error", e)
+        r = rep["result"]
+        text = (i18n.tr("stack.ok", moved=rep["moved"]) + (i18n.tr("stack.left", left=rep["left"]) if rep["left"]
+                                                           else "") if r == "ok" else
+                i18n.tr(f"stack.{r}") if r in ("nothing", "no_box") else
+                i18n.tr("sort.rolled_back") if r == "rolled_back" else i18n.tr("sort.error"))
+        self.toast = (text, time.time() + TOAST_TIME, r in ("ok", "nothing"))
+
     def sort_inventories(self):
         try:
             pair = self.sort_stores()
             if pair is None:
                 rep = {"result": "bad_store"}
             else:
-                add_fn, remove_fn = self.inv_fns()
-                res = ctypes.c_uint64()
-
-                def add(store, raw):
-                    buf = ctypes.create_string_buffer(raw, len(raw))
-                    res.value = invsort.NO_INDEX
-                    add_fn(store, ctypes.addressof(res), ctypes.addressof(buf))
-                    x, y = struct.unpack("<ii", struct.pack("<Q", res.value))
-                    return None if x < 0 or y < 0 else (x, y)
-
-                def remove(store, x, y):
-                    return bool(remove_fn(store, struct.unpack("<Q", struct.pack("<ii", x, y))[0], 0))
+                add, remove = self.inv_ops()
                 order = pair if self.cfg["sort_fill_first"] == "exosuit" else pair[::-1]
                 t0 = time.perf_counter()
                 rep = invsort.Sorter(safe_read, add, remove).run(order, self.cfg["sort_keep_free"])

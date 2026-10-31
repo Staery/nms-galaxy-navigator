@@ -11,12 +11,14 @@ DEFAULTS = {
     "auto_route": True,         # следующая система маршрута выбирается на карте сама
     "inventory_stats": True,    # карточка скрытых статов в инвентаре
     "inventory_sort": True,     # F5 в инвентаре — общая сортировка экзокостюма и корабля
+    "inventory_stack": True,    # F4 у открытого ящика — всё, что в нём уже есть, переносится туда
+    "stack_from": "both",       # откуда F4 берёт предметы: both, exosuit, ship
     "sort_fill_first": "ship",  # куда раскладывать сначала: ship — экзокостюм остаётся как можно свободнее
     "sort_keep_free": 5,        # сколько ячеек оставить свободными там, куда кладём сначала (если всё помещается)
     "tooltip_check": False,     # проверка: числа карточки против подсказки игры (лог tip_check); нужен перезапуск
     "stat_weights": {},         # свои веса статов в оценке модуля: {стат: вес} или {шаблон: {стат: вес}}, вес 0–10
 }
-CHOICES = {"sort_fill_first": ("exosuit", "ship")}
+CHOICES = {"sort_fill_first": ("exosuit", "ship"), "stack_from": ("both", "exosuit", "ship")}
 RANGES = {"sort_keep_free": (0, 120)}
 WEIGHT_MAX = 10
 

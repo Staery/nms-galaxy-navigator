@@ -256,9 +256,11 @@ def test_sort_messages_translated():
     from galaxy import i18n
     for lang in i18n.LANGS:
         i18n.set_language(lang)
-        for k in ("sort.ok", "sort.nothing", "sort.no_room", "sort.rolled_back", "sort.error"):
+        for k in ("sort.ok", "sort.nothing", "sort.no_room", "sort.rolled_back", "sort.error",
+                  "stack.ok", "stack.left", "stack.nothing", "stack.no_box"):
             assert i18n.tr(k) != k, (lang, k)
         assert "3" in i18n.tr("sort.ok", before=3, after=2)
+        assert "7" in i18n.tr("stack.ok", moved=7) and "4" in i18n.tr("stack.left", left=4)
     i18n.set_language("English")
 
 
@@ -269,3 +271,54 @@ def test_stat_weights_setting():
     assert vals["stat_weights"] == {"Suit_Energy_Regen": 2, "T_SENTSUIT": {"Suit_Armour_Shield_Strength": 1.5}}
     assert fixed                                           # неверные записи отброшены, файл перепишется
     assert settings.normalize({})[0]["stat_weights"] == {}
+
+
+BOX = 0x3000_0000
+
+
+def game_box(box_cells=4):
+    g = game()
+    box = Store(box_cells, 1, grid(box_cells, 1), {0: 300, 2: 50}, 0)
+    box.elems = [[b"^FUEL1", 0, 0, 250, 300, 0], [b"^HYPERFUEL1", 1, 0, 5, 50, 2]]
+    g.st[BOX] = box
+    return g
+
+
+def test_stack_into_box():
+    g = game_box()
+    want = g.amounts()
+    r = s.Stacker(g.read, g.add, g.remove).run(BOX, (SHIP, EXO))
+    assert r["result"] == "ok" and g.amounts() == want
+    assert g.amounts(BOX) == {b"^FUEL1": 530, b"^HYPERFUEL1": 17}       # всё похожее — в ящике
+    assert b"^FUEL1" not in g.amounts(EXO) and b"^FUEL1" not in g.amounts(SHIP)
+    assert g.amounts(EXO) == {b"^LAND1": 50} and g.amounts(SHIP) == {b"^OXYGEN": 5}  # чужое не трогаем
+    assert [b"^LASER", 2, 0, 1, 1, 1] in g.st[EXO].elems
+    assert r["moved"] == 280 + 12 and r["left"] == 0
+    box = sorted(g.st[BOX].elems, key=lambda e: e[1])
+    assert [(e[0], e[3]) for e in box] == [(b"^FUEL1", 300), (b"^HYPERFUEL1", 17), (b"^FUEL1", 230)]
+
+
+def test_stack_box_full_keeps_rest():
+    g = game_box(box_cells=2)                                           # свободных ячеек в ящике нет
+    want = g.amounts()
+    r = s.Stacker(g.read, g.add, g.remove).run(BOX, (SHIP, EXO))
+    assert r["result"] == "ok" and g.amounts() == want
+    assert g.amounts(BOX) == {b"^FUEL1": 300, b"^HYPERFUEL1": 17}       # стопки ящика добиты до предела
+    assert r["left"] == 230 and r["moved"] == 50 + 12
+    assert g.amounts(SHIP)[b"^FUEL1"] == 200 and g.amounts(EXO)[b"^FUEL1"] == 30   # остаток — откуда взяли
+
+
+def test_stack_nothing_and_rollback():
+    g = game_box()
+    g.st[BOX].elems = [[b"^GOLD", 0, 0, 5, 300, 0]]
+    assert s.Stacker(g.read, g.add, g.remove).run(BOX, (SHIP, EXO))["result"] == "nothing"
+    g = game_box()
+    want = {a: sorted(map(tuple, st.elems)) for a, st in g.st.items()}
+    calls = []
+
+    def remove(a, x, y):                               # первый Remove игра не выполнила — откат
+        calls.append(a)
+        return len(calls) > 1 and g.remove(a, x, y)
+    r = s.Stacker(g.read, g.add, remove).run(BOX, (SHIP, EXO))
+    assert r["result"] == "rolled_back"
+    assert {a: sorted(map(tuple, st.elems)) for a, st in g.st.items()} == want   # всё на своих местах

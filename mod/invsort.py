@@ -252,3 +252,81 @@ class Sorter:
             rep["lost"] = [[cstr(e.id), e.amount, e.x, e.y, i] for i, s in enumerate(before)
                            for e in s["elems"] if movable(e)]
         return {"result": "rolled_back" if ok else "rollback_failed", **rep}
+
+
+class Stacker(Sorter):
+    """Всё похожее — в ящик: вещества и товары, которые в ящике уже есть, переносятся в него из других
+    инвентарей; стопки сливаются. Что не поместилось — обратно в исходные ячейки (по порядку sources)."""
+
+    def run(self, target, sources) -> dict:
+        addrs = (target, *sources)
+        before = self.stores(addrs)
+        if before is None:
+            return {"result": "bad_store"}
+        keys = {e.key for e in before[0]["elems"] if movable(e)}
+        own = [(s["addr"], e) for s in before for e in s["elems"] if movable(e) and e.key in keys]
+        moving = [(a, e) for a, e in own if a != target]
+        rep = {"items": len({e.key for _, e in moving}), "stacks_before": len(own)}
+        if not moving:
+            return {"result": "nothing", **rep}
+        want = count(before)
+        in_box = count([before[0]])
+        total: dict = {}
+        cells: dict = {}                      # (инвентарь, предмет) → исходные ячейки
+        limit: dict = {}                      # (инвентарь, предмет) → предел стопки
+        for a, e in own:
+            total[e.key] = total.get(e.key, 0) + e.amount
+            cells.setdefault((a, e.key), []).append((e.x, e.y))
+            if e.max > 0:
+                limit[(a, e.key)] = max(limit.get((a, e.key), 0), e.max)
+        box = before[0]
+        taken = {(e.x, e.y) for e in box["elems"] if not (movable(e) and e.key in keys)}
+        mine = {p for (a, _), ps in cells.items() if a == target for p in ps}
+        shared = [p for p in sorted(box["valid"], key=lambda p: (p[1], p[0]))
+                  if p not in taken and p not in mine and box["special"].get(p) not in NO_ITEMS]
+        for a, e in own:
+            self.remove(a, e.x, e.y)
+        now = self.stores(addrs)
+        if now is None or any(count(now).get(k) for k in keys):
+            return self.rollback(addrs, before, want, rep, "clear")
+        self.templates = {e.key: e.raw for _, e in own}
+        for key in sorted(total, key=sort_key):
+            rest = self.fill(target, key, total[key], cells.get((target, key), []) + [None], shared, limit)
+            for a in sources:                 # не поместилось — назад, откуда взяли
+                if rest > 0:
+                    rest = self.fill(a, key, rest, cells.get((a, key), []), [], limit)
+            if rest > 0:
+                return self.rollback(addrs, before, want, rep, "place", item=cstr(key[1]))
+        after = self.stores(addrs)
+        if after is None or count(after) != want:
+            return self.rollback(addrs, before, want, rep, "verify")
+        got = count([after[0]])
+        rep["moved"] = sum(got.get(k, 0) - in_box.get(k, 0) for k in keys)
+        rep["left"] = sum(count(after[1:]).get(k, 0) for k in keys)
+        rep["stacks_after"] = sum(1 for s in after for e in s["elems"] if movable(e) and e.key in keys)
+        return {"result": "ok", **rep}
+
+    def fill(self, addr, key, rest, own, shared, limit) -> int:
+        """Положить rest предмета key в addr: сначала в свои ячейки, затем (None в own) в общие свободные.
+        Предел стопки — этого инвентаря, иначе любой известный. → остаток."""
+        m = limit.get((addr, key)) or max((v for (_, k), v in limit.items() if k == key), default=None)
+        queue = list(own)
+        while rest > 0 and queue:
+            p = queue.pop(0)
+            if p is None:
+                if not shared:
+                    break
+                p = shared.pop(0)
+                queue.insert(0, None)
+            got = self.add(addr, make_elem(self.templates[key], p[0], p[1], rest, m))
+            if got is None:
+                continue                     # ячейку игра не приняла — следующая
+            for q in (queue, shared):        # игра положила в другую свободную — её больше не предлагать
+                if got != p and got in q:
+                    q.remove(got)
+            placed = self.amount_at(addr, got, key)
+            if placed <= 0:                  # сюда этот предмет не кладётся
+                self.remove(addr, *got)
+                break
+            rest -= placed
+        return rest
