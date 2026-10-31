@@ -121,10 +121,11 @@ GLYPH_PROBE = False
 GLYPH_SAMPLE = "ÀÉÜßÇÑ ąęłńśźż 日本語 中文 한국어"
 # этап 4: карточка статов на экране инвентаря — справа снизу, над моделью и кнопкой «Вернуться»;
 # размеры для 1080p, масштаб k = высота экрана / 1080
-INV_W, INV_PAD, INV_RIGHT, INV_BOTTOM = 400.0, 12.0, 40.0, 110.0
+INV_W, INV_W_MAX, INV_PAD, INV_RIGHT, INV_BOTTOM = 400.0, 620.0, 12.0, 40.0, 110.0   # ширина — по тексту
 INV_FONT = 16.0
 INV_ROW = {"title": 26.0, "base": 22.0, "module": 22.0, "stat": 20.0}
-INV_BAR = (292.0, 340.0)           # полоска места в диапазоне; % — по правому краю 376
+INV_BAR = (84.0, 36.0)             # полоска места в диапазоне: от правого края содержимого; % — по правому краю
+INV_ICON, INV_GAP = 24.0, 8.0      # отступ под значок класса; зазор между колонками
 CLASS_RGBA = {"S": (0.95, 0.65, 0.20, 1.0), "A": (0.62, 0.40, 0.85, 1.0), "B": (0.30, 0.55, 0.90, 1.0),
               "C": (0.30, 0.75, 0.65, 1.0), "X": (0.55, 0.55, 0.60, 1.0)}
 
@@ -1046,13 +1047,34 @@ class GalaxyList(Mod):
             return
         k = self.screen[1] / 1080.0
         ctypes.memmove(st + ST_FONT_SIZE, struct.pack("<f", INV_FONT * k), 4)
-        w, pad = INV_W * k, INV_PAD * k
+        m = lambda s: self.measure(ctx, st, s) if s else 0.0          # noqa: E731
+        gap, icon, bar_l = INV_GAP * k, INV_ICON * k, INV_BAR[0] * k
+        stats = [d for kind, d in rows if kind == "stat" and not d.get("fixed")]
+        vw = max((m(d["val"]) for d in stats), default=0.0)           # колонки значения и диапазона статов
+        rw = max((m(d["range"]) for d in stats), default=0.0)
+        need = 376 * k                                                  # ширина содержимого: под самый длинный текст
+        for kind, d in rows:
+            if kind == "title":
+                need = max(need, m(d["text"]) + 2 * gap + m(d["sub"]))
+            elif kind == "module":
+                need = max(need, icon + m(d["name"]) + gap / 2 + bar_l)
+            elif kind == "stat" and d.get("fixed"):
+                need = max(need, icon + m(d["label"]) + gap)
+            elif kind == "stat":
+                need = max(need, icon + m(d["label"]) + gap + vw + gap / 2 + rw + gap / 2 + bar_l)
+        pad = INV_PAD * k
+        cw = min(need, (INV_W_MAX - 2 * INV_PAD) * k)
+        w = cw + 2 * pad
         h = sum(INV_ROW[kind] for kind, _ in rows) * k + 2 * pad
         x = self.screen[0] - w - INV_RIGHT * k
         y = self.screen[1] - INV_BOTTOM * k - h
         self.rect(ctx, st, x, y, w, h, (0.04, 0.07, 0.16, 0.88))
         self.rect(ctx, st, x, y, w, 2 * k, (1.0, 0.85, 0.4, 0.8))
         x0, y = x + pad, y + pad
+        right = x0 + cw                                                 # правый край содержимого
+        range_x = right - bar_l - gap / 2 - rw                          # колонки статов от правого края
+        val_r = range_x - gap / 2
+        label_w = val_r - vw - gap - (x0 + icon)
         label, value, dim = (0.72, 0.78, 0.90, 1.0), (1.0, 1.0, 1.0, 1.0), (0.52, 0.58, 0.70, 1.0)
         ty = (INV_ROW["base"] - INV_FONT) / 2 * k            # отступ текста внутри строки
         first = True
@@ -1060,51 +1082,53 @@ class GalaxyList(Mod):
             rh = INV_ROW[kind] * k
             if kind == "title":
                 if not first:
-                    self.rect(ctx, st, x0, y + 3 * k, w - 2 * pad, 1, (0.6, 0.7, 0.85, 0.35))
-                self.text(ctx, st, x0, y + 7 * k, self.fit(ctx, st, d["text"], 260 * k), (1.0, 0.85, 0.4, 1.0))
-                self.text_right(ctx, st, x0 + 376 * k, y + 7 * k, d["sub"], dim)
-            elif kind == "base":
-                self.text(ctx, st, x0, y + ty, self.fit(ctx, st, d["label"], 140 * k), label)
-                self.text_right(ctx, st, x0 + 188 * k, y + ty, d["cur"], value)
-                self.text(ctx, st, x0 + 196 * k, y + ty, self.fit(ctx, st, d["range"], 56 * k), label)
-                self.text(ctx, st, x0 + 254 * k, y + ty, self.fit(ctx, st, d["s_max"], 36 * k), dim)
-                self.bar(ctx, st, x0, y, rh, k, d["pct"])
+                    self.rect(ctx, st, x0, y + 3 * k, cw, 1, (0.6, 0.7, 0.85, 0.35))
+                sub_w = m(d["sub"])
+                self.text(ctx, st, x0, y + 7 * k, self.fit(ctx, st, d["text"], cw - sub_w - 2 * gap),
+                          (1.0, 0.85, 0.4, 1.0))
+                self.text_right(ctx, st, right, y + 7 * k, d["sub"], dim)
+            elif kind == "base":                              # колонки базы — от правого края, как у полоски
+                self.text(ctx, st, x0, y + ty, self.fit(ctx, st, d["label"], cw - 236 * k), label)
+                self.text_right(ctx, st, right - 188 * k, y + ty, d["cur"], value)
+                self.text(ctx, st, right - 180 * k, y + ty, self.fit(ctx, st, d["range"], 56 * k), label)
+                self.text(ctx, st, right - 122 * k, y + ty, self.fit(ctx, st, d["s_max"], 36 * k), dim)
+                self.bar(ctx, st, right, y, rh, k, d["pct"])
             elif kind == "module":
                 if d["hl"]:
                     self.rect(ctx, st, x0 - pad / 2, y, w - pad, rh, (0.20, 0.35, 0.60, 0.55))
                 bs = rh - 6 * k
                 self.rect(ctx, st, x0, y + 3 * k, bs, bs, CLASS_RGBA.get(d["cls"], CLASS_RGBA["X"]))
-                cw = self.measure(ctx, st, d["cls"])
-                self.text(ctx, st, x0 + (bs - cw) / 2, y + ty, d["cls"], (0.05, 0.05, 0.08, 1.0))
-                self.text(ctx, st, x0 + 24 * k, y + ty, self.fit(ctx, st, d["name"], 270 * k),
+                self.text(ctx, st, x0 + (bs - m(d["cls"])) / 2, y + ty, d["cls"], (0.05, 0.05, 0.08, 1.0))
+                self.text(ctx, st, x0 + icon, y + ty, self.fit(ctx, st, d["name"], cw - icon - bar_l - gap / 2),
                           value if d["exact"] else label)
-                self.bar(ctx, st, x0, y, rh, k, d["pct"])
+                self.bar(ctx, st, right, y, rh, k, d["pct"])
             else:                                             # stat
                 tyy = (INV_ROW["stat"] - INV_FONT) / 2 * k
                 self.rect(ctx, st, x0 - pad / 2, y, w - pad, rh, (0.20, 0.35, 0.60, 0.30))
-                self.text(ctx, st, x0 + 24 * k, y + tyy, self.fit(ctx, st, d["label"], (270 if d.get("fixed") else 146) * k),
+                self.text(ctx, st, x0 + icon, y + tyy,
+                          self.fit(ctx, st, d["label"], cw - icon if d.get("fixed") else label_w),
                           dim if d.get("absent") else label)          # стата нет в модуле — 0 %
-                self.text_right(ctx, st, x0 + 226 * k, y + tyy, d["val"], value)
-                self.text(ctx, st, x0 + 232 * k, y + tyy, self.fit(ctx, st, d["range"], 58 * k), dim)
-                if not d.get("fixed"):          # строка «Статов: n из m» — без полоски
-                    self.bar(ctx, st, x0, y, rh, k, d["pct"])
+                if not d.get("fixed"):          # строка «Статов: n из m» — без значений и полоски
+                    self.text_right(ctx, st, val_r, y + tyy, d["val"], value)
+                    self.text(ctx, st, range_x, y + tyy, d["range"], dim)
+                    self.bar(ctx, st, right, y, rh, k, d["pct"])
             first = False
             y += rh
 
-    def bar(self, ctx, st, x0, y, rh, k, pct):
-        """Полоска места в диапазоне (0..100, больше — лучше) и % по правому краю."""
-        bx, bw, bh = x0 + INV_BAR[0] * k, (INV_BAR[1] - INV_BAR[0]) * k, 6 * k
+    def bar(self, ctx, st, right, y, rh, k, pct):
+        """Полоска места в диапазоне (0..100, больше — лучше) и % по правому краю right."""
+        bx, bw, bh = right - INV_BAR[0] * k, (INV_BAR[0] - INV_BAR[1]) * k, 6 * k
         by = y + (rh - bh) / 2
         self.rect(ctx, st, bx, by, bw, bh, (0.18, 0.22, 0.32, 0.95))
         ty = y + (rh - INV_FONT * k) / 2
         if pct is None:
-            self.text_right(ctx, st, x0 + 376 * k, ty, "?", (0.52, 0.58, 0.70, 1.0))
+            self.text_right(ctx, st, right, ty, "?", (0.52, 0.58, 0.70, 1.0))
             return
         p = max(0.0, min(100.0, pct))
         rgba = (0.90, 0.35, 0.30, 1.0) if p < 34 else (0.95, 0.80, 0.30, 1.0) if p < 67 else (0.40, 0.85, 0.45, 1.0)
         if p > 0:
             self.rect(ctx, st, bx, by, max(bw * p / 100, 2 * k), bh, rgba)
-        self.text_right(ctx, st, x0 + 376 * k, ty, f"{p:.0f}%", rgba)
+        self.text_right(ctx, st, right, ty, f"{p:.0f}%", rgba)
 
     def text_right(self, ctx, st, right, y, s, rgba):
         if s:
