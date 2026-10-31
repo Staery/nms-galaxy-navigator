@@ -97,7 +97,7 @@ def test_table_scan_popup_and_rows():
     mod = [d for kind, d in rows if kind == "module"]
     assert len(mod) == 1 and mod[0]["hl"] and mod[0]["exact"]   # под попапом — выделен и раскрыт
     stats = [d for kind, d in rows if kind == "stat"]
-    assert {d["val"] for d in stats} >= {"1.19", "0.87"}
+    assert {d["val"] for d in stats} >= {"+19%", "×0.87"}      # как в подсказке игры
     assert all(d["pct"] is None or 0 <= d["pct"] <= 100 for d in stats)
     assert s.rows(101.0) == []                               # инвентарь давно не рисовался
 
@@ -124,3 +124,13 @@ def test_inv_keys_translated():
         for b in inv.statinfo.BASE_LOC:                     # названия базовых статов — из игры
             if b.startswith(("WEAPON", "SHIP")):
                 assert i18n.tr(f"base.{b}") != f"base.{b}", (lang, b)
+
+
+def test_tip_check():
+    texts = ["Урон", "+3%", "Скорострельность +6 %", "Нагрев −7%", "Cadmium Amplifier"]
+    assert inv.tip_numbers(texts) == ["+3%", "+6%", "-7%"]
+    r = inv.tip_check(["+3%", "+6%"], texts)
+    assert r["ok"] and r["miss"] == []
+    r = inv.tip_check(["+3%", "+8%"], texts)
+    assert not r["ok"] and r["miss"] == ["+8%"]
+    assert not inv.tip_check([], texts)["ok"]

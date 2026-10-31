@@ -66,6 +66,10 @@ import modsettings  # noqa: E402
 LOG_DIR = ROOT / "logs"
 STATE_FILE = ROOT / "data" / "galaxy_panel.json"
 SETTINGS_FILE = ROOT / "settings.json"
+_cfg = modsettings.Settings(SETTINGS_FILE)
+_cfg.reload()
+TIP_CHECK = _cfg["tooltip_check"]   # хук nvgText (каждая строка интерфейса) — только для проверки, читается при запуске
+TIP_WAIT = 1.0                      # с: сколько собирать строки подсказки модуля перед сверкой
 SAVE_ROOT = Path(os.environ.get("APPDATA", "")) / "HelloGames" / "NMS"  # st_<steamid>/saveN.hg
 # NVGstate 7.10 (прототип): массив стейтов ctx+0xA8, шаг 0x108; fill paint с 0x0, textAlign 0x100
 NVG_STATES, NVG_STATE_SIZE = 0xA8, 0x108
@@ -189,7 +193,7 @@ class TextRow(ctypes.Structure):  # NVGtextRow
 class GalaxyList(Mod):
     __author__ = "Staery"
     __description__ = "NMS galaxy map: systems in range with filters"
-    __version__ = "0.8"
+    __version__ = "0.8.2"
 
     def __init__(self):
         super().__init__()
@@ -265,6 +269,10 @@ class GalaxyList(Mod):
         self.sort_req = False
         self._inv_fns = None                  # (Add, Remove) игры
         self.toast = None                     # (текст, до какого времени, удачно ли)
+        self.painting = False                 # рисуем сами — свои строки nvgText не считать подсказкой игры
+        self.popup_t = 0.0                    # когда игра последний раз рисовала попап предмета
+        self.tip_seen: dict = {}              # tooltip_check: ID модуля → (время первой строки, {строки с %})
+        self.tip_done: set = set()
         self.emit("start", version=self.__version__, jump=self.jump, state=self.panel.to_json(),
                   target=self.target and f"{self.target['ua']:016X}", lang=i18n.lang, settings=self.cfg.values)
         threading.Thread(target=self.load_visited, daemon=True).start()
@@ -732,6 +740,7 @@ class GalaxyList(Mod):
 
     @nms.cGcFrontendPageFunctions.DoItemPopup.before
     def inv_popup(self, lpPage, lpParentSlot, lItem, leType, lbDisabled, lRecipeId, lpStore):
+        self.popup_t = time.time()
         try:
             addr = get_addressof(lItem)
             if addr:
@@ -741,6 +750,34 @@ class GalaxyList(Mod):
                 self.inv.on_popup(tid)
         except Exception as e:
             self.error("inv_popup_error", e)
+
+    if TIP_CHECK:
+        @nvg.nvgText.before
+        def tip_text(self, ctx, x, y, string, end):
+            """tooltip_check: строки с % в подсказке модуля под курсором — для сверки с карточкой."""
+            tid = self.inv.popup
+            if self.painting or not tid or tid in self.tip_done or time.time() - self.popup_t > 0.2:
+                return
+            try:
+                a, b = ev(string), ev(end)
+                if not a:
+                    return
+                raw = safe_read(a, b - a if a < b <= a + 256 else 128).split(b"\0", 1)[0]
+                if b"%" in raw:
+                    seen = self.tip_seen.setdefault(tid, (time.time(), {}))[1]
+                    if len(seen) < 40:
+                        seen[raw.decode("utf-8", "replace")] = None
+            except Exception as e:
+                self.error("tip_text_error", e)
+
+    def tip_report(self, now: float):
+        """Модуль под курсором дольше TIP_WAIT — одна запись tip_check: ожидаемые значения карточки и числа игры."""
+        for tid, (t0, seen) in list(self.tip_seen.items()):
+            if now - t0 >= TIP_WAIT:
+                del self.tip_seen[tid]
+                self.tip_done.add(tid)
+                self.emit("tip_check", id=tid, raw=self.inv.exact(tid), texts=list(seen),
+                          **invstats.tip_check(self.inv.expected_tip(tid), seen))
 
     @manual_hook("GenerateProceduralTechnology", pattern=GENTECH_SIG, func_def=GENTECH_DEF, detour_time="after")
     def inv_generated(self, this, lProcTechID, lbExampleForWiki, a4, _result_):
@@ -763,6 +800,8 @@ class GalaxyList(Mod):
         if not lbMainScreen or get_addressof(this) != self.ctx_owner:
             return
         now = time.time()
+        if self.tip_seen:
+            self.tip_report(now)
         if self.cfg["inventory_stats"] and self.shown and not self.inv_failed and self.inv.visible(now):
             self.draw_inv()
         if self.toast and now < self.toast[1] and now - self.inv_seen < INV_SEEN:
@@ -927,6 +966,7 @@ class GalaxyList(Mod):
         saved = safe_read(st, NVG_STATE_SIZE)  # стейт игры возвращаем как был
         if len(saved) != NVG_STATE_SIZE:
             return False
+        self.painting = True
         try:
             ctypes.memmove(st + ST_TEXT_ALIGN, struct.pack("<i", NVG_ALIGN_LEFT_TOP), 4)
             if paint is not None:
@@ -936,6 +976,7 @@ class GalaxyList(Mod):
             else:
                 self.draw_filters(ctx, st)
         finally:
+            self.painting = False
             ctypes.memmove(st, saved, NVG_STATE_SIZE)
         return True
 
@@ -987,7 +1028,8 @@ class GalaxyList(Mod):
                 self.text(ctx, st, x0 + 24 * k, y + tyy, self.fit(ctx, st, d["label"], 146 * k), label)
                 self.text_right(ctx, st, x0 + 226 * k, y + tyy, d["val"], value)
                 self.text(ctx, st, x0 + 232 * k, y + tyy, self.fit(ctx, st, d["range"], 64 * k), dim)
-                self.bar(ctx, st, x0, y, rh, k, d["pct"])
+                if not d.get("fixed"):          # у стата без диапазона (всегда +20) места в диапазоне нет
+                    self.bar(ctx, st, x0, y, rh, k, d["pct"])
             first = False
             y += rh
 

@@ -3,8 +3,8 @@
 Без nmspy и без рисования: на входе функция чтения памяти read(addr, size) -> bytes и имена cGcStatsTypes;
 строки для панели — rows(). Логика статов — statinfo.py (общая с nms_stats.py).
 """
+import re
 import struct
-import time
 
 import statinfo
 from galaxy import i18n
@@ -247,7 +247,7 @@ class InvStats:
         if not t:
             return []
         exact = self.exact(tid)
-        rows = statinfo.module_rows(tid, proc, exact)
+        rows = [r for r in statinfo.module_rows(tid, proc, exact) if visible(r)]
         pcts = [r.pct for r in rows if r.pct is not None]
         hl = tid == self.popup
         name = self.tech_name.get(tid) or tid.split("#")[0].removeprefix("UP_")
@@ -256,16 +256,58 @@ class InvStats:
         if hl:
             for r in rows:
                 out.append(("stat", {"label": self.label("stat", r.stat),
-                                     "val": fmt_raw(r.value) if r.value is not None else "",
-                                     "range": f"{fmt_raw(min(r.lo, r.hi))}-{fmt_raw(max(r.lo, r.hi))}",
+                                     "val": shown(r) if r.value is not None else "",
+                                     "range": "" if fixed(r) else
+                                     statinfo.fmt_range(r.stat, r.lo, r.hi, r.base, r.how).replace("…", ".."),
+                                     "fixed": fixed(r),
                                      "pct": r.pct, "low": r.curve.startswith("Min")}))
         return out
+
+    def expected_tip(self, tid: str) -> list:
+        """Значения модуля, как их должна показать подсказка игры (для проверки tooltip_check)."""
+        rows = statinfo.module_rows(tid, self.tables.get("proc", {}), self.exact(tid))
+        return [shown(r) for r in rows if r.value is not None and visible(r)]
 
     @staticmethod
     def label(prefix: str, stat: str) -> str:
         key = f"{prefix}.{stat}"
         s = i18n.tr(key)
         return stat.replace("_", " ").title() if s == key else s
+
+
+TIP_NUM = re.compile(r"[+\-−]?\s*\d+(?:[.,]\d+)?\s*%")
+
+
+def tip_numbers(texts) -> list:
+    """Числа с % из строк подсказки игры: «Скорострельность +6%» → ["+6%"]; минус «−» → «-»."""
+    out = []
+    for t in texts:
+        for m in TIP_NUM.findall(t):
+            out.append(m.replace("−", "-").replace(" ", "").replace(",", "."))
+    return out
+
+
+def tip_check(expected, texts) -> dict:
+    """Сверка карточки с подсказкой: каждое ожидаемое значение есть среди чисел подсказки (знак не обязателен)."""
+    seen = tip_numbers(texts)
+    bare = [x.lstrip("+") for x in seen]
+    miss = [e for e in expected if e.lstrip("+") not in bare]
+    return {"expected": list(expected), "seen": seen, "ok": not miss and bool(expected), "miss": miss}
+
+
+def fixed(r) -> bool:
+    """Стат без диапазона: у всех модулей одно значение."""
+    return abs(r.hi - r.lo) <= statinfo.EPS
+
+
+def visible(r) -> bool:
+    """Игра не показывает нулевую прибавку (MaximumCharge 1.0 → +0%)."""
+    return r.value is None or shown(r) not in ("+0%", "-0%")
+
+
+def shown(r) -> str:
+    """Значение модуля так, как его пишет подсказка игры: +6%."""
+    return statinfo.fmt_value(r.stat, r.value, r.base, r.lo, r.hi, r.how)
 
 
 def fmt_raw(v: float) -> str:

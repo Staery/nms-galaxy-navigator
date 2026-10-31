@@ -133,6 +133,7 @@ not add up, everything is put back as it was.
 | `inventory_sort` | `true` | F5 sort in the inventory |
 | `sort_fill_first` | `"ship"` | where sorted items go first: `ship` (exosuit stays as free as possible) or `exosuit` |
 | `sort_keep_free` | `5` | slots left free in that first inventory when everything fits anyway (0–120) |
+| `tooltip_check` | `false` | check mode: compares the card with the game's own module tooltip and logs `tip_check` (restart needed) |
 
 Hidden stats from the latest save:
 
