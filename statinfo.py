@@ -3,6 +3,7 @@
 Без игры и без сейва: на входе значения (из сейва или из памяти игры) и data/tables.json (build_tables.py).
 """
 import json
+import math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -32,10 +33,18 @@ BASE_LOC = {"WEAPON_DAMAGE": "STAT_WEAP_DMG", "WEAPON_MINING": "STAT_WEAP_MIN", 
             "SHIP_DAMAGE": "STAT_SHIP_DMG", "SHIP_SHIELD": "STAT_SHIP_SHLD", "SHIP_HYPERDRIVE": "STAT_SHIP_HYPER",
             "SHIP_AGILE": "SHIP_MANEUVERABILITY", "FREI_HYPERDRIVE": "STAT_SHIP_HYPER",
             "FREI_FLEET": "STAT_FREI_FLEET"}
-# Как показывать значение модуля: множитель 1.15 → +15 %, доля 0.05 → +5 %,
-# RAW_MULT — множитель без пересчёта (знак в игре не проверен), иначе прибавка как есть.
+# Как игра показывает значение модуля (сверено с подсказками 7.10):
+# множитель (значения около 1) 1.0598 → +6 %, 0.8668 → −14 % — вверх по модулю; прибавка к стату базовой технологии
+# (RequiredTech шаблона, base в tables.json) 7.515 урона к 205 → +3 %, 0.0513 щита к 0.65 → +7 % — отбрасывание дроби
+# (у модулей стража — округление, base_round); доля без базы 0.05 → +5 %; RAW_ADD — число как есть (дальность 301 св. л.);
+# RAW_MULT — множитель без пересчёта; иначе прибавка как есть.
 MULT_SUFFIXES = ("_Radius", "_HeatTime", "_Drain", "_ReloadTime", "_Rate", "_ChargeTime", "_Cooldown")
-FRACTION_SUFFIXES = ("_Shield_Strength",)
+MULT_RANGE = (0.5, 2.0)                 # оба края диапазона внутри — множитель
+FRACTION_SUFFIXES = ("_Shield_Strength", "_JumpsPerCell", "Suit_Energy")
+RAW_ADD_SUFFIXES = ("_JumpDistance",)
+PERMILLE_PREFIX = "Weapon_Scan_Discovery_"   # анализ сканера: 74.66 → +7.465% (v/10, три знака, отбрасывание)
+# Базы, которых нет в таблицах (по подсказкам; в форсированной ячейке игра умножает значение на 1.25: 20 → +41%)
+STAT_BASE = {"Suit_Armour_Health": 60.0}
 RAW_MULT_SUFFIXES = ("_Mining_Speed",)
 # Тип по имени модели (Resource.Filename): подстрока → ключ таблицы.
 WEAPON_TYPES = [("ROYAL", "Royal"), ("ALIEN", "Alien"), ("SENTINEL", "Robot"), ("ROBOT", "Robot"),
@@ -71,6 +80,8 @@ class ModRow:
     lo: float
     hi: float
     curve: str = "NoWeighting"  # MaxIs… — редкий (лучший) край ValueMax, MinIs… — ValueMin
+    base: float | None = None   # стат базовой технологии (для показа в % как в игре)
+    how: str = "trunc"          # как игра приводит % от базы к целому: trunc | round
 
     @property
     def pct(self) -> float | None:
@@ -143,40 +154,70 @@ def module_rows(tech_id: str, proc: dict, bonuses: dict | None = None) -> list:
     rows = []
     for s, lo, hi, *rest in t["stats"]:
         curve = rest[1] if len(rest) > 1 else "NoWeighting"
+        base, how = t.get("base", {}).get(s), t.get("base_round", "trunc")
         if bonuses is None:
             if lo != hi:
-                rows.append(ModRow(s, None, lo, hi, curve))
+                rows.append(ModRow(s, None, lo, hi, curve, base, how))
         elif s in bonuses:
-            rows.append(ModRow(s, bonuses[s], lo, hi, curve))
+            rows.append(ModRow(s, bonuses[s], lo, hi, curve, base, how))
     return rows
 
 
-def _scaled(stat, v):
-    """Значение в единицах показа и вид: ('%', 15.0), ('×', 0.92) или ('+', 3)."""
-    if stat.endswith(RAW_MULT_SUFFIXES):
-        return "×", v
-    if stat.endswith(FRACTION_SUFFIXES):
-        return "%", v * 100
+def is_mult(stat, lo=None, hi=None) -> bool:
+    """Множитель (1.06 = +6 %): по имени стата или по диапазону около 1."""
     if stat.endswith(MULT_SUFFIXES):
-        return "%", (v - 1) * 100
-    return "+", v
+        return True
+    return (lo is not None and not stat.endswith(FRACTION_SUFFIXES)
+            and all(MULT_RANGE[0] <= x <= MULT_RANGE[1] for x in (lo, hi)))
 
 
-def fmt_value(stat, v) -> str:
-    kind, x = _scaled(stat, v)
+def _scaled(stat, v, base=None, lo=None, hi=None, how="trunc"):
+    """Значение в единицах показа и как его округляет игра: ('%', 15.0, 'ceil'|'round'|'trunc'), ('×', 0.92, …), ('+', 3, …)."""
+    if stat.endswith(RAW_MULT_SUFFIXES):
+        return "×", v, "round"
+    if stat.endswith(RAW_ADD_SUFFIXES):
+        return "+", v, "round"
+    if stat.startswith(PERMILLE_PREFIX):
+        return "%3", v / 10, "trunc"
+    base = base or STAT_BASE.get(stat)
+    if is_mult(stat, lo, hi):
+        return "%", (v - 1) * 100, "ceil"
+    if base:
+        return "%", v / base * 100, how
+    if stat.endswith(FRACTION_SUFFIXES):
+        return "%", v * 100, "trunc"
+    return "+", v, "round"
+
+
+def game_int(x: float, how: str) -> int:
+    """Целое, как в подсказке игры: вверх по модулю (13.2 → 14, −5.001 → −6), округление или отбрасывание дроби."""
+    if how == "ceil":
+        return int(math.ceil(abs(x) - 1e-4)) * (1 if x >= 0 else -1)
+    if how == "trunc":
+        return int(x + (1e-6 if x >= 0 else -1e-6))
+    return int(math.floor(abs(x) + 0.5)) * (1 if x >= 0 else -1)
+
+
+def fmt_value(stat, v, base=None, lo=None, hi=None, how="trunc") -> str:
+    """Как в подсказке игры: +6%, -10%, ×0.871, +87."""
+    kind, x, how = _scaled(stat, v, base, lo, hi, how)
     if kind == "×":
         return f"×{x:.3g}"
     if kind == "%":
-        return f"{x:+.1f}%"
-    return f"+{x:g}"
+        return f"{game_int(x, how):+d}%"
+    if kind == "%3":
+        return f"{math.floor(x * 1000 + 1e-6) / 1000:+.3f}%"
+    return f"+{x:.3g}"
 
 
-def fmt_range(stat, lo, hi) -> str:
-    kind, a = _scaled(stat, lo)
-    b = _scaled(stat, hi)[1]
+def fmt_range(stat, lo, hi, base=None, how="trunc") -> str:
+    kind, a, how = _scaled(stat, lo, base, lo, hi, how)
+    b = _scaled(stat, hi, base, lo, hi, how)[1]
     if kind == "×":
         return f"×{a:g}…{b:g}"
     if kind == "+":
         return f"+{a:g}…+{b:g}"
-    a, b = sorted((a, b), key=abs)
-    return f"{a:+.0f}…{b:+.0f}%"
+    if kind == "%3":
+        return f"{a:+.1f}…{b:+.1f}%"
+    a, b = sorted((game_int(a, how), game_int(b, how)), key=abs)
+    return f"{a:+d}…{b:+d}%"

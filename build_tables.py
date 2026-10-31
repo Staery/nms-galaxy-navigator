@@ -48,13 +48,41 @@ def proc_tech(root):
     return out
 
 
+# Шаблоны без RequiredTech: база — технология оружия (сверено с подсказкой игры, лог tip_check)
+BASE_TECH_FALLBACK = {"T_CANNON": "CANNON", "T_SENTGUN": "BOLT"}
+BASE_ROUND = {"T_SENTGUN"}      # у модулей стража % от базы округляется (+0.57 → +1), у остальных — отбрасывается
+
+
+def tech_bases(root) -> dict:
+    """Шаблон технологии → {стат: значение} его базовой технологии (RequiredTech): от неё игра считает % модуля."""
+    techs = {}
+    for t in child(root, "Table"):
+        sb = child(t, "StatBonuses")
+        techs[val(t, "ID")] = (val(t, "RequiredTech") or "",
+                               {b.find(".//*[@name='StatsType']").get("value"): float(val(b, "Bonus"))
+                                for b in (sb if sb is not None else [])})
+    out = {}
+    for tid, (req, _) in techs.items():
+        req = req or BASE_TECH_FALLBACK.get(tid, "")
+        if req in techs:
+            out[tid] = techs[req][1]
+    return out
+
+
 def main():
     src = Path(sys.argv[1]) if len(sys.argv) > 1 else SRC
     inv = ET.parse(src / "inventorytable.MXML").getroot()
     proc = ET.parse(src / "nms_reality_gcproceduraltechnologytable.MXML").getroot()
+    bases = tech_bases(ET.parse(src / "nms_reality_gctechnologytable.MXML").getroot())
     tables = {"weapon": base_ranges(inv, "WeaponBaseStatsData"),
               "ship": base_ranges(inv, "ShipBaseStatsData"),
               "proc": proc_tech(proc)}
+    for t in tables["proc"].values():
+        b = bases.get(t["template"], {})
+        if any(st[0] in b for st in t["stats"]):
+            t["base"] = {st[0]: b[st[0]] for st in t["stats"] if st[0] in b}
+            if t["template"] in BASE_ROUND:
+                t["base_round"] = "round"
     OUT.write_text(json.dumps(tables, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
     print(f"{OUT}: оружие {len(tables['weapon'])} типов, корабли {len(tables['ship'])}, "
           f"модулей {len(tables['proc'])}")
