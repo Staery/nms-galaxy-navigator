@@ -251,6 +251,30 @@ tools\venv\Scripts\python nms_stats.py            # latest save; or: ... nms_sta
 Reads the save only (never writes it); the output is in Russian. `nms_stats.py --weights` lists the stat
 weights, see [Stat weights](#stat-weights).
 
+### Cooking calculator (CLI)
+
+```bash
+python cook_calc.py [ITEM_ID] [N] [--procs P] [--lang English] [--save saveN.hg]
+```
+
+Defaults: `FOOD_DNUT_AJAM` (Anomalous Donut) × 100, 4 nutrient processors, Russian output, the newest save.
+
+Read-only: the stock is read from the save (exosuit, primary ship, storage containers 0–9, special chests) as of
+the last game save; the save is never written. It does not change the game balance — it only advises.
+
+The output lists the missing raw ingredients (with how many you already have), what is taken from stock, the
+cooking tiers in order (ingredients first) with a time estimate when the stacks are split across P processors
+(5 s per craft), and the total crafts and minutes. The recipe variant is chosen per craft by stock: the least
+missing raw materials first, then the fewest crafts (e.g. flour from Frost Crystal → Glass Grains if you have
+crystals; wild milk and fresh milk are both used).
+
+```text
+100 x Anomalous Donut, stock empty: 1300 crafts
+raw: 200 fresh milk, 100 heptaploid wheat, 100 faecium, 200 sweetroot, 100 hexaberry
+```
+
+F3 is reserved for the planned in-game cooking panel.
+
 ### Troubleshooting
 
 - **No console window after the game starts** — check the launch option (the quotes and `%command%`) and
@@ -268,19 +292,23 @@ mod/
   galaxy/i18n.py      language detection and lookup; i18n_ui.json — own strings
   invstats.py         inventory stats: store / module memory reading, card rows (no game needed for tests)
   invsort.py          combined exosuit + ship sort, stacking into a container (tested on a model of Add/Remove)
+  cook.py             cooking logic (pure, no game needed; also for the future in-game panel)
   modsettings.py      settings.json: defaults, validation, reload
   proto_map.py        stage-1 prototype with memory probes (reverse-engineering notes)
 data/
   tables.json         stat ranges (build_tables.py from the game's MXML tables)
+  recipes.json        333 dishes, 1323 cooking recipes, item names in 17 languages (build_recipes.py)
   i18n_game.json      game terms in 17 languages (build_i18n.py)
   mapping.json        save key mapping (MBINCompiler)
 nmssave.py            save reader        nms_stats.py   hidden stats CLI
+build_recipes.py      game tables (recipe, product, substance MXML + language tables) → data/recipes.json
+cook_calc.py          cooking calculator CLI
 statinfo.py           stat logic shared by the CLI and the mod
 nmspaths.py           game / Steam folder lookup
 settings_gui.py       settings window (tkinter), Settings.bat runs it
 tools/sigscan.py      checks that NMS.py hook signatures still match NMS.exe
 launch.cmd, Install.bat, Settings.bat
-tests/
+tests/                (test_cook.py — cooking logic)
 ```
 
 ## Testing
@@ -301,8 +329,12 @@ labels and saving, and translations (every key in every language, matching place
 - Hidden stats card on the inventory screen (multitool, ship, exosuit) and the hidden base stats CLI.
 - Combined exosuit + ship sort (F5), stacking into a container (F4), a settings window for every feature and the
   stat weights.
+- Cooking calculator — CLI done.
 
 **Not done yet**
+- Cooking calculator: the in-game panel (F3) is planned; then a «Cook» helper (loads and unloads the nutrient
+  processors in queue order, the normal 5 s per craft) and an auto-collect key for farm and livestock output —
+  both are quality-of-life only, no balance changes.
 - System names in the list.
 - A check in a multiplayer session (the jump is the game's own, but it has not been tested with friends yet).
 - A full in-game run of the F5 sort and F4 stacking (so far they are tested on a model of the game's Add/Remove;
