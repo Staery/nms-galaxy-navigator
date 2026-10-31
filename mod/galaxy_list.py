@@ -124,7 +124,7 @@ GLYPH_SAMPLE = "ÀÉÜßÇÑ ąęłńśźż 日本語 中文 한국어"
 INV_W, INV_PAD, INV_RIGHT, INV_BOTTOM = 400.0, 12.0, 40.0, 110.0
 INV_FONT = 16.0
 INV_ROW = {"title": 26.0, "base": 22.0, "module": 22.0, "stat": 20.0}
-INV_BAR = (300.0, 350.0)           # полоска места в диапазоне; % — по правому краю 376
+INV_BAR = (292.0, 340.0)           # полоска места в диапазоне; % — по правому краю 376
 CLASS_RGBA = {"S": (0.95, 0.65, 0.20, 1.0), "A": (0.62, 0.40, 0.85, 1.0), "B": (0.30, 0.55, 0.90, 1.0),
               "C": (0.30, 0.75, 0.65, 1.0), "X": (0.55, 0.55, 0.60, 1.0)}
 
@@ -1010,7 +1010,7 @@ class GalaxyList(Mod):
                 self.text(ctx, st, x0, y + ty, self.fit(ctx, st, d["label"], 140 * k), label)
                 self.text_right(ctx, st, x0 + 188 * k, y + ty, d["cur"], value)
                 self.text(ctx, st, x0 + 196 * k, y + ty, self.fit(ctx, st, d["range"], 56 * k), label)
-                self.text(ctx, st, x0 + 254 * k, y + ty, self.fit(ctx, st, d["s_max"], 44 * k), dim)
+                self.text(ctx, st, x0 + 254 * k, y + ty, self.fit(ctx, st, d["s_max"], 36 * k), dim)
                 self.bar(ctx, st, x0, y, rh, k, d["pct"])
             elif kind == "module":
                 if d["hl"]:
@@ -1028,7 +1028,7 @@ class GalaxyList(Mod):
                 self.text(ctx, st, x0 + 24 * k, y + tyy, self.fit(ctx, st, d["label"], (270 if d.get("fixed") else 146) * k),
                           dim if d.get("absent") else label)          # стата нет в модуле — 0 %
                 self.text_right(ctx, st, x0 + 226 * k, y + tyy, d["val"], value)
-                self.text(ctx, st, x0 + 232 * k, y + tyy, self.fit(ctx, st, d["range"], 64 * k), dim)
+                self.text(ctx, st, x0 + 232 * k, y + tyy, self.fit(ctx, st, d["range"], 58 * k), dim)
                 if not d.get("fixed"):          # строка «Статов: n из m» — без полоски
                     self.bar(ctx, st, x0, y, rh, k, d["pct"])
             first = False

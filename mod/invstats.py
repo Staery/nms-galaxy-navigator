@@ -257,11 +257,11 @@ class InvStats:
             if exact is not None:
                 out.append(("stat", {"label": i18n.tr("inv.count", n=len(present), max=num_max(t)),
                                      "val": "", "range": "", "fixed": True, "pct": None, "absent": False}))
-            for r in present if exact is not None else []:
+            for r in sorted(present, key=lambda r: -weight(t, r.stat)) if exact is not None else []:
                 if visible(r):
                     out.append(("stat", self.stat_line(r, shown(r), stat_pct(r), False)))
             have = {r.stat for r in present} if exact is not None else set()
-            for s, lo, hi, *rest in t["stats"]:              # чего нет в модуле, но могло бы быть: 0 %
+            for s, lo, hi, *rest in sorted(t["stats"], key=lambda st: -weight(t, st[0])):  # чего нет, но могло бы: 0 %
                 if s not in have:
                     r = statinfo.ModRow(s, None, lo, hi, rest[1] if len(rest) > 1 else "NoWeighting",
                                         t.get("base", {}).get(s), t.get("base_round", "trunc"))
@@ -324,9 +324,15 @@ def stat_pct(r) -> float:
     return max(0.0, min(100.0, (r.value - neutral) / (best - neutral) * 100))
 
 
+def weight(t: dict, stat: str) -> int:
+    return statinfo.stat_weight(t.get("template", ""), stat)
+
+
 def module_score(t: dict, present) -> float:
-    """Модуль против идеала (NumStatsMax статов, все на лучшем краю): отсутствующий стат — 0 %."""
-    return sum(stat_pct(r) for r in present) / num_max(t)
+    """Модуль против идеала (NumStatsMax самых весомых статов, все на лучшем краю): Σ вес×доля / Σ весов идеала;
+    отсутствующий стат — 0 %."""
+    ideal = sum(sorted((weight(t, s[0]) for s in t["stats"]), reverse=True)[:num_max(t)])
+    return sum(weight(t, r.stat) * stat_pct(r) for r in present) / ideal
 
 
 def fixed(r) -> bool:

@@ -148,7 +148,13 @@ Open the inventory of a multitool, ship or exosuit: the card is in the bottom ri
   showing where the value sits in the class range: red below 34 %, yellow below 67 %, green above.
 - **Modules** — class icon, the module name from the game and how close the module is to the ideal one: the most
   stats this module type can have, each at its best roll. A stat's share is its bonus divided by the best bonus
-  (a missing stat is 0 %), so a module with more stats scores higher even with weaker rolls.
+  (a missing stat is 0 %), so a module with more stats scores higher even with weaker rolls. Stats are weighted
+  by how much they matter in play and how large their best roll is: 3 — main (damage and fire rate, mining speed
+  and laser heat, shield, jetpack tank and drain, hazard protection, jump distance, top speed), 2 — useful
+  (reload, health, energy, heat time of ship guns), 1 — minor (clip size, scan radius, energy regen, stamina,
+  fuel use). Ship gun damage on the cyclotron and positron and sentinel multitool damage roll at most +1…2 %,
+  so they weigh 1 there; rocket damage weighs 3. The full table is `STAT_WEIGHT` in `statinfo.py`.
+  Hovered stats are listed from the heaviest.
 - **Hover a module** in the inventory and its stats open: "Stats: n of max", each value as the game tooltip shows
   it, the possible range and a bar with the share of the best bonus (a stat that is the same on every module of
   this type is marked *always*). Stats the module could have but does not are listed dimmed with `—` and 0 %.

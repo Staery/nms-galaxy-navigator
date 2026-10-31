@@ -107,11 +107,24 @@ def test_module_against_ideal():
     rows = inv.statinfo.module_rows("UP_SNSUIT#1", {"UP_SNSUIT": t},
                                     {"Suit_Armour_Shield_Strength": 0.35, "Suit_Armour_Health": 20.0})
     assert inv.num_max(t) == 4
-    assert inv.module_score(t, rows) == pytest.approx((100 + 100) / 4)  # 2 лучших стата из 4 — 50 %
+    ideal = 3 + 3 + 2 + 2                                              # щит, ранец, здоровье, энергия
+    assert inv.module_score(t, rows) == pytest.approx((3 * 100 + 2 * 100) / ideal)
     more = inv.statinfo.module_rows("UP_SNSUIT#2", {"UP_SNSUIT": t},
                                     {"Suit_Armour_Shield_Strength": 0.35, "Suit_Armour_Health": 20.0,
                                      "Suit_Energy": 0.05})
     assert inv.module_score(t, more) > inv.module_score(t, rows)       # лишний стат, даже худший, — лучше
+    regen = inv.statinfo.module_rows("UP_SNSUIT#3", {"UP_SNSUIT": t}, {"Suit_Energy_Regen": 1.75})
+    shield = inv.statinfo.module_rows("UP_SNSUIT#4", {"UP_SNSUIT": t}, {"Suit_Armour_Shield_Strength": 0.35})
+    assert inv.module_score(t, shield) == pytest.approx(3 * inv.module_score(t, regen))  # щит весит 3, реген 1
+
+
+def test_weights_cover_all_stats():
+    proc = inv.statinfo.load_tables()["proc"]
+    for t in proc.values():
+        assert all(inv.weight(t, s[0]) in (1, 2, 3) for s in t["stats"])
+        full = inv.statinfo.module_rows("X#1", {"X": t}, {s[0]: (s[1] if s[4].startswith("Min") else s[2])
+                                                           for s in sorted(t["stats"], key=lambda s: -inv.weight(t, s[0]))[:inv.num_max(t)]})
+        assert inv.module_score(t, full) <= 100.0 + 1e-6
 
 
 def test_absent_stats_shown():

@@ -46,6 +46,48 @@ PERMILLE_PREFIX = "Weapon_Scan_Discovery_"   # анализ сканера: 74.6
 # Базы, которых нет в таблицах (по подсказкам; в форсированной ячейке игра умножает значение на 1.25: 20 → +41%)
 STAT_BASE = {"Suit_Armour_Health": 60.0}
 RAW_MULT_SUFFIXES = ("_Mining_Speed",)
+# Вес стата в оценке модуля: 3 — главное, 2 — полезное, 1 — второстепенное (по гайдам и величине лучшего броска:
+# стат с крошечным потолком, как урон циклотрона +2 %, весит меньше). Не указан — 2.
+STAT_WEIGHT = {
+    # мультитул: урон и темп — DPS; перезарядка/обойма — время стрельбы
+    "Weapon_Projectile_Damage": 3, "Weapon_Projectile_Rate": 3, "Weapon_Projectile_ReloadTime": 2,
+    "Weapon_Projectile_ClipSize": 1, "Weapon_Projectile_BurstCap": 1, "Weapon_Projectile_BurstCooldown": 1,
+    "Weapon_ChargedProjectile_ChargeTime": 3, "Weapon_ChargedProjectile_ExtraSpeed": 1,
+    "Weapon_Projectile_MaximumCharge": 1, "Weapon_Laser_Damage": 3, "Weapon_Laser_ChargeTime": 2,
+    "Weapon_Grenade_Damage": 3, "Weapon_Grenade_Radius": 2, "Weapon_Grenade_Speed": 1, "Weapon_Grenade_Bounce": 1,
+    # лазер добычи упирается в перегрев
+    "Weapon_Laser_HeatTime": 3, "Weapon_Laser_Mining_Speed": 3, "Weapon_Laser_ReloadTime": 1, "Weapon_Laser_Drain": 1,
+    # сканер: анализ — наниты/кредиты за открытия
+    "Weapon_Scan_Discovery_Creature": 3, "Weapon_Scan_Discovery_Flora": 3, "Weapon_Scan_Discovery_Mineral": 3,
+    "Weapon_Scan_Radius": 1,
+    # экзокостюм: щит восстанавливается и принимает урон первым; ранец — главное передвижение
+    "Suit_Armour_Shield_Strength": 3, "Suit_Armour_Health": 2, "Suit_Energy": 2, "Suit_Energy_Regen": 1,
+    "Suit_Jetpack_Tank": 3, "Suit_Jetpack_Drain": 3, "Suit_Jetpack_Refill": 2, "Suit_Jetpack_Ignition": 1,
+    "Suit_Stamina_Strength": 1, "Suit_Stamina_Recovery": 1,
+    "Suit_Protection_Cold": 3, "Suit_Protection_Heat": 3, "Suit_Protection_Radiation": 3, "Suit_Protection_Toxic": 3,
+    "Suit_DamageReduce_Cold": 2, "Suit_DamageReduce_Heat": 2, "Suit_DamageReduce_Radiation": 2,
+    "Suit_DamageReduce_Toxic": 2,
+    # корабль: у пушек урон модуля мал (+1…5 %), темп и охлаждение дают больше
+    "Ship_Weapons_Guns_Rate": 3, "Ship_Weapons_Guns_HeatTime": 2, "Ship_Weapons_Guns_Damage": 2,
+    "Ship_Weapons_Guns_CoolTime": 2, "Ship_Weapons_Guns_Range": 1,
+    "Ship_Weapons_Lasers_Damage": 3, "Ship_Weapons_Lasers_HeatTime": 2, "Ship_Weapons_ShieldLeech": 2,
+    "Ship_Hyperdrive_JumpDistance": 3, "Ship_Hyperdrive_JumpsPerCell": 2,
+    "Freighter_Hyperdrive_JumpDistance": 3, "Freighter_Hyperdrive_JumpsPerCell": 2,
+    "Ship_Boost": 3, "Ship_Maneuverability": 2, "Ship_BoostManeuverability": 1,
+    "Ship_PulseDrive_MiniJumpFuelSpending": 1, "Ship_Launcher_AutoCharge": 3, "Ship_Launcher_TakeOffCost": 2,
+    # техника
+    "Vehicle_EngineTopSpeed": 3, "Vehicle_BoostSpeed": 2, "Vehicle_SubBoostSpeed": 2, "Vehicle_BoostTanks": 2,
+    "Vehicle_EngineFuelUse": 1, "Vehicle_GunDamage": 3, "Vehicle_GunRate": 2, "Vehicle_GunHeatTime": 2,
+    "Vehicle_LaserDamage": 3, "Vehicle_LaserHeatTime": 2, "Weapon_FireDOT_Duration": 1,
+}
+# Поправки для шаблона, где у стата другой потолок: страж и циклотрон/позитрон — урон до +2 %, ракеты — урон главное
+TEMPLATE_WEIGHT = {"T_SENTGUN": {"Weapon_Projectile_Damage": 1},
+                   "T_SHIPBLOB": {"Ship_Weapons_Guns_Damage": 1}, "T_SHIPSHOT": {"Ship_Weapons_Guns_Damage": 1},
+                   "T_SHIPROC": {"Ship_Weapons_Guns_Damage": 3}}
+
+
+def stat_weight(template: str, stat: str) -> int:
+    return TEMPLATE_WEIGHT.get(template, {}).get(stat, STAT_WEIGHT.get(stat, 2))
 # Тип по имени модели (Resource.Filename): подстрока → ключ таблицы.
 WEAPON_TYPES = [("ROYAL", "Royal"), ("ALIEN", "Alien"), ("SENTINEL", "Robot"), ("ROBOT", "Robot"),
                 ("STAFF", "Staff"), ("ATLAS", "Atlas"), ("PRISTINE", "Pristine"), ("RIFLE", "Rifle"),
