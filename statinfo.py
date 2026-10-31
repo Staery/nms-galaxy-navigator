@@ -170,11 +170,11 @@ def kind_of(resource, types):
 
 
 def inv_kind(stat_ids) -> str | None:
-    """Раздел tables.json по базовым статам: weapon / ship (у фрегата и прочих — None)."""
+    """Раздел tables.json по базовым статам: weapon / ship (грузовой корабль — тоже ship; фрегат и прочие — None)."""
     ids = set(stat_ids)
     if any(s.startswith("WEAPON_") for s in ids):
         return "weapon"
-    if any(s.startswith("SHIP_") for s in ids):
+    if any(s.startswith(("SHIP_", "FREI_")) for s in ids):
         return "ship"
     return None
 

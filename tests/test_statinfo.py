@@ -35,7 +35,8 @@ def test_match_types():
 def test_inv_kind():
     assert si.inv_kind(["WEAPON_DAMAGE"]) == "weapon"
     assert si.inv_kind(["SHIP_AGILE", "SHIP_DAMAGE"]) == "ship"
-    assert si.inv_kind(["FREI_HYPERDRIVE"]) is None
+    assert si.inv_kind(["FREI_HYPERDRIVE", "FREI_FLEET"]) == "ship"
+    assert si.inv_kind(["FRIGATE_FUEL"]) is None
 
 
 def test_module_rows_ranges_only():
